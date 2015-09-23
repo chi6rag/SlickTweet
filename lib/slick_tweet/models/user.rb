@@ -10,8 +10,8 @@ module SlickTweet
 
 		def self.find params
 			statement = 'SELECT * FROM users WHERE '
-			statement << "username='#{params[:username]}' AND "
-			statement << "email='#{params[:email]}' AND "
+			statement << "(username='#{params[:username_or_email]}' OR "
+			statement << "email='#{params[:username_or_email]}') AND "
 			statement << "password='#{params[:password]}'"
 			$con.exec(statement)
 		end

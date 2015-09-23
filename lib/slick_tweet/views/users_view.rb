@@ -8,6 +8,7 @@ module SlickTweet::View
 				$current_user = SlickTweet::User.find(user_details)
 			end
 			$current_screen = :welcome
+			puts "----- logged in ------"
 			$current_user
 		end
 
@@ -16,6 +17,7 @@ module SlickTweet::View
 				user_details = details_from_signup
 				user = SlickTweet::User.create(user_details)
 				if user
+					puts "----- signed up ------"
 					$current_user = user
 					$current_screen = :welcome
 				else
