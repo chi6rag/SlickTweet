@@ -4,7 +4,7 @@ require_relative '../lib/slick_tweet.rb'
 
 begin
 	$con = PG.connect :dbname => 'slick_tweet'
-	SlickTweet::CLI.invoke
+	SlickTweet::CLI.new.invoke
 rescue PG::Error => e
 	puts e.message
 	puts "Could not connect to the database"

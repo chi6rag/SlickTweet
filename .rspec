@@ -1,0 +1,4 @@
+RSpec.configure do |t|
+  t.default_path = './spec/**/*_spec.rb'
+  t.color = true
+end
