@@ -1,7 +1,6 @@
 module SlickTweet::View
 
 	class HomeScreenView
-		include SlickTweet::View
 		
 		def render
 			puts options

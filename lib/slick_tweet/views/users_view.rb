@@ -14,8 +14,8 @@ module SlickTweet::View
 		def sign_up
 			unless $current_user
 				user_details = details_from_signup
-				user = SlickTweet::User.new(user_details)
-				if user.save
+				user = SlickTweet::User.create(user_details)
+				if user
 					$current_user = user
 					$current_screen = :welcome
 				else
@@ -28,7 +28,7 @@ module SlickTweet::View
 		private
 		
 		def details_from_login
-			puts "SlickTweet Login\n"
+			puts "\n\nSlickTweet Login\n"
 			puts "----------------\n"
 			print "Username / Email: "
 			username_or_email = gets.chomp
@@ -38,7 +38,7 @@ module SlickTweet::View
 		end
 
 		def details_from_signup
-			puts "SlickTweet Signup\n"
+			puts "\n\nSlickTweet Signup\n"
 			puts "----------------\n"
 			print "Username: "
 			username = gets.chomp
