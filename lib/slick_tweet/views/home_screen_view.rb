@@ -9,6 +9,24 @@ module SlickTweet::View
 			handle_choice choice
 		end
 
+		def handle_choice choice
+			case choice
+			when "1"
+				# render sign up view
+				$current_screen = :sign_up
+			when "2"
+				# render login view
+				$current_screen = :login
+			when "3"
+				$current_screen = :exit
+			else
+				# wrong choice
+				# handle choice again
+			end
+		end
+
+		private
+
 		def options
 			options = "Welcome to SlickTweet\n"
 			options << "---------------------\n"
@@ -17,21 +35,6 @@ module SlickTweet::View
 			options << "3. Exit\n"
 			options << "Choose: "
 			options
-		end
-
-		def handle_choice choice
-			case choice
-			when 1 
-				# render sign up view
-				
-			when 2
-				# render login view
-			when 3
-				# exit
-			else
-				# wrong choice
-				# handle choice again
-			end
 		end
 
 	end

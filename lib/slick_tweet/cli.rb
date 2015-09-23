@@ -3,8 +3,11 @@ module SlickTweet
 	class CLI
 
 		def invoke
-			while true
-				SlickTweet::View::HomeScreenView.new.show if $current_page = :home
+			until $current_screen == :exit
+				break if $current_screen == :welcome
+				View::HomeScreenView.new.show if $current_screen == :home
+				View::UsersView.new.login if $current_screen == :login
+				View::UsersView.new.sign_up if $current_screen == :sign_up
 			end
 		end
 	end

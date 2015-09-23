@@ -9,5 +9,5 @@ require_relative './slick_tweet/cli'
 require_relative './slick_tweet/helpers'
 
 module SlickTweet
-	$current_page = :home
+	$current_screen = :home
 end
