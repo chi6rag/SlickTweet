@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'slick_tweet'
 require "rspec/expectations"
 
@@ -22,7 +23,7 @@ RSpec.describe SlickTweet::HomeScreenView do
 	describe '#handle_choice' do
 		before(:each){ $current_screen = :home}
 
-		it "handles choice for sign up " do
+		it 'handles choice for sign up' do
 			choice = "1"
 			expect(@home_screen_view.handle_choice(choice)).to eq($current_screen)
 			expect($current_screen).to eq(:sign_up)

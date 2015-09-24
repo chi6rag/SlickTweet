@@ -7,6 +7,7 @@ module SlickTweet
 		def login
 			unless $current_user
 				user_details = details_from_login
+				system "clear"
 				user = SlickTweet::User.find(user_details)
 				unless user
 					puts "Wrong login details! Try again"
@@ -23,6 +24,7 @@ module SlickTweet
 		def sign_up
 			unless $current_user
 				user_details = details_from_signup
+				system "clear"
 				user = SlickTweet::User.create(user_details)
 				if user
 					$current_user = user
@@ -35,7 +37,7 @@ module SlickTweet
 		end
 		
 		# view
-		def details_from_login
+		def details_from_login(clear: false)
 			puts "\n\nSlickTweet Login\n"
 			puts "----------------\n"
 			print "Username / Email: "

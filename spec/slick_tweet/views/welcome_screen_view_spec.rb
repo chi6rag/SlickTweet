@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'slick_tweet'
 require 'pg'
 require "rspec/expectations"

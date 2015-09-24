@@ -7,7 +7,7 @@ module SlickTweet
 		# render
 		# test this method using an integration test suite
 		def render
-			puts options
+			print options
 			choice = gets.chomp
 			handle_choice choice
 		end
@@ -31,6 +31,7 @@ module SlickTweet
 
 		# view
 		def options
+			system "clear"
 			options = "Welcome to SlickTweet\n"
 			options << "--------------------\n"
 			options << "1. Sign Up\n"
