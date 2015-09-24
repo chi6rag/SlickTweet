@@ -1,4 +1,4 @@
 module SlickTweet
-	module Record
+	class Record
 	end
 end
