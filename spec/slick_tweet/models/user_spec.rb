@@ -3,7 +3,5 @@ require "rspec/expectations"
 
 RSpec.describe SlickTweet::User do
 	before(:all){
-		@user
 	}
-	
 end

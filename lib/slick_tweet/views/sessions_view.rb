@@ -27,8 +27,6 @@ module SlickTweet
 				$current_user
 			end
 		end
-
-		private
 		
 		def details_from_login
 			puts "\n\nSlickTweet Login\n"

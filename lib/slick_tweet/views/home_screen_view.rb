@@ -3,6 +3,9 @@ module SlickTweet
 	class HomeScreenView < View
 		
 		# controller
+		
+		# render
+		# test this method using an integration test suite
 		def render
 			puts options
 			choice = gets.chomp
