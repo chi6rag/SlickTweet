@@ -1,4 +1,4 @@
 module SlickTweet
-	module View
+	class View
 	end
 end

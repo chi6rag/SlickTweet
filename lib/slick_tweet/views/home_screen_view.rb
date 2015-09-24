@@ -1,7 +1,8 @@
-module SlickTweet::View
+module SlickTweet
 
-	class HomeScreenView
+	class HomeScreenView < View
 		
+		# controller
 		def render
 			puts options
 			choice = gets.chomp
@@ -19,16 +20,16 @@ module SlickTweet::View
 			when "3"
 				$current_screen = :exit
 			else
-				# wrong choice
-				# handle choice again
+				puts "Wrong choice"
+				choice = gets.chomp
+				handle_choice choice
 			end
 		end
 
-		private
-
+		# view
 		def options
 			options = "Welcome to SlickTweet\n"
-			options << "---------------------\n"
+			options << "--------------------\n"
 			options << "1. Sign Up\n"
 			options << "2. Login\n"
 			options << "3. Exit\n"

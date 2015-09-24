@@ -1,7 +1,8 @@
-module SlickTweet::View
+module SlickTweet
 	
-	class UsersView
+	class SessionsView < View
 
+		# controller level logic
 		def login
 			unless $current_user
 				user_details = details_from_login
