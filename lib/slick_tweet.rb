@@ -1,13 +1,18 @@
 # require models
 require_relative './slick_tweet/record.rb'
-require_relative './slick_tweet/models/user.rb'
+# autoload models in './lib/slick_tweet/models/' directory
+Dir.foreach('./lib/slick_tweet/models/') do |filename|
+	(require_relative './slick_tweet/models/' + filename) unless(filename == '.' || filename == '..')
+end
 
 # require views
 require_relative './slick_tweet/view.rb'
-require_relative './slick_tweet/views/home_screen_view'
-require_relative './slick_tweet/views/sessions_view'
+# autoload views in './lib/slick_tweet/views/' directory
+Dir.foreach('./lib/slick_tweet/views/') do |filename|
+	(require_relative './slick_tweet/views/' + filename) unless(filename == '.' || filename == '..')
+end
 
-# require cli
+# require cli router
 require_relative './slick_tweet/cli'
 
 # require helpers
