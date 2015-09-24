@@ -3,22 +3,28 @@ module SlickTweet
 	class SessionsView < View
 
 		# controller level logic
+		# to be tested
 		def login
 			unless $current_user
 				user_details = details_from_login
-				$current_user = SlickTweet::User.find(user_details)
+				user = SlickTweet::User.find(user_details)
+				unless user
+					puts "Wrong login details! Try again"
+					return
+				else
+					$current_user = user
+				end
 			end
 			$current_screen = :welcome
-			puts "----- logged in ------"
 			$current_user
 		end
 
+		# to be tested
 		def sign_up
 			unless $current_user
 				user_details = details_from_signup
 				user = SlickTweet::User.create(user_details)
 				if user
-					puts "----- signed up ------"
 					$current_user = user
 					$current_screen = :welcome
 				else
@@ -28,12 +34,13 @@ module SlickTweet
 			end
 		end
 		
+		# view
 		def details_from_login
 			puts "\n\nSlickTweet Login\n"
 			puts "----------------\n"
 			print "Username / Email: "
 			username_or_email = gets.chomp
-			print "\nPassword: "
+			print "Password: "
 			password = gets.chomp
 			{username_or_email: username_or_email, password: password}
 		end
@@ -43,9 +50,9 @@ module SlickTweet
 			puts "----------------\n"
 			print "Username: "
 			username = gets.chomp
-			print "\nEmail: "
+			print "Email: "
 			email = gets.chomp
-			print "\nPassword: "
+			print "Password: "
 			password = gets.chomp
 			{username: username, email: email, password: password}
 		end
