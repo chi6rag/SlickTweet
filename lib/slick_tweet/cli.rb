@@ -4,10 +4,18 @@ module SlickTweet
 
 		def invoke
 			until $current_screen == :exit
-				break if $current_screen == :welcome
-				HomeScreenView.new.render if $current_screen == :home
-				SessionsView.new.login if $current_screen == :login
-				SessionsView.new.sign_up if $current_screen == :sign_up
+				case $current_screen
+				when :home
+					HomeScreenView.new.render
+				when :login
+					SessionsView.new.login
+				when :sign_up
+					SessionsView.new.sign_up
+				when :welcome
+					WelcomeScreenView.new.render
+				else
+					break 
+				end
 			end
 		end
 	end
