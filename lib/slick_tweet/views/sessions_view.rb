@@ -10,7 +10,7 @@ module SlickTweet
 				system "clear"
 				user = SlickTweet::User.find(user_details)
 				unless user
-					puts "Wrong login details! Try again"
+					puts "Wrong Email or Password Combination! Try again"
 					return
 				else
 					$current_user = user
@@ -46,7 +46,7 @@ module SlickTweet
 			password = gets.chomp
 			{username_or_email: username_or_email, password: password}
 		end
-
+		
 		def details_from_signup
 			puts "\n\nSlickTweet Signup\n"
 			puts "----------------\n"

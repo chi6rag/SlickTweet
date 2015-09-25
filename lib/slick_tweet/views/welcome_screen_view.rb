@@ -55,7 +55,9 @@ module SlickTweet
       when "8"
         $current_screen = :logout
       else
-        puts "Wrong choice"
+        # to be tested
+        puts "Wrong choice, try again!"
+        print "Choose: "
         choice = gets.chomp
         handle_choice choice
       end
