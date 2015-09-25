@@ -18,7 +18,7 @@ Setup Development Environment
 4. Create a new slick_tweet database 
    =# CREATE DATABASE slick_tweet; 
 5. Add a users table 
-    
+
     ```
     CREATE TABLE users( 
       id SERIAL PRIMARY KEY, 
@@ -30,6 +30,17 @@ Setup Development Environment
       CONSTRAINT username_proper CHECK ( username ~* '^[a-zA-Z0-9_]{6,20}$' ), 
       CONSTRAINT email_proper CHECK ( email ~* '^[a-zA-Z0-9_\.]+\@[a-zA-Z0-9_\.]+\.[a-zA-Z0-9_\.]{2,6}$' ) 
     ); 
+    ```
+6. Add a tweets table  
+
+    ```
+    CREATE TABLE tweets(
+      id SERIAL PRIMARY KEY,
+      body varchar(140) NOT NULL,
+      user_id integer REFERENCES users(id),
+      created_at timestamp DEFAULT statement_timestamp(),
+      CONSTRAINT body_proper CHECK ( body ~* '[\w|\s]+' )
+    );
     ```
  
 Setup the Testing Environment 
@@ -53,4 +64,16 @@ Setup the Testing Environment
       CONSTRAINT username_proper CHECK ( username ~* '^[a-zA-Z0-9_]{6,20}$' ), 
       CONSTRAINT email_proper CHECK ( email ~* '^[a-zA-Z0-9_\.]+\@[a-zA-Z0-9_\.]+\.[a-zA-Z0-9_\.]{2,6}$' ) 
     ); 
+    ```
+
+4. Add a tweets table    
+    
+    ```
+    CREATE TABLE tweets(
+      id SERIAL PRIMARY KEY,
+      body varchar(140) NOT NULL,
+      user_id integer REFERENCES users(id),
+      created_at timestamp DEFAULT statement_timestamp(),
+      CONSTRAINT body_proper CHECK ( body ~* '[\w|\s]+' )
+    );
     ```
