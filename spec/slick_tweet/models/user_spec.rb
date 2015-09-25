@@ -15,7 +15,7 @@ RSpec.describe SlickTweet::User do
     $con.close if $con
   }
 
-  describe "#create" do 
+  describe ".create" do 
     before(:each){
       @first_user = SlickTweet::User.create(
         username: 'palak1812',
