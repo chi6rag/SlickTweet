@@ -11,13 +11,6 @@ module SlickTweet
     end
 
     def save
-      # cook statement for sql
-      # execute statement
-        # if successful, find saved object and return
-        # - else
-          # - do not save the object
-          # - add errors
-          # - return unsaved object with errors
       statement = 'INSERT INTO tweets(body, user_id) '
       statement << "VALUES('#{body}', '#{user_id}') "
       statement << "RETURNING id, body, user_id, created_at"

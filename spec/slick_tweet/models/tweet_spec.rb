@@ -77,4 +77,14 @@ RSpec.describe SlickTweet::Tweet do
     end
   end
 
+  describe '#psql_to_tweet' do
+    it "returns a Tweet object from on pg result array" do
+      psql_result = ["1", "Hello World!", "3", DateTime.now.to_s]
+      tweet = SlickTweet::Tweet.new.send(:psql_to_tweet, (psql_result))
+      expect(tweet.id).to eq(1)
+      expect(tweet.body).to eq('Hello World!')
+      expect(tweet.user_id).to eq(3)
+    end
+  end
+
 end
