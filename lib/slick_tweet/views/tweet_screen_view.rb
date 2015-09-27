@@ -8,6 +8,7 @@ module SlickTweet
       tweet_body = gets.chomp
       tweet = SlickTweet::Tweet.new(body: tweet_body, user_id: $current_user.id)
       if tweet.save
+        system("clear")
         puts success
         SlickTweet::current_screen = 'welcome'
       else

@@ -10,19 +10,21 @@ RSpec.describe SlickTweet::User do
   }
 
   after(:all){
-    statement = "DELETE FROM users"
-    $con.exec(statement)
+    $con.exec('DELETE FROM tweets')
+    $con.exec('DELETE FROM users')
     $con.close if $con
   }
 
   describe ".create" do 
-    before(:each){
-      @first_user = SlickTweet::User.create(
-        username: 'palak1812',
-        email: 'palak1812@gmail.com',
-        password: '1111111111'
-      )
-    }
+    it 'creates a new user' do
+      expect do
+        SlickTweet::User.create(
+          username: 'palak1812',
+          email: 'palak1812@gmail.com',
+          password: '1111111111'
+        )
+      end.to change{ SlickTweet::User.count }.by(1)
+    end
 
     context 'with unique params' do
       it "creates a new unique user" do
@@ -33,8 +35,6 @@ RSpec.describe SlickTweet::User do
             password: '1234567890'
           )
         }.to_not raise_exception
-        expect(@second_user.username).to_not eq(@first_user.username)
-        expect(@second_user.email).to_not eq(@first_user.email)
       end
     end
 
@@ -48,7 +48,25 @@ RSpec.describe SlickTweet::User do
         expect(@second_user).to be_nil
       end
     end
-  
+
+  end
+
+  describe '#tweets' do
+    before(:each) do
+      # create a test user
+      @user = SlickTweet::User.create(
+        username: 'foo_example',
+        email: 'foo@example.com',
+        password: '1111111111'
+      )
+      # save 2 tweets
+      SlickTweet::Tweet.new(body: 'Hello World!', user_id: @user.id).save
+      SlickTweet::Tweet.new(body: 'Hello World!', user_id: @user.id).save
+    end
+
+    it "shows all the tweets of the user" do
+      expect(@user.tweets.count).to eq(2)
+    end
   end
 
 end

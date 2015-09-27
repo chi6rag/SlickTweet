@@ -24,6 +24,22 @@ module SlickTweet
       psql_to_tweet(res)
     end
 
+    def self.where **args
+      statement = 'SELECT * FROM tweets WHERE '
+      condition =  args.map { |key, value| value ? " #{key}=#{value} " : nil }
+                   .keep_if { |elem| !elem.nil? }
+                   .join('AND')
+      statement << condition
+      begin
+        res = $con.exec(statement).values
+      rescue PG::Error => e
+        puts e.message
+        puts ''
+        return nil
+      end
+      res
+    end
+
     # SlickTweet::Tweet.count
     # returns the number of tweets in the database
     def self.count

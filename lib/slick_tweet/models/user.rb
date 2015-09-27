@@ -23,6 +23,16 @@ module SlickTweet
       find(username_or_email: params[:username], password: params[:password])
     end
 
+    # SlickTweet::User.count
+    # returns the number of users in the database
+    def self.count
+      ($con.exec 'SELECT COUNT(*) FROM users').values.flatten[0].to_i
+    end
+
+    def tweets
+      SlickTweet::Tweet.where(user_id: self.id)
+    end
+
     def self.find params
       statement = 'SELECT * FROM users WHERE '
       statement << "(username='#{params[:username_or_email]}' OR "
