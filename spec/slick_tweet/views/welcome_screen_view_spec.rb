@@ -16,7 +16,7 @@ RSpec.describe SlickTweet::WelcomeScreenView do
     user = SlickTweet::User.find(username_or_email: 'chi6rag', password: '1234567890')
     $current_user = user
     # set current screen as welcome
-    $current_screen = :welcome
+    SlickTweet::current_screen = 'welcome'
   }
 
   after(:all){
@@ -26,7 +26,7 @@ RSpec.describe SlickTweet::WelcomeScreenView do
   }
 
   it "renders the correct view" do
-    expect($current_screen).to eq(:welcome)
+    expect(SlickTweet::current_screen).to eq('welcome')
   end
 
   describe "#options" do
@@ -50,15 +50,21 @@ RSpec.describe SlickTweet::WelcomeScreenView do
   end
 
   describe '#handle_choice' do
-    before(:each){ $current_screen = :home}
+    before(:each){ SlickTweet::current_screen = 'home'}
 
     {
-      tweet: "1", search: "2", your_tweets: "3", timeline: "4",
-      followers: "5", following: "6", edit_profile: "7", logout: "8"
+      'tweet': "1", 'search': "2", 'your_tweets': "3", 'timeline': "4",
+      'followers': "5", 'following': "6", 'edit_profile': "7", :'logout' => "8"
     }.each do |screen_name, choice|
       it "handles choice for #{screen_name}" do 
+        # puts '-------------------------'
+        # print 'Screen Name: '
+        # print screen_name.class
+        # puts
+        # puts '-------------------------'
+        screen_name = screen_name.to_s
         expect(@welcome_screen_view.handle_choice(choice)).to eq(screen_name)
-        expect($current_screen).to eq(screen_name)
+        expect(SlickTweet::current_screen).to eq(screen_name)
       end
     end
 

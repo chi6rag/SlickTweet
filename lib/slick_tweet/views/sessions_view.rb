@@ -12,11 +12,10 @@ module SlickTweet
 				unless user
 					puts "Wrong Email or Password Combination! Try again"
 					return
-				else
-					$current_user = user
 				end
+				$current_user = user
 			end
-			$current_screen = :welcome
+			SlickTweet.current_screen = 'welcome'
 			$current_user
 		end
 
@@ -28,7 +27,7 @@ module SlickTweet
 				user = SlickTweet::User.create(user_details)
 				if user
 					$current_user = user
-					$current_screen = :welcome
+					SlickTweet.current_screen = 'welcome'
 				else
 					$current_user = nil
 				end

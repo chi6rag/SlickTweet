@@ -38,8 +38,7 @@ RSpec.describe SlickTweet::Tweet do
 
   describe '#save' do
     before(:each) { @count_before = SlickTweet::Tweet.count }
-
-    after(:each){ $con.exec "DELETE FROM tweets" }
+    after(:each) { $con.exec "DELETE FROM tweets" }
 
     context 'with valid attributes' do
       it 'saves the tweet in the database' do
@@ -50,6 +49,16 @@ RSpec.describe SlickTweet::Tweet do
                   )
           tweet.save
           }.to change{SlickTweet::Tweet.count}.by 1
+      end
+
+      it "returns a tweet" do
+        tweet = SlickTweet::Tweet.new(
+            body: 'Testing Stuff',
+            user_id: @user.id
+        ).save
+        expect(tweet.id.is_a? Integer).to be_truthy
+        expect(tweet.user_id).to eq(@user.id.to_i)
+        expect(tweet.body).to eq('Testing Stuff')
       end
     end
     
@@ -77,14 +86,7 @@ RSpec.describe SlickTweet::Tweet do
     end
   end
 
-  describe '#psql_to_tweet' do
-    it "returns a Tweet object from on pg result array" do
-      psql_result = ["1", "Hello World!", "3", DateTime.now.to_s]
-      tweet = SlickTweet::Tweet.new.send(:psql_to_tweet, (psql_result))
-      expect(tweet.id).to eq(1)
-      expect(tweet.body).to eq('Hello World!')
-      expect(tweet.user_id).to eq(3)
-    end
-  end
+  # describe '#psql_to_tweet' do
+  # end
 
 end

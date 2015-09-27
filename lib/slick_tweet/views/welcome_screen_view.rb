@@ -6,7 +6,7 @@ module SlickTweet
       # authorize only logged in users to use the app
       if $current_user.nil?
         puts "You need to login to continue"
-        $current_screen = :login
+        SlickTweet.current_screen = 'login'
         return
       end
       print options
@@ -38,22 +38,22 @@ module SlickTweet
       case choice
       when "1"
         # render sign up view
-        $current_screen = :tweet
+        SlickTweet.current_screen = 'tweet'
       when "2"
         # render login view
-        $current_screen = :search
+        SlickTweet.current_screen = 'search'
       when "3"
-        $current_screen = :your_tweets
+        SlickTweet.current_screen = 'your_tweets'
       when "4"
-        $current_screen = :timeline
+        SlickTweet.current_screen = 'timeline'
       when "5"
-        $current_screen = :followers
+        SlickTweet.current_screen = 'followers'
       when "6"
-        $current_screen = :following
+        SlickTweet.current_screen = 'following'
       when "7"
-        $current_screen = :edit_profile
+        SlickTweet.current_screen = 'edit_profile'
       when "8"
-        $current_screen = :logout
+        SlickTweet.current_screen = 'logout'
       else
         # to be tested
         puts "Wrong choice, try again!"

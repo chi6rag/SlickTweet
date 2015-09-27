@@ -19,5 +19,11 @@ require_relative './slick_tweet/cli'
 require_relative './slick_tweet/helpers'
 
 module SlickTweet
-	$current_screen = :home
+	def self.current_screen
+		@current_screen
+	end
+
+	def self.current_screen=(current_screen)
+		@current_screen = current_screen
+	end
 end
