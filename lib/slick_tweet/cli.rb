@@ -16,6 +16,8 @@ module SlickTweet
           WelcomeScreenView.new.render
         when 'tweet'
           TweetsView.new.render
+        when 'your_tweets'
+          TweetsView.new.users_tweets
         when 'logout'
           SessionsView.new.logout
         else

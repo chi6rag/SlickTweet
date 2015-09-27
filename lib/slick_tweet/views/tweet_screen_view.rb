@@ -1,7 +1,8 @@
 module SlickTweet
   
   class TweetsView < View
-    
+    include SlickTweet::Helpers::TweetScreenHelper
+
     # controller
     def render
       print info
@@ -14,6 +15,12 @@ module SlickTweet
       else
         puts "Unable to save tweet"
       end
+    end
+
+    # users_tweets
+    def users_tweets
+      pretty_print $current_user.tweets
+      SlickTweet::current_screen = 'welcome'
     end
 
     # view
