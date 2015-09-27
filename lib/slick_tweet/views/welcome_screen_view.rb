@@ -16,7 +16,7 @@ module SlickTweet
 
     # view
     def options
-      system "clear"
+      puts ''
       options = "Welcome #{$current_user.username}\n"
       options_heading = '-' * options.length << "\n"
       options.prepend options_heading
