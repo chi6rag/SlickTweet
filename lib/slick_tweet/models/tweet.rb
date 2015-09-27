@@ -37,7 +37,7 @@ module SlickTweet
         puts ''
         return nil
       end
-      res
+      res.map{|tweet| {id: tweet[0].to_i, body: tweet[1], user_id: tweet[2].to_i, created_at: tweet[3]} }
     end
 
     # SlickTweet::Tweet.count

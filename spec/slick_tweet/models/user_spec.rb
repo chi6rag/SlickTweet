@@ -64,7 +64,10 @@ RSpec.describe SlickTweet::User do
       SlickTweet::Tweet.new(body: 'Hello World!', user_id: @user.id).save
     end
 
-    it "shows all the tweets of the user" do
+    it "returns all the tweets of the user" do
+      @user.tweets.each do |tweet|
+        expect(tweet[:user_id]).to eq(@user.id.to_i)
+      end
       expect(@user.tweets.count).to eq(2)
     end
   end
