@@ -5,6 +5,12 @@ Dir.foreach('./lib/slick_tweet/models/') do |filename|
 	(require_relative './slick_tweet/models/' + filename) unless(filename == '.' || filename == '..')
 end
 
+# require helpers
+require_relative './slick_tweet/helpers'
+Dir.foreach('./lib/slick_tweet/helpers/') do |filename|
+  (require_relative './slick_tweet/helpers/' + filename) unless(filename == '.' || filename == '..')
+end
+
 # require views
 require_relative './slick_tweet/view.rb'
 # autoload views in './lib/slick_tweet/views/' directory
@@ -14,9 +20,6 @@ end
 
 # require cli router
 require_relative './slick_tweet/cli'
-
-# require helpers
-require_relative './slick_tweet/helpers'
 
 module SlickTweet
 	def self.current_screen
