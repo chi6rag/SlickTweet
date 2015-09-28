@@ -16,31 +16,20 @@ RSpec.describe SlickTweet::HomeScreenView do
 			options << "3. Exit\n"
 			options << "Choose: "
 			options
-			expect(@home_screen_view.options).to eq(options)
+			expect(@home_screen_view.send(:options)).to eq(options)
 		end
 	end
 
 	describe '#handle_choice' do
 		before(:each){ SlickTweet::current_screen = 'home'}
 
-		it 'handles choice for sign up' do
-			choice = "1"
-			expect(@home_screen_view.handle_choice(choice)).to eq(SlickTweet::current_screen)
-			expect(SlickTweet::current_screen).to eq('sign_up')
-		end
+    {'sign_up': "1", 'login': "2", 'exit': "3"}.each do |screen_name, choice|
+      it "handles choice for #{screen_name}" do
+        expect( @home_screen_view.send(:handle_choice, choice) ).to eq(SlickTweet::current_screen)
+        expect(SlickTweet::current_screen).to eq(screen_name.to_s)
+      end
+    end
 
-		it 'handles choice for login' do 
-			choice = "2"
-			expect(@home_screen_view.handle_choice(choice)).to eq(SlickTweet::current_screen)
-			expect(SlickTweet::current_screen).to eq('login')
-		
-		end
-
-		it 'handles choice for exit' do
-			choice = "3"
-			expect(@home_screen_view.handle_choice(choice)).to eq(SlickTweet::current_screen)
-			expect(SlickTweet::current_screen).to eq('exit')
-		end
 	end
 
 end

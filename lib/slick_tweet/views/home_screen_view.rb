@@ -12,6 +12,8 @@ module SlickTweet
 			handle_choice choice
 		end
 
+    private
+    
 		def handle_choice choice
 			case choice
 			when "1"
@@ -28,7 +30,7 @@ module SlickTweet
 				handle_choice choice
 			end
 		end
-
+    
 		# view
 		def options
 			system 'clear'
