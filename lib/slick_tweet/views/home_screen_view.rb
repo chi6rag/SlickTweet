@@ -33,7 +33,6 @@ module SlickTweet
     
 		# view
 		def options
-			system 'clear'
 			options = "Welcome to SlickTweet\n"
 			options << "--------------------\n"
 			options << "1. Sign Up\n"

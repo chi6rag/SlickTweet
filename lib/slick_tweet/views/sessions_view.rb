@@ -10,7 +10,9 @@ module SlickTweet
         system "clear"
         user = SlickTweet::User.find(user_details)
         unless user
+          system 'clear'
           puts "Wrong Email or Password Combination! Try again"
+          SlickTweet.current_screen = 'home'
           return
         end
         $current_user = user
@@ -23,13 +25,15 @@ module SlickTweet
     def sign_up
       unless $current_user
         user_details = details_from_signup
-        system "clear"
+        system 'clear'
         user = SlickTweet::User.create(user_details)
         if user
           $current_user = user
           SlickTweet.current_screen = 'welcome'
         else
           $current_user = nil
+          SlickTweet.current_screen = 'home'
+          return
         end
         $current_user
       end
