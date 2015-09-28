@@ -52,7 +52,7 @@ RSpec.describe SlickTweet::User do
   end
 
   describe '#tweets' do
-    before(:each) do
+    before(:all) do
       # create a test user
       @user = SlickTweet::User.create(
         username: 'foo_example',
@@ -72,7 +72,7 @@ RSpec.describe SlickTweet::User do
     end
   end
 
-  describe '#find_for_login' do
+  describe '.find_for_login' do
     context 'with valid params' do
       it 'returns the user' do
         expect( SlickTweet::User.find_for_login( username_or_email: 'palak1812',
@@ -86,6 +86,34 @@ RSpec.describe SlickTweet::User do
         expect( SlickTweet::User.find_for_login( username_or_email: 'testfoo',
                 password: '1111111111' )
         ).to be_nil
+      end
+    end
+  end
+
+  describe '.find' do
+    before(:all) do
+      # create a test user
+      @user = SlickTweet::User.create(
+        username: 'bar_example',
+        email: 'bar@example.com',
+        password: '1111111111'
+      )
+    end
+
+    context 'with valid params' do
+      it 'returns a user' do
+        user = SlickTweet::User.find(username: 'bar_example')
+        expect(user).to be_kind_of(SlickTweet::User)
+        expect(user.id).to be_kind_of(Integer)
+        expect(user.username).to eq('bar_example')
+        expect(user.email).to eq('bar@example.com')
+        expect(user.password).to eq('1111111111')
+      end
+    end
+
+    context 'with invalid params' do
+      it 'returns blank' do
+        expect(SlickTweet::User.find(username: 'hello')).to be_nil
       end
     end
   end

@@ -43,5 +43,32 @@ module SlickTweet
       new(*values_found.first)
     end
 
+    # todo
+    # make find and where DRY
+    # reference: http://ryanangilly.com/post/234897271/dynamically-adding-class-methods-in-ruby
+    def self.find **params
+      statement = 'SELECT * FROM users WHERE '
+      condition =  params.map do |key, value|
+        if(value && (value.is_a? String))
+          " #{key}='#{value}' "
+        elsif value
+          " #{key}=#{value} "
+        else
+          nil
+        end
+      end.keep_if { |elem| !elem.nil? }.join('AND')
+      statement << condition
+      statement << ' LIMIT 1'
+      begin
+        res = $con.exec(statement).values[0]
+        return nil if res.nil? || res.empty?
+      rescue PG::Error => e
+        puts e.message
+        puts ''
+        return nil
+      end
+      User.new(res[0].to_i, res[1], res[2], res[3])
+    end
+
   end
 end
