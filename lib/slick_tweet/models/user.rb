@@ -20,7 +20,7 @@ module SlickTweet
         puts ''
         return nil
       end
-      find(username_or_email: params[:username], password: params[:password])
+      find_for_login(username_or_email: params[:username], password: params[:password])
     end
 
     # SlickTweet::User.count
@@ -33,7 +33,7 @@ module SlickTweet
       SlickTweet::Tweet.where(user_id: self.id)
     end
 
-    def self.find params
+    def self.find_for_login params
       statement = 'SELECT * FROM users WHERE '
       statement << "(username='#{params[:username_or_email]}' OR "
       statement << "email='#{params[:username_or_email]}') AND "

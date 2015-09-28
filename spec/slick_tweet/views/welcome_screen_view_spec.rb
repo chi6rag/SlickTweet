@@ -13,7 +13,7 @@ RSpec.describe SlickTweet::WelcomeScreenView do
     statement << "VALUES('chi6rag', 'me@chi6rag.net', '1234567890')"
     $con.exec(statement)
     # set $current_user to created user
-    user = SlickTweet::User.find(username_or_email: 'chi6rag', password: '1234567890')
+    user = SlickTweet::User.find_for_login(username_or_email: 'chi6rag', password: '1234567890')
     $current_user = user
     # set current screen as welcome
     SlickTweet::current_screen = 'welcome'

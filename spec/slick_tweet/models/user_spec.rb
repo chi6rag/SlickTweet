@@ -64,11 +64,29 @@ RSpec.describe SlickTweet::User do
       SlickTweet::Tweet.new(body: 'Hello World!', user_id: @user.id).save
     end
 
-    it "returns all the tweets of the user" do
+    it 'returns all the tweets of the user' do
       @user.tweets.each do |tweet|
         expect(tweet[:user_id]).to eq(@user.id.to_i)
       end
       expect(@user.tweets.count).to eq(2)
+    end
+  end
+
+  describe '#find_for_login' do
+    context 'with valid params' do
+      it 'returns the user' do
+        expect( SlickTweet::User.find_for_login( username_or_email: 'palak1812',
+                password: '1111111111' )
+        ).to be_kind_of(SlickTweet::User)
+      end
+    end
+
+    context 'with invalid params' do
+      it 'returns nil' do
+        expect( SlickTweet::User.find_for_login( username_or_email: 'testfoo',
+                password: '1111111111' )
+        ).to be_nil
+      end
     end
   end
 

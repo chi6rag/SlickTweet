@@ -8,7 +8,7 @@ module SlickTweet
       unless $current_user
         user_details = details_from_login
         system "clear"
-        user = SlickTweet::User.find(user_details)
+        user = SlickTweet::User.find_for_login(user_details)
         unless user
           system 'clear'
           puts "Wrong Email or Password Combination! Try again"
