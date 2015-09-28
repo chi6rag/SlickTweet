@@ -23,6 +23,8 @@ module SlickTweet
       SlickTweet::current_screen = 'welcome'
     end
 
+    private
+
     # view
     def info
       "\nWhat\'s going in your mind?\n"

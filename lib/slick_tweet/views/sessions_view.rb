@@ -40,6 +40,8 @@ module SlickTweet
       SlickTweet::current_screen  = 'home'
     end
 
+    private
+
     # view
     def details_from_login(clear: false)
       puts "\n\nSlickTweet Login\n"

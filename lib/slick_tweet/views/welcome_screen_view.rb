@@ -14,6 +14,8 @@ module SlickTweet
       handle_choice choice
     end
 
+    private
+
     # view
     def options
       puts ''

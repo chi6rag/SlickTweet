@@ -11,13 +11,13 @@ RSpec.describe SlickTweet::TweetsView do
 
 	describe '#info' do
 		it 'returns the right tweets message' do
-			expect(@tweets_view.info).to eq("\nWhat\'s going in your mind?\n")
+			expect(@tweets_view.send(:info)).to eq("\nWhat\'s going in your mind?\n")
 		end
 	end
 
 	describe '#success' do
 		it 'returns the correct tweets save message' do
-			expect(@tweets_view.success).to eq("\nYayy! Tweet Saved\n")
+			expect(@tweets_view.send(:success)).to eq("\nYayy! Tweet Saved\n")
 		end
 	end
 
