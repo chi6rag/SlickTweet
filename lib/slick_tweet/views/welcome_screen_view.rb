@@ -23,12 +23,12 @@ module SlickTweet
       options << options_heading
       options << "What do you want to do today?\n"
       options << "1. Tweet\n"
-      options << "2. Search\n"
+      # options << "2. Search\n"
       options << "3. Your Tweets\n"
       options << "4. Timeline\n"
-      options << "5. Followers\n"
-      options << "6. Following\n"
-      options << "7. Edit Profile\n"
+      # options << "5. Followers\n"
+      # options << "6. Following\n"
+      # options << "7. Edit Profile\n"
       options << "8. Logout\n"
       options << "Choose: "
       options

@@ -37,12 +37,12 @@ RSpec.describe SlickTweet::WelcomeScreenView do
       options << options_heading
       options << "What do you want to do today?\n"
       options << "1. Tweet\n"
-      options << "2. Search\n"
+      # options << "2. Search\n"
       options << "3. Your Tweets\n"
       options << "4. Timeline\n"
-      options << "5. Followers\n"
-      options << "6. Following\n"
-      options << "7. Edit Profile\n"
+      # options << "5. Followers\n"
+      # options << "6. Following\n"
+      # options << "7. Edit Profile\n"
       options << "8. Logout\n"
       options << "Choose: "
       expect(@welcome_screen_view.options).to eq(options)
@@ -54,14 +54,9 @@ RSpec.describe SlickTweet::WelcomeScreenView do
 
     {
       'tweet': "1", 'search': "2", 'your_tweets': "3", 'timeline': "4",
-      'followers': "5", 'following': "6", 'edit_profile': "7", :'logout' => "8"
+      'followers': "5", 'following': "6", 'edit_profile': "7", 'logout': "8"
     }.each do |screen_name, choice|
-      it "handles choice for #{screen_name}" do 
-        # puts '-------------------------'
-        # print 'Screen Name: '
-        # print screen_name.class
-        # puts
-        # puts '-------------------------'
+      it "handles choice for #{screen_name}" do
         screen_name = screen_name.to_s
         expect(@welcome_screen_view.handle_choice(choice)).to eq(screen_name)
         expect(SlickTweet::current_screen).to eq(screen_name)
