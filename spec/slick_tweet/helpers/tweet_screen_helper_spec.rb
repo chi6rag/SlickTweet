@@ -20,8 +20,9 @@ describe '#pretty_print' do
     it "prints body of two tweets on stdout" do
       tweets = [ {id: 1, body: 'lorem', user_id: '1', created_at: '2015-09-28 10:20:30'},
                {id: 2, body: 'ipsum', user_id: '1', created_at: '2015-09-28 10:20:30'} ]
-      expect{pretty_print tweets }.to output(/lorem/).to_stdout
+      expect{ pretty_print tweets }.to output(/lorem/).to_stdout
       expect{pretty_print tweets }.to output(/ipsum/).to_stdout
+      expect{ pretty_print tweets }.to output(/[second|minute|hour|day](s)? ago/).to_stdout
     end
   end
 end

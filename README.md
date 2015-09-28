@@ -38,7 +38,7 @@ Setup Development Environment
       id SERIAL PRIMARY KEY,
       body varchar(140) NOT NULL,
       user_id integer REFERENCES users(id),
-      created_at timestamp DEFAULT statement_timestamp(),
+      created_at timestamptz DEFAULT statement_timestamp(),
       CONSTRAINT body_proper CHECK ( body ~* '[\w|\s]+' )
     );
     ```
@@ -73,7 +73,7 @@ Setup the Testing Environment
       id SERIAL PRIMARY KEY,
       body varchar(140) NOT NULL,
       user_id integer REFERENCES users(id),
-      created_at timestamp DEFAULT statement_timestamp(),
+      created_at timestamptz DEFAULT statement_timestamp(),
       CONSTRAINT body_proper CHECK ( body ~* '[\w|\s]+' )
     );
     ```
