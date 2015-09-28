@@ -4,12 +4,16 @@ module SlickTweet
     module TweetScreenHelper
 
       def pretty_print tweets
-        puts "\nYour Tweets"
-        puts '-----------'
-        formatted_tweets = tweets.map do |tweet|
-          [ tweet[:body], time_ago_in_words(tweet[:created_at]), '------' ]
+        if tweets.any?
+          puts "\nYour Tweets"
+          puts '-----------'
+          formatted_tweets = tweets.map do |tweet|
+            [ tweet[:body], time_ago_in_words(tweet[:created_at]), '------' ]
+          end
+          puts formatted_tweets
+        else
+          puts "\nOops! Looks like you don't have any tweets\n"
         end
-        puts formatted_tweets
       end
 
       private
