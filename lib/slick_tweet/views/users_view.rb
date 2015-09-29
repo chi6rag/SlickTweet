@@ -2,26 +2,26 @@ module SlickTweet
   class UsersView < View
     include SlickTweet::Helpers::TweetScreenHelper
     
+    # controller
     def timeline
-      print "\nEnter username to view tweets of:"
+      print ask_for_username
       username = gets.chomp
       user = SlickTweet::User.find(username: username)
-      if user_signed_in? && username_found?(user) 
+      if username_found? user
         pretty_print user.tweets
-        SlickTweet::current_screen = 'welcome'
-      elsif user_signed_in? && username_not_found?(user)
-        puts 'No such username exists'
-        SlickTweet::current_screen = 'welcome'
-      elsif !user_signed_in? && username_found?(user)
-        pretty_print user.tweets
-        SlickTweet::current_screen = 'home'
       else
         puts 'No such username exists'
-        SlickTweet::current_screen = 'home'
       end
+      SlickTweet::current_screen = (user_signed_in? ? 'welcome' : 'home')
+      return
     end
 
     private
+
+    # views
+    def ask_for_username
+      "\nEnter username to view tweets of:"
+    end
 
     def username_found? user
       user.nil? ? false : true

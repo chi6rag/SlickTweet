@@ -41,10 +41,12 @@ RSpec.describe SlickTweet::UsersView do
       end
 
       context 'searches invalid username' do
+        # EXTRACT INTO SHARED EXAMPLES ------
         it 'prints invalid username message' do
           allow(@users_view).to receive(:gets).and_return('foo_example')
           expect { @users_view.timeline }.to output(/No such username exists/).to_stdout
         end
+        # ------ EXTRACT INTO SHARED EXAMPLES
       end
 
       it 'takes the user back to the welcome page' do
@@ -68,10 +70,12 @@ RSpec.describe SlickTweet::UsersView do
       end
 
       context 'invalid username' do
+        # EXTRACT INTO SHARED EXAMPLES ------
         it 'prints invalid username message' do
           allow(@users_view).to receive(:gets).and_return('foo_example')
           expect { @users_view.timeline }.to output(/No such username exists/).to_stdout
         end
+        # ------ EXTRACT INTO SHARED EXAMPLES
       end
 
       it 'takes the user back to the home page' do
@@ -79,9 +83,39 @@ RSpec.describe SlickTweet::UsersView do
         @users_view.timeline
         expect(SlickTweet::current_screen).to eq('home')
       end
+    end
+  end
 
+  describe '#username_found?' do
+    context 'argument user is not nil' do
+      it 'returns true' do
+        user = double(SlickTweet::User)
+        expect( @users_view.send(:username_found?, user) ).to be_truthy
+      end
     end
 
+    context 'argument user is nil' do
+      it 'returns true' do
+        user = nil
+        expect( @users_view.send(:username_found?, user) ).to be false
+      end
+    end
+  end
+
+  describe '#username_not_found?' do
+    context 'argument user is not nil' do
+      it 'returns false' do
+        user = double(SlickTweet::User)
+        expect( @users_view.send(:username_not_found?, user) ).to be false
+      end
+    end
+
+    context 'argument user is nil' do
+      it 'returns true' do
+        user = nil
+        expect( @users_view.send(:username_not_found?, user) ).to be true
+      end
+    end
   end
 
 end
