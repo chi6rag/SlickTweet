@@ -54,16 +54,25 @@ RSpec.describe SlickTweet::UsersView do
     describe 'user not signed in' do
       context 'searches valid username' do
         it 'prints the tweets of the user' do
+          tweet = SlickTweet::Tweet.new(body: 'hello!', user_id: user.id).save
+          allow(users_view).to receive(:gets).and_return 'chi6rag'
+          expect { users_view.timeline }.to output(tweet.body).to_stdout
         end
       end
 
       context 'invalid username' do
         it 'prints invalid username message' do
+          allow(users_view).to receive(:gets).and_return 'foo_example'
+          expect { users_view.timeline }.to output(/No such username exists/).to_stdout
         end
         it 'takes the user back to the home page' do
+          allow(users_view).to receive(:gets).and_return 'foo_example'
+          users_view.timeline
+          expect(SlickTweet::current_page).to eq('home')
         end
       end
     end
+
   end
 
 end
