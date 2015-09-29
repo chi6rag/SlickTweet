@@ -9,11 +9,11 @@ RSpec.describe SlickTweet::User do
     $con = PG.connect :dbname => 'slick_tweet_testing'
   }
 
-  after(:all){
+  after(:all) do
     $con.exec('DELETE FROM tweets')
     $con.exec('DELETE FROM users')
     $con.close if $con
-  }
+  end
 
   describe ".create" do 
     it 'creates a new user' do

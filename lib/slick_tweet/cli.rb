@@ -12,9 +12,8 @@ module SlickTweet
           SessionsView.new.login
         when 'sign_up'
           SessionsView.new.sign_up
-        when match(/^timeline/)
-          params = extract_params('timeline', SlickTweet.current_screen)
-          UsersView.new.timeline(*params)
+        when 'timeline'
+          UsersView.new.timeline
         when 'welcome'
           WelcomeScreenView.new.render
         when 'tweet'

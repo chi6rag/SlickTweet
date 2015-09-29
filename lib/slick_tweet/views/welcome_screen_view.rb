@@ -39,10 +39,8 @@ module SlickTweet
     def handle_choice choice
       case choice
       when "1"
-        # render sign up view
         SlickTweet.current_screen = 'tweet'
       when "2"
-        # render login view
         SlickTweet.current_screen = 'search'
       when "3"
         SlickTweet.current_screen = 'your_tweets'
