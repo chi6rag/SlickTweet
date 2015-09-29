@@ -13,9 +13,8 @@ module SlickTweet
         puts 'No such username exists'
         SlickTweet::current_screen = 'welcome'
       else
+        SlickTweet::current_screen = 'home'
       end
-      SlickTweet::current_screen = 'home'
-      
     end
 
     private

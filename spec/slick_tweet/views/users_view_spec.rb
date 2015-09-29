@@ -45,7 +45,7 @@ RSpec.describe SlickTweet::UsersView do
         end
       end
 
-      xit 'takes the user back to the welcome page' do
+      it 'takes the user back to the welcome page' do
         allow(@users_view).to receive(:gets).and_return 'foo_example'
         @users_view.timeline
         expect(SlickTweet::current_screen).to eq('welcome')
