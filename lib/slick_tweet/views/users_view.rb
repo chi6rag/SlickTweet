@@ -12,7 +12,11 @@ module SlickTweet
       elsif user_signed_in? && username_not_found?(user)
         puts 'No such username exists'
         SlickTweet::current_screen = 'welcome'
+      elsif !user_signed_in? && username_found?(user)
+        pretty_print user.tweets
+        SlickTweet::current_screen = 'home'
       else
+        puts 'No such username exists'
         SlickTweet::current_screen = 'home'
       end
     end

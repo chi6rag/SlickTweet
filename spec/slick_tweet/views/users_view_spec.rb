@@ -31,11 +31,13 @@ RSpec.describe SlickTweet::UsersView do
       before(:all){ $current_user = @user }
 
       context 'searches valid username' do
+        # EXTRACT INTO SHARED EXAMPLES ------
         it 'prints the tweets of the user' do
           tweet = SlickTweet::Tweet.new(body: 'hello!', user_id: @user.id).save
           allow(@users_view).to receive(:gets).and_return 'chi6rag'
           expect { @users_view.timeline }.to output(/#{tweet.body}/).to_stdout
         end
+        # ------ EXTRACT INTO SHARED EXAMPLES
       end
 
       context 'searches invalid username' do
@@ -53,17 +55,31 @@ RSpec.describe SlickTweet::UsersView do
     end
 
     describe 'user not signed in' do
+      before(:all){ $current_user = nil }
+
       context 'searches valid username' do
-        xit 'prints the tweets of the user' do
+        # EXTRACT INTO SHARED EXAMPLES ------
+        it 'prints the tweets of the user' do
+          tweet = SlickTweet::Tweet.new(body: 'hello!', user_id: @user.id).save
+          allow(@users_view).to receive(:gets).and_return 'chi6rag'
+          expect { @users_view.timeline }.to output(/#{tweet.body}/).to_stdout
         end
+        # ------ EXTRACT INTO SHARED EXAMPLES
       end
 
       context 'invalid username' do
-        xit 'prints invalid username message' do
-        end
-        xit 'takes the user back to the home page' do
+        it 'prints invalid username message' do
+          allow(@users_view).to receive(:gets).and_return('foo_example')
+          expect { @users_view.timeline }.to output(/No such username exists/).to_stdout
         end
       end
+
+      it 'takes the user back to the home page' do
+        allow(@users_view).to receive(:gets).and_return 'foo_example'
+        @users_view.timeline
+        expect(SlickTweet::current_screen).to eq('home')
+      end
+
     end
 
   end
