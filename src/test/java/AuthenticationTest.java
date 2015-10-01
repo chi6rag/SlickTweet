@@ -1,10 +1,13 @@
 import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class AuthenticationTest {
+    Authentication auth = new Authentication();
+
     @Test
-    public void getPreSignInOptions(){
-        Authentication auth = new Authentication();
+    public void testGetsPreSignInOptions(){
         String preSignInOptions =
                 "  TwitchBlade  \n" +
                 "---------------\n" +
@@ -14,4 +17,5 @@ public class AuthenticationTest {
                 "Choose: ";
         assertEquals(auth.getPreSignInOptions(), preSignInOptions);
     }
+
 }
