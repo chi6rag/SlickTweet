@@ -10,16 +10,17 @@ public class Cli {
         int preSignInChoice = scanner.nextInt();
         switch(preSignInChoice){
             case 1:
-                System.out.println("Implement Sign Up");
+                authentication.getSignUpDetails();
                 break;
             case 2:
-                System.out.println("Implement Login");
+                authentication.getLoginDetails();
                 break;
             case 3:
-                System.out.println("Implement Exit");
+                System.exit(0);
                 break;
             default:
                 System.out.println("Unrecognized Option");
+                System.exit(0);
                 break;
         }
 
