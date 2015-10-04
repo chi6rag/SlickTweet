@@ -20,7 +20,7 @@ public class AuthenticationTest {
         assertEquals(auth.getPreSignInOptions(), preSignInOptions);
     }
 
-//  to-do
+    //  to-do
 //  assert stdout to contain what has been asked
 //    - username
 //    - password
@@ -37,6 +37,26 @@ public class AuthenticationTest {
         signUpDetails.put("password", "123456789");
 
         assertEquals(auth.getSignUpDetails(), signUpDetails);
+        System.setIn(System.in);
+    }
+
+//  to-do
+//  assert stdout to contain what has been asked
+//    - username
+//    - password
+    @Test
+    public void testGetsLoginDetails(){
+//      ByteArrayOutputStream consoleOutput = new ByteArrayOutputStream();
+//      System.setOut(new PrintStream(consoleOutput));
+        ByteArrayInputStream consoleInput = new
+                ByteArrayInputStream("foo_example\n123456789".getBytes());
+        System.setIn(consoleInput);
+
+        Hashtable loginDetails = new Hashtable();
+        loginDetails.put("username", "foo_example");
+        loginDetails.put("password", "123456789");
+
+        assertEquals(auth.getLoginDetails(), loginDetails);
         System.setIn(System.in);
     }
 
