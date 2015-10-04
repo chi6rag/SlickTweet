@@ -26,4 +26,16 @@ public class Authentication {
         return signUpDetails;
     }
 
+    public Hashtable getLoginDetails(){
+        Scanner consoleInput = new Scanner(System.in);
+        System.out.println("Username: ");
+        String username = consoleInput.nextLine();
+        System.out.println("Password: ");
+        String password = consoleInput.nextLine();
+        Hashtable loginDetails = new Hashtable();
+        loginDetails.put("username", username);
+        loginDetails.put("password", password);
+        return loginDetails;
+    }
+
 }
