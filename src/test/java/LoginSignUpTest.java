@@ -10,7 +10,6 @@ import static org.junit.Assert.assertEquals;
 
 public class LoginSignUpTest {
     Authentication auth = new Authentication();
-    Boolean isConnectionSetup = false;
     PreparedStatement preparedStatement = null;
     Connection connection = null;
 
@@ -39,8 +38,8 @@ public class LoginSignUpTest {
     }
 
     @Test
-    public void testSignUpWithValidDetailsReturnSignedUpInUser(){
-        User currentUser = auth.login(getValidUserDetails());
+    public void testSignUpWithValidAndUniqueUserDetailsReturnSignedUpUser(){
+        User currentUser = auth.signUp(getValidUniqueUserDetails());
         assertEquals(currentUser.getClass(), User);
         assertEquals(currentUser.getUsername, "foo_example");
         assertEquals(currentUser.getPassword, "123456789");
@@ -48,27 +47,12 @@ public class LoginSignUpTest {
 
     @Test
     public void testSignUpWithInvalidDetailsReturnsNull(){
-        assertEquals(auth.signUp(getInvalidUserDetails()), false);
+        assertEquals(auth.signUp(getInvalidUserDetails()), null);
     }
 
-    private void initializeDBConnection(){
-        if(!isConnectionSetup){
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                System.out.println("PostgreSQL JDBC Driver not Found!");
-                e.printStackTrace();
-                return;
-            }
-            try {
-                connection = DriverManager.getConnection(
-                        "jdbc:postgresql://localhost:5432/twitchblade_testing",
-                        "chi6rag", "");
-                isConnectionSetup = true;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    @Test
+    public void testSignUpWithValidButNotUniqueUserDetailsReturnsNull(){
+        assertEquals(auth.signUp(getValidUserDetails()), null);
     }
 
     private void createTestUser(Connection connection, String username, String password){
@@ -85,9 +69,35 @@ public class LoginSignUpTest {
         }
     }
 
+    private void initializeDBConnection(){
+        if(this.connection == null){
+            try {
+                Class.forName("org.postgresql.Driver");
+            } catch (ClassNotFoundException e) {
+                System.out.println("PostgreSQL JDBC Driver not Found!");
+                e.printStackTrace();
+                return;
+            }
+            try {
+                this.connection = DriverManager.getConnection(
+                        "jdbc:postgresql://localhost:5432/twitchblade_testing",
+                        "chi6rag", "");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     private Hashtable getValidUserDetails(){
         Hashtable userDetails = new Hashtable();
         userDetails.put("username", "foo_example");
+        userDetails.put("password", "123456789");
+        return userDetails;
+    }
+
+    private Hashtable getValidUniqueUserDetails(){
+        Hashtable userDetails = new Hashtable();
+        userDetails.put("username", "bar_example");
         userDetails.put("password", "123456789");
         return userDetails;
     }

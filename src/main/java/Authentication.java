@@ -26,4 +26,14 @@ public class Authentication {
         return authDetails;
     }
 
+//    public User login(authDetails)
+//    check if the user if present in db
+//    yes, find user and return
+//    no, return null
+
+//    public User signUp(authDetails)
+//    create user with required auth details
+//    if success, return the user
+//    else return null
+
 }
