@@ -1,8 +1,5 @@
 import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
-import org.mockito.Mockito;
-
 import java.io.ByteArrayInputStream;
 import java.util.Hashtable;
 

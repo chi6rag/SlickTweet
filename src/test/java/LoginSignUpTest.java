@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.Hashtable;
 import static org.junit.Assert.assertEquals;
 
-public class LoginTest {
+public class LoginSignUpTest {
     Authentication auth = new Authentication();
     Boolean isConnectionSetup = false;
     PreparedStatement preparedStatement = null;
@@ -74,8 +74,7 @@ public class LoginTest {
     private void createTestUser(Connection connection, String username, String password){
         try {
             preparedStatement = connection.prepareStatement(
-                    "INSERT INTO users(username, password) " +
-                            "VALUES(?, ?)"
+                    "INSERT INTO users(username, password) VALUES(?, ?)"
             );
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);

@@ -1,4 +1,6 @@
 import org.apache.commons.configuration.ConfigurationException;
+
+import java.util.Hashtable;
 import java.util.Scanner;
 
 public class Cli {
@@ -10,10 +12,10 @@ public class Cli {
         int preSignInChoice = scanner.nextInt();
         switch(preSignInChoice){
             case 1:
-                authentication.getSignUpDetails();
+                authentication.getAuthDetails();
                 break;
             case 2:
-                authentication.getLoginDetails();
+                authentication.getAuthDetails();
                 break;
             case 3:
                 System.exit(0);
