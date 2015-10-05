@@ -26,13 +26,29 @@ public class LoginTest {
     }
 
     @Test
-    public void testLoginWithValidDetails(){
-        assertEquals(auth.login(getValidAuthDetails()), true);
+    public void testLoginWithValidDetailsReturnsLoggedInUser(){
+        User currentUser = auth.login(getValidUserDetails());
+        assertEquals(currentUser.getClass(), User);
+        assertEquals(currentUser.getUsername, "foo_example");
+        assertEquals(currentUser.getPassword, "123456789");
     }
 
     @Test
-    public void testSignUpWithValidDetails(){
-        assertEquals(auth.signUp(getValidAuthDetails()), true);
+    public void testLoginWithInvalidDetailsReturnsNull(){
+        assertEquals(auth.login(getInvalidUserDetails()), null);
+    }
+
+    @Test
+    public void testSignUpWithValidDetailsReturnSignedUpInUser(){
+        User currentUser = auth.login(getValidUserDetails());
+        assertEquals(currentUser.getClass(), User);
+        assertEquals(currentUser.getUsername, "foo_example");
+        assertEquals(currentUser.getPassword, "123456789");
+    }
+
+    @Test
+    public void testSignUpWithInvalidDetailsReturnsNull(){
+        assertEquals(auth.signUp(getInvalidUserDetails()), false);
     }
 
     private void initializeDBConnection(){
@@ -70,18 +86,18 @@ public class LoginTest {
         }
     }
 
-    private Hashtable getValidAuthDetails(){
-        Hashtable authDetails = new Hashtable();
-        authDetails.put("username", "foo_example");
-        authDetails.put("password", "123456789");
-        return authDetails;
+    private Hashtable getValidUserDetails(){
+        Hashtable userDetails = new Hashtable();
+        userDetails.put("username", "foo_example");
+        userDetails.put("password", "123456789");
+        return userDetails;
     }
 
-    private Hashtable getInvalidAuthDetails(){
-        Hashtable authDetails = new Hashtable();
-        authDetails.put("username", "foo_example");
-        authDetails.put("password", "123456789");
-        return authDetails;
+    private Hashtable getInvalidUserDetails(){
+        Hashtable userDetails = new Hashtable();
+        userDetails.put("username", "foo_example");
+        userDetails.put("password", "123456789");
+        return userDetails;
     }
 
     private void deleteAllUsers(Connection connection){
