@@ -8,50 +8,31 @@ import java.sql.SQLException;
 import java.util.Hashtable;
 import static org.junit.Assert.assertEquals;
 
-/**
- * Created by chi6rag on 10/5/15.
- */
 public class LoginTest {
     Authentication auth = new Authentication();
     Boolean isConnectionSetup = false;
     PreparedStatement preparedStatement = null;
     Connection connection = null;
-    Hashtable authDetails;
 
     @Before
     public void beforeEach(){
         initializeDBConnection();
-
-        // Setup authDetails
-        authDetails = new Hashtable();
-        authDetails.put("username", "foo_example");
-        authDetails.put("password", "123456789");
-
-        // Add user to twitchblade_testing
-        try {
-            preparedStatement = connection.prepareStatement(
-                    "INSERT INTO users(username, password) " +
-                    "VALUES(?, ?)"
-            );
-            preparedStatement.setString(1, "foo_example");
-            preparedStatement.setString(2, "123456789");
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            System.out.println("------ Unable to setup Test Data for User ------");
-            e.printStackTrace();
-        }
-
+        createTestUser(connection, "foo_example", "123456789");
     }
 
     @After
     public void afterEach(){
-        // Delete All Users
-        try {
-            preparedStatement = connection.prepareStatement("DELETE FROM users");
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        deleteAllUsers(connection);
+    }
+
+    @Test
+    public void testLoginWithValidDetails(){
+        assertEquals(auth.login(getValidAuthDetails()), true);
+    }
+
+    @Test
+    public void testSignUpWithValidDetails(){
+        assertEquals(auth.signUp(getValidAuthDetails()), true);
     }
 
     private void initializeDBConnection(){
@@ -71,6 +52,44 @@ public class LoginTest {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void createTestUser(Connection connection, String username, String password){
+        try {
+            preparedStatement = connection.prepareStatement(
+                    "INSERT INTO users(username, password) " +
+                            "VALUES(?, ?)"
+            );
+            preparedStatement.setString(1, username);
+            preparedStatement.setString(2, password);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            System.out.println("------ Unable to setup Test Data for User ------");
+            e.printStackTrace();
+        }
+    }
+
+    private Hashtable getValidAuthDetails(){
+        Hashtable authDetails = new Hashtable();
+        authDetails.put("username", "foo_example");
+        authDetails.put("password", "123456789");
+        return authDetails;
+    }
+
+    private Hashtable getInvalidAuthDetails(){
+        Hashtable authDetails = new Hashtable();
+        authDetails.put("username", "foo_example");
+        authDetails.put("password", "123456789");
+        return authDetails;
+    }
+
+    private void deleteAllUsers(Connection connection){
+        try {
+            preparedStatement = connection.prepareStatement("DELETE FROM users");
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
