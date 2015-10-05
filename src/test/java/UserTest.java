@@ -19,7 +19,13 @@ public class UserTest {
     }
 
     @Test
-    public void testSaveWithValidUserObjectIncreasesUserCountBy1(){}
+    public void testSaveWithValidUserObjectIncreasesUserCountBy1(){
+        int beforeCount = getUserCount();
+        User user = new User("foo_example", "123456789");
+        user.save();
+        int afterCount = getUserCount();
+        assertNotEquals(beforeCount, afterCount);
+    }
 
     @Test
     public void testSaveWithValidUserObjectReturnsTheSavedUser(){}
@@ -47,6 +53,19 @@ public class UserTest {
                 e.printStackTrace();
             }
         }
+    }
+
+    private int getUserCount(){
+        int count = 0;
+        try {
+            Statement countStatement = connection.createStatement();
+            ResultSet res = countStatement
+                    .executeQuery("SELECT COUNT(*) AS total FROM users");
+            count = res.getInt("total");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 
     private void deleteAllUsers(Connection connection){
