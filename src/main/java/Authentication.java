@@ -14,28 +14,16 @@ public class Authentication {
         return preSignInOptions;
     }
 
-    public Hashtable getSignUpDetails(){
+    public Hashtable getAuthDetails(){
         Scanner consoleInput = new Scanner(System.in);
         System.out.println("Username: ");
         String username = consoleInput.nextLine();
         System.out.println("Password: ");
         String password = consoleInput.nextLine();
-        Hashtable signUpDetails = new Hashtable();
-        signUpDetails.put("username", username);
-        signUpDetails.put("password", password);
-        return signUpDetails;
-    }
-
-    public Hashtable getLoginDetails(){
-        Scanner consoleInput = new Scanner(System.in);
-        System.out.println("Username: ");
-        String username = consoleInput.nextLine();
-        System.out.println("Password: ");
-        String password = consoleInput.nextLine();
-        Hashtable loginDetails = new Hashtable();
-        loginDetails.put("username", username);
-        loginDetails.put("password", password);
-        return loginDetails;
+        Hashtable authDetails = new Hashtable();
+        authDetails.put("username", username);
+        authDetails.put("password", password);
+        return authDetails;
     }
 
 }
