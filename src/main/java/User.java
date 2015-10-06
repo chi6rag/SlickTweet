@@ -16,8 +16,9 @@ public class User {
         prepareUserSaveStatement();
         ResultSet res = null;
         res = insertUserIntoDB(this.username, this.password);
+        System.out.println();
         try {
-            if(res.next()){
+            if(res != null && res.next()){
                 String username = res.getString("username");
                 String password = res.getString("password");
                 return new User(username, password);
