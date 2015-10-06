@@ -16,16 +16,7 @@ public class User {
         prepareUserSaveStatement();
         ResultSet res = null;
         res = insertUserIntoDB(this.username, this.password);
-        System.out.println();
-        try {
-            if(res != null && res.next()){
-                String username = res.getString("username");
-                String password = res.getString("password");
-                return new User(username, password);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        if(res != null) return getUserFromDBResult(res);
         return null;
     }
 
@@ -35,6 +26,19 @@ public class User {
 
     public String getPassword(){
         return this.password;
+    }
+
+    private User getUserFromDBResult(ResultSet res){
+        try {
+            if(res.next()){
+                String username = res.getString("username");
+                String password = res.getString("password");
+                return new User(username, password);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private ResultSet insertUserIntoDB(String username, String password){
