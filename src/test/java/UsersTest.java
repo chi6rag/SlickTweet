@@ -40,10 +40,24 @@ public class UsersTest {
         assertEquals(foundUser, null);
     }
 
+    @Test
+    public void returnsNullWhenCalledWithWrongUserDetailsHash(){
+        Hashtable authDetails = getWrongUserDetailsHash();
+        User foundUser = allUsers.find(authDetails);
+        assertEquals(foundUser, null);
+    }
+
+    private Hashtable getWrongUserDetailsHash(){
+        Hashtable authDetails = new Hashtable();
+        authDetails.put("height", 10);
+        authDetails.put("width", 10);
+        return authDetails;
+    }
+
     private void setupTestUsers(){
         try {
-            preparedStatement = connection.prepareStatement("INSERT INTO users(username, password)" +
-                    " VALUES(?, ?) RETURNING username, password");
+            preparedStatement = connection.prepareStatement("INSERT INTO users" +
+                    "(username, password) VALUES(?, ?) RETURNING username, password");
             preparedStatement.setString(1, "foo_example");
             preparedStatement.setString(2, "123456789");
             preparedStatement.executeQuery();
