@@ -2,7 +2,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import java.sql.*;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertSame;
@@ -28,15 +27,16 @@ public class UserTest {
         user.save();
         int afterCount = getUserCount();
         assertNotEquals(beforeCount, afterCount);
+        System.out.println();
     }
 
     @Test
     public void testSaveWithValidUserObjectReturnsTheSavedUser(){
         User user = new User("foo_example", "123456789");
         User savedUser = user.save();
-        assertNotEquals(savedUser.getUsername(), "foo_example");
-        assertNotEquals(savedUser.getPassword(), "123456789");
-        assertNotEquals(savedUser.getClass(), User);
+        assertEquals(savedUser.getUsername(), "foo_example");
+        assertEquals(savedUser.getPassword(), "123456789");
+        assertEquals(savedUser.getClass(), "User");
     }
 
     @Test
@@ -63,10 +63,12 @@ public class UserTest {
                 e.printStackTrace();
                 return;
             }
+            String environment = System.getenv("ENV");
             try {
                 this.connection = DriverManager.getConnection(
-                        "jdbc:postgresql://localhost:5432/twitchblade_testing",
+                        "jdbc:postgresql://localhost:5432/twitchblade_" + environment,
                         "chi6rag", "");
+                System.out.println();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -76,10 +78,9 @@ public class UserTest {
     private int getUserCount(){
         int count = 0;
         try {
-            Statement countStatement = connection.createStatement();
-            ResultSet res = countStatement
-                    .executeQuery("SELECT COUNT(*) AS total FROM users");
-            count = res.getInt("total");
+            Statement countStatement = this.connection.createStatement();
+            ResultSet res = countStatement.executeQuery("SELECT COUNT(*) AS total FROM users");
+            if( res.next() ) count = res.getInt("total");
         } catch (SQLException e) {
             e.printStackTrace();
         }
