@@ -26,9 +26,7 @@ public class UsersTest {
 
     @Test
     public void returnsFoundUserWhenCalledWithValidArguments(){
-        Hashtable authDetails = new Hashtable();
-        authDetails.put("username", "foo_example");
-        authDetails.put("password", "123456789");
+        Hashtable authDetails = getValidAuthDetails();
         User foundUser = allUsers.find(authDetails);
         assertEquals(foundUser.getClass().getName(), "User");
         assertEquals(foundUser.getUsername(), "foo_example");
@@ -48,6 +46,13 @@ public class UsersTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private Hashtable getValidAuthDetails(){
+        Hashtable authDetails = new Hashtable();
+        authDetails.put("username", "foo_example");
+        authDetails.put("password", "123456789");
+        return authDetails;
     }
 
     private void deleteAllUsers(Connection connection){

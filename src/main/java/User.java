@@ -44,8 +44,8 @@ public class User {
     private ResultSet insertUserIntoDB(String username, String password){
         ResultSet res = null;
         try {
-            this.userSavePreparedStatement.setString(1, this.username);
-            this.userSavePreparedStatement.setString(2, this.password);
+            this.userSavePreparedStatement.setString(1, username);
+            this.userSavePreparedStatement.setString(2, password);
             res = this.userSavePreparedStatement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
