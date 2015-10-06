@@ -40,7 +40,7 @@ public class LoginSignUpTest {
     }
 
     @Test
-    public void testLoginWithInvalidHashKaysReturnsNull(){
+    public void testLoginWithInvalidHashKeysReturnsNull(){
         Hashtable authDetails = new Hashtable();
         authDetails.put("height", 10);
         authDetails.put("width", 10);
