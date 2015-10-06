@@ -38,14 +38,16 @@ public class LoginSignUpTest {
         Hashtable invalidUserDetails = getUserDetails("baz_example", "123456789");
         assertEquals(auth.login(invalidUserDetails), null);
     }
-//
-//    @Test
-//    public void testSignUpWithValidAndUniqueUserDetailsReturnSignedUpUser(){
-//        User currentUser = auth.signUp(getValidUniqueUserDetails());
-//        assertEquals(currentUser.getClass(), User);
-//        assertEquals(currentUser.getUsername, "foo_example");
-//        assertEquals(currentUser.getPassword, "123456789");
-//    }
+
+    @Test
+    public void testSignUpWithValidAndUniqueUserDetailsReturnSignedUpUser(){
+        Hashtable validUniqueUserDetails = getUserDetails("baz_example",
+                "123456789");
+        User currentUser = auth.signUp(validUniqueUserDetails);
+        assertEquals(currentUser.getClass().getName(), "User");
+        assertEquals(currentUser.getUsername(), "baz_example");
+        assertEquals(currentUser.getPassword(), "123456789");
+    }
 //
 //    @Test
 //    public void testSignUpWithInvalidDetailsReturnsNull(){
