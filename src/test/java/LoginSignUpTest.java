@@ -24,13 +24,13 @@ public class LoginSignUpTest {
         deleteAllUsers();
     }
 
-//    @Test
-//    public void testLoginWithValidDetailsReturnsLoggedInUser(){
-//        User currentUser = auth.login(getValidUserDetails());
-//        assertEquals(currentUser.getClass(), User);
-//        assertEquals(currentUser.getUsername, "foo_example");
-//        assertEquals(currentUser.getPassword, "123456789");
-//    }
+    @Test
+    public void testLoginWithValidDetailsReturnsLoggedInUser(){
+        User currentUser = auth.login(getValidUserDetails());
+        assertEquals(currentUser.getClass().getName(), "User");
+        assertEquals(currentUser.getUsername(), "foo_example");
+        assertEquals(currentUser.getPassword(), "123456789");
+    }
 //
 //    @Test
 //    public void testLoginWithInvalidDetailsReturnsNull(){

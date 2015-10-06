@@ -2,6 +2,7 @@ import java.util.Hashtable;
 import java.util.Scanner;
 
 public class Authentication {
+    Users allUsers = new Users();
 
     public String getPreSignInOptions(){
         String preSignInOptions =
@@ -24,6 +25,10 @@ public class Authentication {
         authDetails.put("username", username);
         authDetails.put("password", password);
         return authDetails;
+    }
+
+    public User login(Hashtable authDetails){
+        return allUsers.find(authDetails);
     }
 
 //    public User login(authDetails)
