@@ -40,6 +40,14 @@ public class LoginSignUpTest {
     }
 
     @Test
+    public void testLoginWithInvalidHashKaysReturnsNull(){
+        Hashtable authDetails = new Hashtable();
+        authDetails.put("height", 10);
+        authDetails.put("width", 10);
+        assertEquals(auth.login(authDetails), null);
+    }
+
+    @Test
     public void testSignUpWithValidAndUniqueUserDetailsReturnSignedUpUser(){
         Hashtable validUniqueUserDetails = getUserDetails("baz_example",
                 "123456789");
