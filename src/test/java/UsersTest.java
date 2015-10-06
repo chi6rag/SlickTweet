@@ -33,6 +33,13 @@ public class UsersTest {
         assertEquals(foundUser.getPassword(), "123456789");
     }
 
+    @Test
+    public void returnsNullWhenCalledWithInvalidArguments(){
+        Hashtable authDetails = getInvalidAuthDetails();
+        User foundUser = allUsers.find(authDetails);
+        assertEquals(foundUser, null);
+    }
+
     private void setupTestUsers(){
         try {
             preparedStatement = connection.prepareStatement("INSERT INTO users(username, password)" +
@@ -51,6 +58,13 @@ public class UsersTest {
     private Hashtable getValidAuthDetails(){
         Hashtable authDetails = new Hashtable();
         authDetails.put("username", "foo_example");
+        authDetails.put("password", "123456789");
+        return authDetails;
+    }
+
+    private Hashtable getInvalidAuthDetails(){
+        Hashtable authDetails = new Hashtable();
+        authDetails.put("username", "baz_example");
         authDetails.put("password", "123456789");
         return authDetails;
     }
