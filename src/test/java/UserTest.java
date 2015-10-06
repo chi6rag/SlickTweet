@@ -36,7 +36,7 @@ public class UserTest {
         User savedUser = user.save();
         assertEquals(savedUser.getUsername(), "foo_example");
         assertEquals(savedUser.getPassword(), "123456789");
-        assertEquals(savedUser.getClass(), "User");
+        assertEquals(savedUser.getClass().getName(), "User");
     }
 
     @Test

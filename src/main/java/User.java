@@ -12,13 +12,16 @@ public class User {
         this.password = password;
     }
 
-    public User save(){
-        prepareUserSaveStatement(this.connection);
+    public User save() {
+        prepareUserSaveStatement();
         ResultSet res = null;
+        res = insertUserIntoDB(this.username, this.password);
         try {
-            this.userSavePreparedStatement.setString(1, this.username);
-            this.userSavePreparedStatement.setString(2, this.password);
-            res = this.userSavePreparedStatement.executeQuery();
+            if(res.next()){
+                String username = res.getString("username");
+                String password = res.getString("password");
+                return new User(username, password);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -33,10 +36,22 @@ public class User {
         return this.password;
     }
 
-    private void prepareUserSaveStatement(Connection connection){
+    private ResultSet insertUserIntoDB(String username, String password){
+        ResultSet res = null;
+        try {
+            this.userSavePreparedStatement.setString(1, this.username);
+            this.userSavePreparedStatement.setString(2, this.password);
+            res = this.userSavePreparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    private void prepareUserSaveStatement(){
         if(this.userSavePreparedStatement == null){
             try {
-                this.userSavePreparedStatement = connection.prepareStatement
+                this.userSavePreparedStatement = this.connection.prepareStatement
                         ("INSERT INTO users(username, password) VALUES(?, ?) " +
                                 "RETURNING username, password");
             } catch (SQLException e) {
