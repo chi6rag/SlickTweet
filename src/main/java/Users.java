@@ -42,6 +42,7 @@ public class Users {
     }
 
     private ResultSet findUserFromDB(String username, String password){
+        if(username == null || password == null) return null;
         if(username.isEmpty() || password.isEmpty()) return null;
         ResultSet res = null;
         try {
