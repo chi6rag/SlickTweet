@@ -26,16 +26,18 @@ public class LoginSignUpTest {
 
     @Test
     public void testLoginWithValidDetailsReturnsLoggedInUser(){
-        User currentUser = auth.login(getValidUserDetails());
+        Hashtable validUserDetails = getUserDetails("foo_example", "123456789");
+        User currentUser = auth.login(validUserDetails);
         assertEquals(currentUser.getClass().getName(), "User");
         assertEquals(currentUser.getUsername(), "foo_example");
         assertEquals(currentUser.getPassword(), "123456789");
     }
-//
-//    @Test
-//    public void testLoginWithInvalidDetailsReturnsNull(){
-//        assertEquals(auth.login(getInvalidUserDetails()), null);
-//    }
+
+    @Test
+    public void testLoginWithInvalidDetailsReturnsNull(){
+        Hashtable invalidUserDetails = getUserDetails("baz_example", "123456789");
+        assertEquals(auth.login(invalidUserDetails), null);
+    }
 //
 //    @Test
 //    public void testSignUpWithValidAndUniqueUserDetailsReturnSignedUpUser(){
@@ -88,24 +90,10 @@ public class LoginSignUpTest {
         }
     }
 
-    private Hashtable getValidUserDetails(){
+    private Hashtable getUserDetails(String username, String password){
         Hashtable userDetails = new Hashtable();
-        userDetails.put("username", "foo_example");
-        userDetails.put("password", "123456789");
-        return userDetails;
-    }
-
-    private Hashtable getValidUniqueUserDetails(){
-        Hashtable userDetails = new Hashtable();
-        userDetails.put("username", "bar_example");
-        userDetails.put("password", "123456789");
-        return userDetails;
-    }
-
-    private Hashtable getInvalidUserDetails(){
-        Hashtable userDetails = new Hashtable();
-        userDetails.put("username", "foo_example");
-        userDetails.put("password", "123456789");
+        userDetails.put("username", username);
+        userDetails.put("password", password);
         return userDetails;
     }
 
