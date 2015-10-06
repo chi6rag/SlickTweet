@@ -56,16 +56,19 @@ public class LoginSignUpTest {
         assertEquals(currentUser.getUsername(), "baz_example");
         assertEquals(currentUser.getPassword(), "123456789");
     }
-//
-//    @Test
-//    public void testSignUpWithInvalidDetailsReturnsNull(){
-//        assertEquals(auth.signUp(getInvalidUserDetails()), null);
-//    }
-//
-//    @Test
-//    public void testSignUpWithValidButNotUniqueUserDetailsReturnsNull(){
-//        assertEquals(auth.signUp(getValidUserDetails()), null);
-//    }
+
+    @Test
+    public void testSignUpWithInvalidDetailsReturnsNull(){
+        Hashtable invalidUserDetails = getUserDetails("aa", "123456789");
+        assertEquals(auth.signUp(invalidUserDetails), null);
+    }
+
+    @Test
+    public void testSignUpWithValidButNotUniqueUserDetailsReturnsNull(){
+        Hashtable validNotUniqueUserDetails = getUserDetails("foo_example",
+                "123456789");
+        assertEquals(auth.signUp(validNotUniqueUserDetails), null);
+    }
 
     private void createTestUser(String username, String password){
         try {

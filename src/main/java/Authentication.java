@@ -31,6 +31,13 @@ public class Authentication {
         return allUsers.find(authDetails);
     }
 
+    public User signUp(Hashtable authDetails){
+        String username = (String) authDetails.get("username");
+        String password = (String) authDetails.get("password");
+        User user = new User(username, password);
+        return user.save();
+    }
+
 //    public User login(authDetails)
 //    check if the user if present in db
 //    yes, find user and return
