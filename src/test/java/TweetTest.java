@@ -47,7 +47,28 @@ public class TweetTest {
         assertNotEquals(countBefore, countAfter);
     }
 
-//    save on invalid tweet keeps tweet count same
+    //  save on invalid tweet keeps tweet count same
+    @Test
+    public void saveOnInvalidTweetKeepsUserCountSame(){
+        int countBefore = getTweetsCount();
+        String tweetBody = "Lorem ipsum dolor sit amet, consectetur adipisicing elit." +
+            "Rem, incidunt eos delectus veniam cupiditate possimus in velit, quia"     +
+            " sed perspiciatis similique suscipit tempora laborum reprehenderit "      +
+            "maxime nulla. Maiores, id, error.\n"                                      +
+            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae "    +
+            "beatae nostrum maiores voluptatum atque repellat necessitatibus ullam "   +
+            "molestias, mollitia neque quidem molestiae totam commodi ut sed dolorum." +
+            " Adipisci amet, molestias.\n"                                             +
+            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum "       +
+            "incidunt tenetur error in veniam, vitae aut aliquid repellat dolores "    +
+            "alias necessitatibus nobis quidem unde ducimus. Repudiandae mollitia "    +
+            "nostrum, possimus velit.";
+        Tweet tweet = new Tweet(tweetBody, user.getId(), this.connection);
+        tweet.save();
+        int countAfter  = getTweetsCount();
+        assertEquals(countBefore, countAfter);
+    }
+
 //    save on valid tweet returns tweet
 //    save on invalid tweet returns null
 //    save on tweet with valid user_id returns tweet
