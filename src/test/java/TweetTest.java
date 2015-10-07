@@ -1,14 +1,11 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class TweetTest {
     PreparedStatement preparedStatement = null;
@@ -33,6 +30,25 @@ public class TweetTest {
         int countAfter  = getTweetsCount();
         assertEquals(countBefore, countAfter);
     }
+
+    @Test
+    public void saveOnValidTweetIncreasesTweetCountBy1(){
+        int countBefore = getTweetsCount();
+        Tweet tweet = new Tweet("hello", user.getId());
+        tweet.save();
+        int countAfter  = getTweetsCount();
+        assertEquals(countBefore, countAfter);
+    }
+
+//    save on invalid tweet keeps tweet count same
+//    save on valid tweet returns tweet
+//    save on invalid tweet returns null
+//    save on tweet with valid user_id returns tweet
+//    save on tweet with invalid user_id returns null
+//    save on tweet with body <= 140 && body >=0 characters
+//    returns tweet
+//    save on tweet with body > 140 characters returns null
+//    getUserId(), getBody() on tweet
 
     private User generateUser(String username, String password,
                               DbConnection connection){
