@@ -3,9 +3,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class TweetTest {
     PreparedStatement preparedStatement = null;
@@ -23,26 +26,13 @@ public class TweetTest {
         deleteAllUsers();
     }
 
-//    new creates a tweet but does not save it in db
-//    save on invalid tweet keeps tweet count same
     @Test
     public void newCreatesATweetButDoesNotSaveInDatabase(){
         int countBefore = getTweetsCount();
-        Tweet tweet = new Tweet("hello", user.getId());
+        new Tweet("hello", user.getId());
         int countAfter  = getTweetsCount();
         assertEquals(countBefore, countAfter);
     }
-
-//    save on valid tweet increases tweet count by 1
-
-//    save on valid tweet returns tweet
-//    save on invalid tweet returns null
-//    save on tweet with valid user_id returns tweet
-//    save on tweet with invalid user_id returns null
-//    save on tweet with body <= 140 && body >=0 characters
-//    returns tweet
-//    save on tweet with body > 140 characters returns null
-//    getUserId(), getBody() on tweet
 
     private User generateUser(String username, String password,
                               DbConnection connection){
@@ -67,6 +57,18 @@ public class TweetTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private int getTweetsCount(){
+        int count = 0;
+        try {
+            Statement countStatement = this.connection.createStatement();
+            ResultSet res = countStatement.executeQuery("SELECT COUNT(*) AS total FROM tweets");
+            if( res.next() ) count = res.getInt("total");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
     }
 
 }
