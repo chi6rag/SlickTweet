@@ -7,11 +7,12 @@ public class UserActivity {
 
     public String getActivityOptions(){
         String activityOptions =
-                "  Welcome foo_example" +
-                        "\n\n"                  +
-                        "1. Tweet\n"            +
-                        "2. Your Timeline\n"    +
-                        "Choose: ";
+            "\nWelcome foo_example" +
+            "\n\n"                  +
+            "1. Tweet\n"            +
+            "2. Your Timeline\n"    +
+            "3. Logout\n"           +
+            "Choose: ";
         return activityOptions;
     }
 
