@@ -26,15 +26,22 @@ public class TweetTest {
     @Test
     public void newCreatesATweetButDoesNotSaveInDatabase(){
         int countBefore = getTweetsCount();
-        new Tweet("hello", user.getId());
+        new Tweet("hello", user.getId(), this.connection);
         int countAfter  = getTweetsCount();
         assertEquals(countBefore, countAfter);
     }
 
     @Test
+    public void newCreatesATweetButSetsIdNull(){
+        Tweet tweet = new Tweet("hello", user.getId(), this.connection);
+        assertEquals(tweet.getId(), null);
+    }
+
+
+    @Test
     public void saveOnValidTweetIncreasesTweetCountBy1(){
         int countBefore = getTweetsCount();
-        Tweet tweet = new Tweet("hello", user.getId());
+        Tweet tweet = new Tweet("hello", user.getId(), this.connection);
         tweet.save();
         int countAfter  = getTweetsCount();
         assertEquals(countBefore, countAfter);
