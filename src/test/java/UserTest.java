@@ -34,6 +34,8 @@ public class UserTest {
     public void testSaveWithValidUserObjectReturnsTheSavedUser(){
         User user = new User("foo_example", "123456789", this.connection);
         User savedUser = user.save();
+        assertEquals(savedUser.getId().getClass()
+                .getSimpleName(), "Integer");
         assertEquals(savedUser.getUsername(), "foo_example");
         assertEquals(savedUser.getPassword(), "123456789");
         assertEquals(savedUser.getClass().getName(), "User");
