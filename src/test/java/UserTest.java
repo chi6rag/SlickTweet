@@ -10,10 +10,6 @@ public class UserTest {
     PreparedStatement preparedStatement = null;
     DbConnection connection = new DbConnection();
 
-    @Before
-    public void beforeEach(){
-    }
-
     @After
     public void afterEach(){
         deleteAllUsers();

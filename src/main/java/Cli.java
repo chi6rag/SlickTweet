@@ -34,7 +34,16 @@ public class Cli {
                     System.exit(0);
                     break;
             }
+
+            if(isLoggedIn(currentUser)){
+
+            }
         }
 
     }
+
+    private static boolean isLoggedIn(User user){
+        return user != null;
+    }
+
 }
