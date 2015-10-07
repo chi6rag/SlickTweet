@@ -16,4 +16,9 @@ public class UserActivity {
         return activityOptions;
     }
 
+    public String askForTweet(){
+        String question = "What's in your mind?";
+        return question;
+    }
+
 }

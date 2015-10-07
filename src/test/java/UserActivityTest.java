@@ -39,7 +39,7 @@ public class UserActivityTest {
 
     @Test
     public void askForTweet(){
-        String question = "What's in your mind?\n";
+        String question = "What's in your mind?";
         assertEquals(userActivity.askForTweet(), question);
     }
 
