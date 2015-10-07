@@ -8,31 +8,29 @@ import static org.junit.Assert.assertSame;
 
 public class UserTest {
     PreparedStatement preparedStatement = null;
-    Connection connection = null;
+    DbConnection connection = new DbConnection();
 
     @Before
     public void beforeEach(){
-        initializeDBConnection();
     }
 
     @After
     public void afterEach(){
-        deleteAllUsers(connection);
+        deleteAllUsers();
     }
 
     @Test
     public void testSaveWithValidUserObjectIncreasesUserCountBy1(){
         int beforeCount = getUserCount();
-        User user = new User("foo_example", "123456789");
+        User user = new User("foo_example", "123456789", this.connection);
         user.save();
         int afterCount = getUserCount();
         assertNotEquals(beforeCount, afterCount);
-        System.out.println();
     }
 
     @Test
     public void testSaveWithValidUserObjectReturnsTheSavedUser(){
-        User user = new User("foo_example", "123456789");
+        User user = new User("foo_example", "123456789", this.connection);
         User savedUser = user.save();
         assertEquals(savedUser.getUsername(), "foo_example");
         assertEquals(savedUser.getPassword(), "123456789");
@@ -42,7 +40,7 @@ public class UserTest {
     @Test
     public void testSaveWithInvalidUserObjectKeepsUserCountSame(){
         int beforeCount = getUserCount();
-        User user = new User("ab", "123456789");
+        User user = new User("ab", "123456789", this.connection);
         user.save();
         int afterCount = getUserCount();
         assertEquals(beforeCount, afterCount);
@@ -50,29 +48,8 @@ public class UserTest {
 
     @Test
     public void testSaveWithInvalidUserObjectReturnsNull(){
-        User user = new User("ab", "123456789");
+        User user = new User("ab", "123456789", this.connection);
         assertEquals(user.save(), null);
-    }
-
-    private void initializeDBConnection(){
-        if(this.connection == null){
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                System.out.println("PostgreSQL JDBC Driver not Found!");
-                e.printStackTrace();
-                return;
-            }
-            String environment = System.getenv("ENV");
-            try {
-                this.connection = DriverManager.getConnection(
-                        "jdbc:postgresql://localhost:5432/twitchblade_" + environment,
-                        "chi6rag", "");
-                System.out.println();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private int getUserCount(){
@@ -87,9 +64,9 @@ public class UserTest {
         return count;
     }
 
-    private void deleteAllUsers(Connection connection){
+    private void deleteAllUsers(){
         try {
-            preparedStatement = connection.prepareStatement("DELETE FROM users");
+            preparedStatement = this.connection.prepareStatement("DELETE FROM users");
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

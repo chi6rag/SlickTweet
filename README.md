@@ -18,7 +18,12 @@ Setting Up: Development
     );
     ```
 3. Fire up the IntelliJ Idea IDE and import Maven Dependencies
-4. Build the project and run Cli.java
+4. Run the tests by clicking Fn + Shift + F10
+   Alternatively, run the tests by executing the following command in the
+   project root directory:
+      ```
+      ENV="testing" mvn test
+      ```
 
 Setting Up: Testing
 -----------------------
@@ -34,4 +39,7 @@ Setting Up: Testing
       CONSTRAINT username_proper CHECK ( username ~* '^[a-zA-Z0-9_]{6,20}$' )
     );
     ```
-3. Run the tests
+3. Run the tests as:
+   ```
+   ENV="testing" mvn test
+   ```

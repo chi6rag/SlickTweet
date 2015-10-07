@@ -9,19 +9,18 @@ import java.sql.SQLException;
 import java.util.Hashtable;
 
 public class UsersTest {
-    Users allUsers = new Users();
-    PreparedStatement preparedStatement = null;
-    Connection connection = null;
+    PreparedStatement preparedStatement;
+    DbConnection connection = new DbConnection();
+    Users allUsers = new Users(connection);
 
     @Before
     public void beforeEach(){
-        initializeDBConnection();
         setupTestUsers();
     }
 
     @After
     public void afterEach(){
-        deleteAllUsers(connection);
+        deleteAllUsers();
     }
 
     @Test
@@ -83,33 +82,12 @@ public class UsersTest {
         return authDetails;
     }
 
-    private void deleteAllUsers(Connection connection){
+    private void deleteAllUsers(){
         try {
-            preparedStatement = connection.prepareStatement("DELETE FROM users");
+            preparedStatement = this.connection.prepareStatement("DELETE FROM users");
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-
-    private void initializeDBConnection(){
-        if(this.connection == null){
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                System.out.println("PostgreSQL JDBC Driver not Found!");
-                e.printStackTrace();
-                return;
-            }
-            String environment = System.getenv("ENV");
-            try {
-                this.connection = DriverManager.getConnection(
-                        "jdbc:postgresql://localhost:5432/twitchblade_" + environment,
-                        "chi6rag", "");
-                System.out.println();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 

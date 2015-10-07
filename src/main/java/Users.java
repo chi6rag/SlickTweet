@@ -2,10 +2,12 @@ import java.sql.*;
 import java.util.Hashtable;
 
 public class Users {
-    Connection connection = null;
+    DbConnection connection;
     PreparedStatement userFindPreparedStatement = null;
 
-    Users(){ initializeDBConnection(); }
+    Users(DbConnection connection){
+        this.connection = connection;
+    }
 
     public User find(Hashtable authDetails){
         prepareUserFindStatement();
@@ -21,7 +23,7 @@ public class Users {
             if(res.next()){
                 String username = res.getString("username");
                 String password = res.getString("password");
-                return new User(username, password);
+                return new User(username, password, this.connection);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -54,26 +56,4 @@ public class Users {
         }
         return res;
     }
-
-    private void initializeDBConnection(){
-        if(this.connection == null){
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                System.out.println("PostgreSQL JDBC Driver not Found!");
-                e.printStackTrace();
-                return;
-            }
-            String environment = ( System.getenv("ENV") == null ?
-                    "development" : System.getenv("ENV"));
-            try {
-                this.connection = DriverManager.getConnection(
-                        "jdbc:postgresql://localhost:5432/twitchblade_"
-                                + environment, "chi6rag", "");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 }

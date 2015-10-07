@@ -1,8 +1,4 @@
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import org.junit.*;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Hashtable;
@@ -11,11 +7,10 @@ import static org.junit.Assert.assertEquals;
 public class LoginSignUpTest {
     Authentication auth = new Authentication();
     PreparedStatement preparedStatement = null;
-    Connection connection = null;
+    DbConnection connection = new DbConnection();
 
     @Before
     public void beforeEach(){
-        initializeDBConnection();
         createTestUser("foo_example", "123456789");
     }
 
@@ -81,25 +76,6 @@ public class LoginSignUpTest {
         } catch (SQLException e) {
             System.out.println("------ Unable to setup Test Data for User ------");
             e.printStackTrace();
-        }
-    }
-
-    private void initializeDBConnection(){
-        if(this.connection == null){
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                System.out.println("PostgreSQL JDBC Driver not Found!");
-                e.printStackTrace();
-                return;
-            }
-            try {
-                this.connection = DriverManager.getConnection(
-                        "jdbc:postgresql://localhost:5432/twitchblade_testing",
-                        "chi6rag", "");
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 
