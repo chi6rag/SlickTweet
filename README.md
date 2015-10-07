@@ -15,6 +15,17 @@ TwitchBlade is a command line app which lets you share messages upto 140 charact
       CONSTRAINT username_proper CHECK ( username ~* '^[a-zA-Z0-9_]{6,20}$' )
     );
     ```
+3. Create a tweets table as follows:
+
+    ```
+    CREATE TABLE tweets(
+      id SERIAL PRIMARY KEY,
+      body varchar(140) NOT NULL,
+      user_id integer REFERENCES users(id),
+      created_at timestamptz DEFAULT statement_timestamp(),
+      CONSTRAINT body_proper CHECK ( body ~* '[\w|\s]+' )
+    );
+    ```
 
 ####Running in IDE
       - Fire up the IntelliJ Idea IDE and import Maven Dependencies
@@ -43,8 +54,19 @@ TwitchBlade is a command line app which lets you share messages upto 140 charact
       CONSTRAINT username_proper CHECK ( username ~* '^[a-zA-Z0-9_]{6,20}$' )
     );
     ```
-3. Fire up the IntelliJ Idea IDE and import Maven Dependencies
-4. Run the tests by clicking Fn + Shift + F10
+3. Create a tweets table as follows
+
+    ```
+    CREATE TABLE tweets(
+      id SERIAL PRIMARY KEY,
+      body varchar(140) NOT NULL,
+      user_id integer REFERENCES users(id),
+      created_at timestamptz DEFAULT statement_timestamp(),
+      CONSTRAINT body_proper CHECK ( body ~* '[\w|\s]+' )
+    );
+    ```
+4. Fire up the IntelliJ Idea IDE and import Maven Dependencies
+5. Run the tests by clicking Fn + Shift + F10
    Alternatively, run the tests by executing the following command in the
    project root directory:
    

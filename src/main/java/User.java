@@ -3,13 +3,23 @@ import java.sql.*;
 public class User {
     String username;
     String password;
+    Integer id;
     DbConnection connection;
     PreparedStatement userSavePreparedStatement = null;
 
     User(String username, String password, DbConnection connection){
+        this.id = null;
         this.connection = connection;
         this.username = username;
         this.password = password;
+    }
+
+    private User(Integer id, String username, String password,
+                 DbConnection connection){
+        this.id         = id;
+        this.username   = username;
+        this.password   = password;
+        this.connection = connection;
     }
 
     public User save() {
@@ -28,12 +38,15 @@ public class User {
         return this.password;
     }
 
+    public Integer getId() { return this.id; }
+
     private User getUserFromDBResult(ResultSet res){
         try {
             if(res.next()){
+                Integer id = res.getInt("id");
                 String username = res.getString("username");
                 String password = res.getString("password");
-                return new User(username, password, this.connection);
+                return new User(id, username, password, this.connection);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,7 +71,7 @@ public class User {
             try {
                 this.userSavePreparedStatement = this.connection.prepareStatement
                         ("INSERT INTO users(username, password) VALUES(?, ?) " +
-                                "RETURNING username, password");
+                                "RETURNING id, username, password");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
