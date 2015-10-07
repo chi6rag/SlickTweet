@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class TweetTest {
     PreparedStatement preparedStatement = null;
@@ -37,14 +38,13 @@ public class TweetTest {
         assertEquals(tweet.getId(), null);
     }
 
-
     @Test
     public void saveOnValidTweetIncreasesTweetCountBy1(){
         int countBefore = getTweetsCount();
         Tweet tweet = new Tweet("hello", user.getId(), this.connection);
         tweet.save();
         int countAfter  = getTweetsCount();
-        assertEquals(countBefore, countAfter);
+        assertNotEquals(countBefore, countAfter);
     }
 
 //    save on invalid tweet keeps tweet count same
