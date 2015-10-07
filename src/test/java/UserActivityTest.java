@@ -37,6 +37,12 @@ public class UserActivityTest {
                 activityOptions);
     }
 
+    @Test
+    public void askForTweet(){
+        String question = "What's in your mind?\n";
+        assertEquals(userActivity.askForTweet(), question);
+    }
+
     private User getUser(String username, String password,
                          DbConnection connection){
         return (new User(username, password, connection)).save();
