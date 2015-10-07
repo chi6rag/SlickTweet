@@ -16,6 +16,12 @@ public class UserTest {
     }
 
     @Test
+    public void testNewWithValidDetailsSetsIdNull(){
+        User user = new User("foo_example", "123456789", this.connection);
+        assertEquals(user.getId(), null);
+    }
+
+    @Test
     public void testSaveWithValidUserObjectIncreasesUserCountBy1(){
         int beforeCount = getUserCount();
         User user = new User("foo_example", "123456789", this.connection);
