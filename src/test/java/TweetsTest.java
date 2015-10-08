@@ -45,6 +45,14 @@ public class TweetsTest {
         assertEquals(tweets, null);
     }
 
+    @Test
+    public void testWhereMethodWithValidUserButNoTweetsReturnsEmptyArrayList(){
+        Hashtable queryHash = new Hashtable();
+        queryHash.put("userId", user.getId());
+        ArrayList<Tweet> tweets = allTweets.where(queryHash);
+        assertEquals(tweets.size(), 0);
+    }
+
     private User generateUser(String username, String password,
                               DbConnection connection){
         return (new User(username, password, connection)).save();
