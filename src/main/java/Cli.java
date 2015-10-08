@@ -44,11 +44,15 @@ public class Cli {
                 UserActivity currentUserActivity = new UserActivity(currentUser);
                 System.out.print(currentUserActivity.getActivityOptions());
                 int userActivityChoice = scanner.nextInt();
+                scanner.nextLine();
                 switch(userActivityChoice){
                     case 1:
                         System.out.println(currentUserActivity.askForTweet());
-                        String tweetBody = scanner.next();
+                        String tweetBody = scanner.nextLine();
                         currentUserActivity.tweet(tweetBody);
+                        break;
+                    case 2:
+                        currentUserActivity.printTimeline();
                         break;
                     case 3:
                         currentUser = null;

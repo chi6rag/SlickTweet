@@ -1,4 +1,4 @@
-import javafx.animation.Timeline;
+import java.util.ArrayList;
 
 public class UserActivity {
     private DbConnection connection = new DbConnection();
@@ -10,7 +10,8 @@ public class UserActivity {
 
     public String getActivityOptions(){
         String activityOptions =
-            "\nWelcome foo_example" +
+            "\nWelcome " + this.currentUser
+                    .getUsername()  +
             "\n\n"                  +
             "1. Tweet\n"            +
             "2. Your Timeline\n"    +
@@ -32,12 +33,12 @@ public class UserActivity {
     }
 
     public void printTimeline(){
-        System.out.println("testing one");
-        System.out.println("testing two");
-//        Timeline usersTimeline = new Timeline(this.currentUser.getId(),
-//                this.connection);
-//        String printableTimeline = usersTimeline.toString();
-//        System.out.println(printableTimeline);
+        Timeline timeline = new Timeline(this.currentUser, this.connection);
+        ArrayList<Tweet> usersTweets = timeline.getTweets();
+        for(int i=0; i<usersTweets.size(); i++){
+            System.out.println( (usersTweets.get(i)).getUserId() );
+            System.out.println( (usersTweets.get(i)).getBody() );
+        }
     }
 
 }

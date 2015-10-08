@@ -75,7 +75,7 @@ public class UserActivityTest {
     }
 
     @Test
-    public void testPrintsUserTimelineOnStdOut(){
+    public void testPrintsUserTimelineOnStdOutForUserWithTweets(){
         ByteArrayOutputStream consoleOutput = mockStdOut();
         Tweet firstValidTweet = generateTweet("testing one", this.currentUser.id,
                 this.connection);
