@@ -38,11 +38,19 @@ public class TweetsTest {
     }
 
     @Test
-    public void testWhereMethodWithInvalidUserIdReturnsNull(){
+    public void testWhereMethodWithNegativeUserIdReturnsNull(){
         Hashtable queryHash = new Hashtable();
         queryHash.put("userId", -999);
         ArrayList<Tweet> tweets = allTweets.where(queryHash);
         assertEquals(tweets, null);
+    }
+
+    @Test
+    public void testWhereMethodWithInvalidUserIdReturnsEmptyArrayList(){
+        Hashtable queryHash = new Hashtable();
+        queryHash.put("userId", 987654);
+        ArrayList<Tweet> tweets = allTweets.where(queryHash);
+        assertEquals(tweets.size(), 0);
     }
 
     @Test
