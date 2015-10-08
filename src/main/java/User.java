@@ -14,7 +14,7 @@ public class User {
         this.password = password;
     }
 
-    private User(Integer id, String username, String password,
+    User(Integer id, String username, String password,
                  DbConnection connection){
         this.id         = id;
         this.username   = username;

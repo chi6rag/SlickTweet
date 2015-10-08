@@ -21,9 +21,10 @@ public class Users {
     private User getUserFromDBResult(ResultSet res){
         try {
             if(res.next()){
+                Integer id = res.getInt("id");
                 String username = res.getString("username");
                 String password = res.getString("password");
-                return new User(username, password, this.connection);
+                return new User(id, username, password, this.connection);
             }
         } catch (SQLException e) {
             e.printStackTrace();

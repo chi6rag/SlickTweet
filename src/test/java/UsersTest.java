@@ -27,6 +27,8 @@ public class UsersTest {
     public void returnsFoundUserWhenCalledWithValidArguments(){
         Hashtable authDetails = getValidAuthDetails();
         User foundUser = allUsers.find(authDetails);
+        assertEquals(foundUser.getId().getClass()
+                .getSimpleName(), "Integer");
         assertEquals(foundUser.getClass().getName(), "User");
         assertEquals(foundUser.getUsername(), "foo_example");
         assertEquals(foundUser.getPassword(), "123456789");
