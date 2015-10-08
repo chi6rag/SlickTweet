@@ -16,6 +16,14 @@ public class Tweet {
         this.connection = connection;
     }
 
+    private Tweet(Integer id, String body, Integer userId,
+                  DbConnection connection){
+        this.id = id;
+        this.body = body;
+        this.userId = userId;
+        this.connection = connection;
+    }
+
     public Tweet save(){
         prepareTweetSaveStatement();
         ResultSet res = null;
@@ -26,6 +34,14 @@ public class Tweet {
 
     public Integer getId(){
         return this.id;
+    }
+
+    public String getBody(){
+        return this.body;
+    }
+
+    public Integer getUserId(){
+        return this.userId;
     }
 
     private void prepareTweetSaveStatement(){
@@ -55,9 +71,10 @@ public class Tweet {
     private Tweet getUserFromDBResult(ResultSet res){
         try {
             if(res.next()){
+                Integer id = res.getInt("id");
                 String body = res.getString("body");
                 Integer userId = res.getInt("user_id");
-                return new Tweet(body, userId, this.connection);
+                return new Tweet(id, body, userId, this.connection);
             }
         } catch (SQLException e) {
             e.printStackTrace();
