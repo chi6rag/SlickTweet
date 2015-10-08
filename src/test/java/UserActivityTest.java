@@ -20,6 +20,7 @@ public class UserActivityTest {
 
     @After
     public void afterEach(){
+        deleteAllTweets();
         deleteAllUsers();
     }
 
@@ -62,6 +63,16 @@ public class UserActivityTest {
         try {
             preparedStatement = this.connection
                     .prepareStatement("DELETE FROM users");
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void deleteAllTweets(){
+        try {
+            preparedStatement = this.connection
+                    .prepareStatement("DELETE FROM tweets");
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -1,4 +1,5 @@
 public class UserActivity {
+    private DbConnection connection = new DbConnection();
     private User currentUser;
 
     UserActivity(User currentUser){
@@ -19,6 +20,12 @@ public class UserActivity {
     public String askForTweet(){
         String question = "What's in your mind?";
         return question;
+    }
+
+    public Tweet tweet(String tweetBody){
+        Tweet tweet = new Tweet(tweetBody, this.currentUser.getId(),
+                this.connection).save();
+        return tweet;
     }
 
 }

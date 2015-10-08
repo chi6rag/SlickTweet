@@ -68,7 +68,6 @@ public class TweetTest {
         assertEquals(savedTweet.getUserId(), user.getId());
     }
 
-    //  save on invalid tweet returns null
     @Test
     public void saveOnInvalidTweetReturnsNull(){
         String tweetBody = getInvalidTweetBody();
@@ -76,14 +75,12 @@ public class TweetTest {
         assertEquals(tweet.save(), null);
     }
 
-    //  save on tweet with invalid user_id returns null
     @Test
     public void saveOnTweetWithInvalidUserIdReturnsNull(){
         Tweet tweet = new Tweet("hello", 99911223, this.connection);
         assertEquals(tweet.save(), null);
     }
 
-    //  save on tweet with body > 140 characters returns null
     @Test
     public void saveOnTweetWithInvalidBodyReturnsNull(){
         String invalidBody = getInvalidTweetBody();
