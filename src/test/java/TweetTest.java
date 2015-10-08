@@ -68,13 +68,28 @@ public class TweetTest {
         assertEquals(savedTweet.getUserId(), user.getId());
     }
 
-//    save on invalid tweet returns null
-//    save on tweet with valid user_id returns tweet
-//    save on tweet with invalid user_id returns null
-//    save on tweet with body <= 140 && body >=0 characters
-//    returns tweet
-//    save on tweet with body > 140 characters returns null
-//    getUserId(), getBody() on tweet
+    //  save on invalid tweet returns null
+    @Test
+    public void saveOnInvalidTweetReturnsNull(){
+        String tweetBody = getInvalidTweetBody();
+        Tweet tweet = new Tweet(tweetBody, user.getId(), this.connection);
+        assertEquals(tweet.save(), null);
+    }
+
+    //  save on tweet with invalid user_id returns null
+    @Test
+    public void saveOnTweetWithInvalidUserIdReturnsNull(){
+        Tweet tweet = new Tweet("hello", 99911223, this.connection);
+        assertEquals(tweet.save(), null);
+    }
+
+    //  save on tweet with body > 140 characters returns null
+    @Test
+    public void saveOnTweetWithInvalidBodyReturnsNull(){
+        String invalidBody = getInvalidTweetBody();
+        Tweet tweet = new Tweet(invalidBody, 99911223, this.connection);
+        assertEquals(tweet.save(), null);
+    }
 
     private User generateUser(String username, String password,
                               DbConnection connection){
