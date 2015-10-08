@@ -48,7 +48,7 @@ public class UserActivityTest {
     }
 
     @Test
-    public void tweetWithValidBodyReturnsTweet(){
+    public void testTweetWithValidBodyReturnsTweet(){
         String validTweetBody = "hello";
         Tweet tweet = userActivity.tweet(validTweetBody);
         assertEquals(tweet.getClass().getName(), "Tweet");
@@ -59,16 +59,16 @@ public class UserActivityTest {
     }
 
     @Test
-    public void tweetWithInvalidBodyReturnsNull(){
+    public void testTweetWithInvalidBodyReturnsNull(){
         Tweet tweet = userActivity.tweet(getInvalidTweetBody());
         assertEquals(tweet, null);
     }
 
     @Test
-    public void tweetWithInvalidBodyPrintsErrorOnStdOut(){
+    public void testTweetWithInvalidBodyPrintsErrorOnStdOut(){
         ByteArrayOutputStream consoleOutput = new ByteArrayOutputStream();
         System.setOut(new PrintStream(consoleOutput));
-        Tweet tweet = userActivity.tweet(getInvalidTweetBody());
+        userActivity.tweet(getInvalidTweetBody());
         CharSequence errorMessage = "Tweet cannot be saved";
         assertTrue(consoleOutput.toString().contains(errorMessage));
         System.setOut(System.out);

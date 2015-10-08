@@ -28,7 +28,7 @@ public class Tweet {
         prepareTweetSaveStatement();
         ResultSet res = null;
         res = insertUserIntoDB(this.body, this.userId);
-        if(res != null) return getUserFromDBResult(res);
+        if(res != null) return getTweetFromDBResult(res);
         return null;
     }
 
@@ -68,7 +68,7 @@ public class Tweet {
         return res;
     }
 
-    private Tweet getUserFromDBResult(ResultSet res){
+    private Tweet getTweetFromDBResult(ResultSet res){
         try {
             if(res.next()){
                 Integer id = res.getInt("id");
