@@ -74,9 +74,27 @@ public class UserActivityTest {
         System.setOut(System.out);
     }
 
+    @Test
+    public void testPrintsUserTimelineOnStdOut(){
+        ByteArrayOutputStream consoleOutput = mockStdOut();
+        Tweet firstValidTweet = generateTweet("hello", this.currentUser.id,
+                this.connection);
+        Tweet secondValidTweet = generateTweet("hello", this.currentUser.id,
+                this.connection);
+        userActivity.printTimeline();
+        assertContains(consoleOutput.toString(), firstValidTweet.getBody());
+        assertContains(consoleOutput.toString(), secondValidTweet.getBody());
+        setStdOutToDefault();
+    }
+
     private User generateUser(String username, String password,
-                         DbConnection connection){
+                              DbConnection connection){
         return (new User(username, password, connection)).save();
+    }
+
+    private Tweet generateTweet(String tweetBody, Integer userId,
+                              DbConnection connection){
+        return (new Tweet(tweetBody, userId, connection)).save();
     }
 
     private void deleteAllUsers(){
@@ -87,6 +105,16 @@ public class UserActivityTest {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private ByteArrayOutputStream mockStdOut(){
+        ByteArrayOutputStream consoleOutput = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(consoleOutput));
+        return consoleOutput;
+    }
+
+    private void setStdOutToDefault(){
+        System.setOut(System.out);
     }
 
     private void deleteAllTweets(){
@@ -113,6 +141,10 @@ public class UserActivityTest {
                 "alias necessitatibus nobis quidem unde ducimus. Repudiandae mollitia "    +
                 "nostrum, possimus velit.";
         return tweetBody;
+    }
+
+    private void assertContains(String parentString, String subString){
+        assertTrue(parentString.contains(subString));
     }
 
 }

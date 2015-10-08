@@ -29,4 +29,8 @@ public class UserActivity {
         return tweet;
     }
 
+    public void printTimeline(){
+        System.out.println("hello");
+    }
+
 }
