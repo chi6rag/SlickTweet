@@ -1,3 +1,5 @@
+import javafx.animation.Timeline;
+
 public class UserActivity {
     private DbConnection connection = new DbConnection();
     private User currentUser;
@@ -30,7 +32,12 @@ public class UserActivity {
     }
 
     public void printTimeline(){
-        System.out.println("hello");
+        System.out.println("testing one");
+        System.out.println("testing two");
+//        Timeline usersTimeline = new Timeline(this.currentUser.getId(),
+//                this.connection);
+//        String printableTimeline = usersTimeline.toString();
+//        System.out.println(printableTimeline);
     }
 
 }

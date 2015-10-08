@@ -77,9 +77,9 @@ public class UserActivityTest {
     @Test
     public void testPrintsUserTimelineOnStdOut(){
         ByteArrayOutputStream consoleOutput = mockStdOut();
-        Tweet firstValidTweet = generateTweet("hello", this.currentUser.id,
+        Tweet firstValidTweet = generateTweet("testing one", this.currentUser.id,
                 this.connection);
-        Tweet secondValidTweet = generateTweet("hello", this.currentUser.id,
+        Tweet secondValidTweet = generateTweet("testing two", this.currentUser.id,
                 this.connection);
         userActivity.printTimeline();
         assertContains(consoleOutput.toString(), firstValidTweet.getBody());
