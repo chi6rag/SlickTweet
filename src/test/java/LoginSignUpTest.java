@@ -1,8 +1,12 @@
 import org.junit.*;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Hashtable;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class LoginSignUpTest {
     Authentication auth = new Authentication();
@@ -63,6 +67,46 @@ public class LoginSignUpTest {
         Hashtable validNotUniqueUserDetails = getUserDetails("foo_example",
                 "123456789");
         assertEquals(auth.signUp(validNotUniqueUserDetails), null);
+    }
+
+    @Test
+    public void testSignUpWithInvalidUsernamePrintsAuthError(){
+        ByteArrayOutputStream consoleOutput = mockStdOut();
+        Hashtable invalidUserDetails = getUserDetails("ab", "123456789");
+        String authErrorMessage =
+            "\nUsername or Password Not Proper\n" +
+            "Username can only contain letters, numbers and underscores\n" +
+            "and it can only be 6 to 20 characters\n";
+        auth.signUp(invalidUserDetails);
+        assertContains(consoleOutput.toString(), authErrorMessage);
+        setStdOutToDefault();
+    }
+
+    @Test
+    public void testLoginWithInvalidUsernamePasswordPrintsAuthError(){
+        ByteArrayOutputStream consoleOutput = mockStdOut();
+        Hashtable invalidUserDetails = getUserDetails("ab", "123456789");
+        String authErrorMessage =
+            "\nUsername or Password Not Proper\n" +
+            "Username can only contain letters, numbers and underscores\n" +
+            "and it can only be 6 to 20 characters\n";
+        auth.login(invalidUserDetails);
+        assertContains(consoleOutput.toString(), authErrorMessage);
+        setStdOutToDefault();
+    }
+
+    private void assertContains(String parentString, String subString){
+        assertTrue(parentString.contains(subString));
+    }
+
+    private ByteArrayOutputStream mockStdOut(){
+        ByteArrayOutputStream consoleOutput = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(consoleOutput));
+        return consoleOutput;
+    }
+
+    private void setStdOutToDefault(){
+        System.setOut(System.out);
     }
 
     private void createTestUser(String username, String password){
