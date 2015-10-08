@@ -26,12 +26,27 @@ public class TimelineTest {
     }
 
     @Test
-    public void testGetTweetsForValidUserIdReturnsUsersTweets(){
+    public void testGetTweetsForUserReturnsUsersTweets(){
         generateTweet("hello", currentUser.getId(), this.connection);
         ArrayList<Tweet> tweets = timeline.getTweets();
         for(int i=0; i<tweets.size(); i++){
             assertEquals( (tweets.get(i)).getUserId(), currentUser.getId() );
         }
+    }
+
+    @Test
+    public void testGetTweetsReturnsBlankArrayListForValidUserWithNoTweets(){
+        ArrayList<Tweet> tweets = timeline.getTweets();
+        assertEquals(tweets.size(), 0);
+    }
+
+    @Test
+    public void testGetTweetsReturnsNullForUnsavedUser(){
+        User unsavedUser = new User("baz_example", "123456789",
+                this.connection);
+        timeline = new Timeline(unsavedUser, this.connection);
+        ArrayList<Tweet> tweets = timeline.getTweets();
+        assertEquals(tweets, null);
     }
 
     private User generateUser(String username, String password,
