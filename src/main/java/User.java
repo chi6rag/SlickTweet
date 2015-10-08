@@ -1,3 +1,5 @@
+import sun.rmi.runtime.Log;
+
 import java.sql.*;
 
 public class User {
@@ -61,7 +63,7 @@ public class User {
             this.userSavePreparedStatement.setString(2, password);
             res = this.userSavePreparedStatement.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
         return res;
     }

@@ -17,24 +17,22 @@ public class Cli {
                     case 1:
                         authDetails = authentication.getAuthDetails();
                         currentUser = authentication.signUp(authDetails);
-                        System.out.println(currentUser);
                         if(currentUser != null){
-                            System.out.println("Signed Up");
+                            System.out.println("\nSigned Up");
                         }
                         break;
                     case 2:
                         authDetails = authentication.getAuthDetails();
                         currentUser = authentication.login(authDetails);
-                        System.out.println(currentUser);
                         if(currentUser != null){
-                            System.out.println("Logged In");
+                            System.out.println("\nLogged In");
                         }
                         break;
                     case 3:
                         System.exit(0);
                         break;
                     default:
-                        System.out.println("Unrecognized Option");
+                        System.out.println("\nUnrecognized Option");
                         System.exit(0);
                         break;
                 }

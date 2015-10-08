@@ -29,14 +29,31 @@ public class Authentication {
     }
 
     public User login(Hashtable authDetails){
-        return allUsers.find(authDetails);
+        User user = allUsers.find(authDetails);
+        if(user == null){
+            printAuthErrorMessage();
+        }
+        return user;
     }
 
     public User signUp(Hashtable authDetails){
         String username = (String) authDetails.get("username");
         String password = (String) authDetails.get("password");
         User user = new User(username, password, connection);
-        return user.save();
+        User savedUser = user.save();
+        if(savedUser == null){
+            printAuthErrorMessage();
+            return null;
+        }
+        return savedUser;
+    }
+
+    private void printAuthErrorMessage(){
+        String authErrorMessage =
+            "\nUsername or Password Not Proper\n" +
+            "Username can only contain letters, numbers and underscores\n" +
+            "and it can only be 6 to 20 characters\n";
+        System.out.println(authErrorMessage);
     }
 
 }

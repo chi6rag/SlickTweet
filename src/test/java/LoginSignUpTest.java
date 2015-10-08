@@ -1,31 +1,31 @@
 import org.junit.*;
-
 import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Hashtable;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class LoginSignUpTest {
     Authentication auth = new Authentication();
-    PreparedStatement preparedStatement = null;
     DbConnection connection = new DbConnection();
+
+    // Objects of helper classes
+    UserTestHelper userTestHelper = new UserTestHelper(connection);
+    AssertionTestHelper assertionTestHelper = new AssertionTestHelper();
+    IOTestHelper ioTestHelper = new IOTestHelper();
 
     @Before
     public void beforeEach(){
-        createTestUser("foo_example", "123456789");
+        userTestHelper.createTestUser("foo_example", "123456789");
     }
 
     @After
     public void afterEach(){
-        deleteAllUsers();
+        userTestHelper.deleteAllUsers();
     }
 
     @Test
     public void testLoginWithValidDetailsReturnsLoggedInUser(){
-        Hashtable validUserDetails = getUserDetails("foo_example", "123456789");
+        Hashtable validUserDetails = userTestHelper
+                .getUserDetails("foo_example", "123456789");
         User currentUser = auth.login(validUserDetails);
         assertEquals(currentUser.getClass().getName(), "User");
         assertEquals(currentUser.getUsername(), "foo_example");
@@ -34,7 +34,8 @@ public class LoginSignUpTest {
 
     @Test
     public void testLoginWithInvalidDetailsReturnsNull(){
-        Hashtable invalidUserDetails = getUserDetails("baz_example", "123456789");
+        Hashtable invalidUserDetails = userTestHelper
+                .getUserDetails("baz_example", "123456789");
         assertEquals(auth.login(invalidUserDetails), null);
     }
 
@@ -48,8 +49,8 @@ public class LoginSignUpTest {
 
     @Test
     public void testSignUpWithValidAndUniqueUserDetailsReturnSignedUpUser(){
-        Hashtable validUniqueUserDetails = getUserDetails("baz_example",
-                "123456789");
+        Hashtable validUniqueUserDetails = userTestHelper
+                .getUserDetails("baz_example", "123456789");
         User currentUser = auth.signUp(validUniqueUserDetails);
         assertEquals(currentUser.getClass().getName(), "User");
         assertEquals(currentUser.getUsername(), "baz_example");
@@ -58,86 +59,47 @@ public class LoginSignUpTest {
 
     @Test
     public void testSignUpWithInvalidDetailsReturnsNull(){
-        Hashtable invalidUserDetails = getUserDetails("aa", "123456789");
+        Hashtable invalidUserDetails = userTestHelper
+                .getUserDetails("aa", "123456789");
         assertEquals(auth.signUp(invalidUserDetails), null);
     }
 
     @Test
     public void testSignUpWithValidButNotUniqueUserDetailsReturnsNull(){
-        Hashtable validNotUniqueUserDetails = getUserDetails("foo_example",
-                "123456789");
+        Hashtable validNotUniqueUserDetails = userTestHelper
+                .getUserDetails("foo_example", "123456789");
         assertEquals(auth.signUp(validNotUniqueUserDetails), null);
     }
 
     @Test
     public void testSignUpWithInvalidUsernamePrintsAuthError(){
-        ByteArrayOutputStream consoleOutput = mockStdOut();
-        Hashtable invalidUserDetails = getUserDetails("ab", "123456789");
-        String authErrorMessage =
-            "\nUsername or Password Not Proper\n" +
-            "Username can only contain letters, numbers and underscores\n" +
-            "and it can only be 6 to 20 characters\n";
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        Hashtable invalidUserDetails = userTestHelper
+                .getUserDetails("ab", "123456789");
+        String authErrorMessage = getAuthErrorMessage();
         auth.signUp(invalidUserDetails);
-        assertContains(consoleOutput.toString(), authErrorMessage);
-        setStdOutToDefault();
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                authErrorMessage);
+        ioTestHelper.setStdOutToDefault();
     }
 
     @Test
     public void testLoginWithInvalidUsernamePasswordPrintsAuthError(){
-        ByteArrayOutputStream consoleOutput = mockStdOut();
-        Hashtable invalidUserDetails = getUserDetails("ab", "123456789");
-        String authErrorMessage =
-            "\nUsername or Password Not Proper\n" +
-            "Username can only contain letters, numbers and underscores\n" +
-            "and it can only be 6 to 20 characters\n";
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        Hashtable invalidUserDetails = userTestHelper
+                .getUserDetails("ab", "123456789");
+        String authErrorMessage = getAuthErrorMessage();
         auth.login(invalidUserDetails);
-        assertContains(consoleOutput.toString(), authErrorMessage);
-        setStdOutToDefault();
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                authErrorMessage);
+        ioTestHelper.setStdOutToDefault();
     }
 
-    private void assertContains(String parentString, String subString){
-        assertTrue(parentString.contains(subString));
-    }
-
-    private ByteArrayOutputStream mockStdOut(){
-        ByteArrayOutputStream consoleOutput = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(consoleOutput));
-        return consoleOutput;
-    }
-
-    private void setStdOutToDefault(){
-        System.setOut(System.out);
-    }
-
-    private void createTestUser(String username, String password){
-        try {
-            preparedStatement = connection.prepareStatement(
-                    "INSERT INTO users(username, password) VALUES(?, ?)"
-            );
-            preparedStatement.setString(1, username);
-            preparedStatement.setString(2, password);
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            System.out.println("------ Unable to setup Test Data for User ------");
-            e.printStackTrace();
-        }
-    }
-
-    private Hashtable getUserDetails(String username, String password){
-        Hashtable userDetails = new Hashtable();
-        userDetails.put("username", username);
-        userDetails.put("password", password);
-        return userDetails;
-    }
-
-    private void deleteAllUsers(){
-        try {
-            preparedStatement = this.connection
-                    .prepareStatement("DELETE FROM users");
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private String getAuthErrorMessage(){
+        String authErrorMessage = "\nUsername or Password Not Proper\n" +
+        "Username can only contain letters, numbers and underscores\n"  +
+        "and it can only be 6 to 20 characters\n";
+        return authErrorMessage;
     }
 
 }

@@ -1,18 +1,17 @@
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import java.sql.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertSame;
+
+import static org.junit.Assert.*;
 
 public class UserTest {
-    PreparedStatement preparedStatement = null;
     DbConnection connection = new DbConnection();
+
+    // Objects of helper classes
+    UserTestHelper userTestHelper = new UserTestHelper(connection);
 
     @After
     public void afterEach(){
-        deleteAllUsers();
+        userTestHelper.deleteAllUsers();
     }
 
     @Test
@@ -23,10 +22,10 @@ public class UserTest {
 
     @Test
     public void testSaveWithValidUserObjectIncreasesUserCountBy1(){
-        int beforeCount = getUserCount();
+        int beforeCount = userTestHelper.getUserCount();
         User user = new User("foo_example", "123456789", this.connection);
         user.save();
-        int afterCount = getUserCount();
+        int afterCount = userTestHelper.getUserCount();
         assertNotEquals(beforeCount, afterCount);
     }
 
@@ -43,10 +42,10 @@ public class UserTest {
 
     @Test
     public void testSaveWithInvalidUserObjectKeepsUserCountSame(){
-        int beforeCount = getUserCount();
+        int beforeCount = userTestHelper.getUserCount();
         User user = new User("ab", "123456789", this.connection);
         user.save();
-        int afterCount = getUserCount();
+        int afterCount = userTestHelper.getUserCount();
         assertEquals(beforeCount, afterCount);
     }
 
@@ -54,27 +53,6 @@ public class UserTest {
     public void testSaveWithInvalidUserObjectReturnsNull(){
         User user = new User("ab", "123456789", this.connection);
         assertEquals(user.save(), null);
-    }
-
-    private int getUserCount(){
-        int count = 0;
-        try {
-            Statement countStatement = this.connection.createStatement();
-            ResultSet res = countStatement.executeQuery("SELECT COUNT(*) AS total FROM users");
-            if( res.next() ) count = res.getInt("total");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return count;
-    }
-
-    private void deleteAllUsers(){
-        try {
-            preparedStatement = this.connection.prepareStatement("DELETE FROM users");
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 }

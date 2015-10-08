@@ -1,31 +1,31 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class UserActivityTest {
     DbConnection connection = new DbConnection();
-    PreparedStatement preparedStatement = null;
     User currentUser;
     UserActivity userActivity;
 
+    // Objects of helper classes
+    UserTestHelper userTestHelper = new UserTestHelper(connection);
+    TweetTestHelper tweetTestHelper = new TweetTestHelper(connection);
+    IOTestHelper ioTestHelper = new IOTestHelper();
+    AssertionTestHelper assertionTestHelper = new AssertionTestHelper();
+
     @Before
     public void beforeEach(){
-        currentUser = generateUser("foo_example", "123456789", connection);
+        currentUser = userTestHelper.getSavedUserObject("foo_example",
+                "123456789", connection);
         userActivity = new UserActivity(currentUser);
     }
 
     @After
     public void afterEach(){
-        deleteAllTweets();
-        deleteAllUsers();
+        tweetTestHelper.deleteAllTweets();
+        userTestHelper.deleteAllUsers();
     }
 
     @Test
@@ -60,91 +60,33 @@ public class UserActivityTest {
 
     @Test
     public void testTweetWithInvalidBodyReturnsNull(){
-        Tweet tweet = userActivity.tweet(getInvalidTweetBody());
+        String invalidTweetBody = tweetTestHelper.getInvalidTweetBody();
+        Tweet tweet = userActivity.tweet(invalidTweetBody);
         assertEquals(tweet, null);
     }
 
     @Test
     public void testTweetWithInvalidBodyPrintsErrorOnStdOut(){
-        ByteArrayOutputStream consoleOutput = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(consoleOutput));
-        userActivity.tweet(getInvalidTweetBody());
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        String invalidTweetbody = tweetTestHelper.getInvalidTweetBody();
+        userActivity.tweet(invalidTweetbody);
         CharSequence errorMessage = "Tweet cannot be saved";
-        assertTrue(consoleOutput.toString().contains(errorMessage));
-        System.setOut(System.out);
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                (String) errorMessage);
+        ioTestHelper.setStdOutToDefault();
     }
 
     @Test
     public void testPrintsUserTimelineOnStdOutForUserWithTweets(){
-        ByteArrayOutputStream consoleOutput = mockStdOut();
-        Tweet firstValidTweet = generateTweet("testing one", this.currentUser.id,
-                this.connection);
-        Tweet secondValidTweet = generateTweet("testing two", this.currentUser.id,
-                this.connection);
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        Tweet firstValidTweet = tweetTestHelper.getSavedTweetObject("testing one",
+                this.currentUser.id, this.connection);
+        Tweet secondValidTweet = tweetTestHelper.getSavedTweetObject("testing two",
+                this.currentUser.id, this.connection);
         userActivity.printTimeline();
-        assertContains(consoleOutput.toString(), firstValidTweet.getBody());
-        assertContains(consoleOutput.toString(), secondValidTweet.getBody());
-        setStdOutToDefault();
-    }
-
-    private User generateUser(String username, String password,
-                              DbConnection connection){
-        return (new User(username, password, connection)).save();
-    }
-
-    private Tweet generateTweet(String tweetBody, Integer userId,
-                              DbConnection connection){
-        return (new Tweet(tweetBody, userId, connection)).save();
-    }
-
-    private void deleteAllUsers(){
-        try {
-            preparedStatement = this.connection
-                    .prepareStatement("DELETE FROM users");
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private ByteArrayOutputStream mockStdOut(){
-        ByteArrayOutputStream consoleOutput = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(consoleOutput));
-        return consoleOutput;
-    }
-
-    private void setStdOutToDefault(){
-        System.setOut(System.out);
-    }
-
-    private void deleteAllTweets(){
-        try {
-            preparedStatement = this.connection
-                    .prepareStatement("DELETE FROM tweets");
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String getInvalidTweetBody(){
-        String tweetBody = "Lorem ipsum dolor sit amet, consectetur adipisicing elit." +
-                "Rem, incidunt eos delectus veniam cupiditate possimus in velit, quia"     +
-                " sed perspiciatis similique suscipit tempora laborum reprehenderit "      +
-                "maxime nulla. Maiores, id, error.\n"                                      +
-                "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae "    +
-                "beatae nostrum maiores voluptatum atque repellat necessitatibus ullam "   +
-                "molestias, mollitia neque quidem molestiae totam commodi ut sed dolorum." +
-                " Adipisci amet, molestias.\n"                                             +
-                "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum "       +
-                "incidunt tenetur error in veniam, vitae aut aliquid repellat dolores "    +
-                "alias necessitatibus nobis quidem unde ducimus. Repudiandae mollitia "    +
-                "nostrum, possimus velit.";
-        return tweetBody;
-    }
-
-    private void assertContains(String parentString, String subString){
-        assertTrue(parentString.contains(subString));
+        assertionTestHelper.assertContains(consoleOutput.toString(), firstValidTweet.getBody());
+        assertionTestHelper.assertContains(consoleOutput.toString(), secondValidTweet.getBody());
+        ioTestHelper.setStdOutToDefault();
     }
 
 }

@@ -1,33 +1,35 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import static org.junit.Assert.assertEquals;
 
 public class TweetsTest {
-    PreparedStatement preparedStatement = null;
     Tweets allTweets;
     DbConnection connection = new DbConnection();
     User user;
 
+    // Objects of helper classes
+    UserTestHelper userTestHelper = new UserTestHelper(connection);
+    TweetTestHelper tweetTestHelper = new TweetTestHelper(connection);
+
     @Before
     public void beforeEach(){
-        user = generateUser("foo_example", "123456789", connection);
+        user = userTestHelper.getSavedUserObject("foo_example",
+                "123456789", connection);
         allTweets = new Tweets(this.connection);
     }
 
     @After
     public void afterEach(){
-        deleteAllTweets();
-        deleteAllUsers();
+        tweetTestHelper.deleteAllTweets();
+        userTestHelper.deleteAllUsers();
     }
 
     @Test
     public void testWhereMethodWithValidUserIdReturnsTweetsForUser(){
-        generateTweet("hello", user.getId(), this.connection);
+        tweetTestHelper.getSavedTweetObject("hello", user.getId(), this.connection);
         Hashtable queryHash = new Hashtable();
         queryHash.put("userId", user.getId());
         ArrayList<Tweet> tweets = allTweets.where(queryHash);
@@ -59,36 +61,6 @@ public class TweetsTest {
         queryHash.put("userId", user.getId());
         ArrayList<Tweet> tweets = allTweets.where(queryHash);
         assertEquals(tweets.size(), 0);
-    }
-
-    private User generateUser(String username, String password,
-                              DbConnection connection){
-        return (new User(username, password, connection)).save();
-    }
-
-    private Tweet generateTweet(String body, Integer userId,
-                                DbConnection connection){
-        return (new Tweet(body, userId, connection)).save();
-    }
-
-    private void deleteAllTweets(){
-        try {
-            preparedStatement = this.connection
-                    .prepareStatement("DELETE FROM tweets");
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void deleteAllUsers(){
-        try {
-            preparedStatement = this.connection
-                    .prepareStatement("DELETE FROM users");
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 }
