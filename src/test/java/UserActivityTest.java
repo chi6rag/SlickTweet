@@ -1,7 +1,6 @@
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -15,7 +14,7 @@ public class UserActivityTest {
 
     @Before
     public void beforeEach(){
-        currentUser = getUser("foo_example", "123456789", connection);
+        currentUser = generateUser("foo_example", "123456789", connection);
         userActivity = new UserActivity(currentUser);
     }
 
@@ -38,12 +37,23 @@ public class UserActivityTest {
     }
 
     @Test
-    public void askForTweet(){
+    public void testAsksForTweet(){
         String question = "What's in your mind?";
         assertEquals(userActivity.askForTweet(), question);
     }
 
-    private User getUser(String username, String password,
+    @Test
+    public void tweetWithValidBodyReturnsTweet(){
+        String validTweetBody = "hello";
+        Tweet tweet = userActivity.tweet(validTweetBody);
+        assertEquals(tweet.getClass().getName(), "Tweet");
+        assertEquals(tweet.getId().getClass()
+                .getSimpleName(), "Integer");
+        assertEquals(tweet.getBody(), "hello");
+        assertEquals(tweet.getUserId(), currentUser.getId());
+    }
+
+    private User generateUser(String username, String password,
                          DbConnection connection){
         return (new User(username, password, connection)).save();
     }
