@@ -23,8 +23,9 @@ public class UserActivity {
     }
 
     public Tweet tweet(String tweetBody){
-        Tweet tweet = new Tweet(tweetBody, this.currentUser.getId(),
-                this.connection).save();
+        Tweet tweet = (new Tweet(tweetBody, this.currentUser.getId(),
+                this.connection)).save();
+        if(tweet == null) System.out.println("Tweet cannot be saved");
         return tweet;
     }
 

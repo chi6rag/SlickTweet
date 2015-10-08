@@ -41,9 +41,22 @@ public class Cli {
             }
 
             if(isLoggedIn(currentUser)){
-                UserActivity userActivity = new UserActivity(currentUser);
-                System.out.print(userActivity.getActivityOptions());
+                UserActivity currentUserActivity = new UserActivity(currentUser);
+                System.out.print(currentUserActivity.getActivityOptions());
                 int userActivityChoice = scanner.nextInt();
+                switch(userActivityChoice){
+                    case 1:
+                        System.out.println(currentUserActivity.askForTweet());
+                        String tweetBody = scanner.next();
+                        currentUserActivity.tweet(tweetBody);
+                        break;
+                    case 3:
+                        currentUser = null;
+                        break;
+                    default:
+                        System.out.println("Wrong Choice");
+                        break;
+                }
             }
 
         }
