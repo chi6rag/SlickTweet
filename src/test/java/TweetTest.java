@@ -47,29 +47,27 @@ public class TweetTest {
         assertNotEquals(countBefore, countAfter);
     }
 
-    //  save on invalid tweet keeps tweet count same
     @Test
     public void saveOnInvalidTweetKeepsUserCountSame(){
         int countBefore = getTweetsCount();
-        String tweetBody = "Lorem ipsum dolor sit amet, consectetur adipisicing elit." +
-            "Rem, incidunt eos delectus veniam cupiditate possimus in velit, quia"     +
-            " sed perspiciatis similique suscipit tempora laborum reprehenderit "      +
-            "maxime nulla. Maiores, id, error.\n"                                      +
-            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae "    +
-            "beatae nostrum maiores voluptatum atque repellat necessitatibus ullam "   +
-            "molestias, mollitia neque quidem molestiae totam commodi ut sed dolorum." +
-            " Adipisci amet, molestias.\n"                                             +
-            "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum "       +
-            "incidunt tenetur error in veniam, vitae aut aliquid repellat dolores "    +
-            "alias necessitatibus nobis quidem unde ducimus. Repudiandae mollitia "    +
-            "nostrum, possimus velit.";
+        String tweetBody = getInvalidTweetBody();
         Tweet tweet = new Tweet(tweetBody, user.getId(), this.connection);
         tweet.save();
         int countAfter  = getTweetsCount();
         assertEquals(countBefore, countAfter);
     }
 
-//    save on valid tweet returns tweet
+    @Test
+    public void saveOnValidTweetReturnsTweet(){
+        Tweet tweet = new Tweet("hello", user.getId(), this.connection);
+        Tweet savedTweet = tweet.save();
+        assertEquals(savedTweet.getClass().getName(), "Tweet");
+        assertEquals(savedTweet.getId().getClass()
+                .getSimpleName(), "Integer");
+        assertEquals(savedTweet.getBody(), "hello");
+        assertEquals(savedTweet.getUserId(), user.getId());
+    }
+
 //    save on invalid tweet returns null
 //    save on tweet with valid user_id returns tweet
 //    save on tweet with invalid user_id returns null
@@ -113,6 +111,22 @@ public class TweetTest {
             e.printStackTrace();
         }
         return count;
+    }
+
+    private String getInvalidTweetBody(){
+        String tweetBody = "Lorem ipsum dolor sit amet, consectetur adipisicing elit." +
+                "Rem, incidunt eos delectus veniam cupiditate possimus in velit, quia"     +
+                " sed perspiciatis similique suscipit tempora laborum reprehenderit "      +
+                "maxime nulla. Maiores, id, error.\n"                                      +
+                "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae "    +
+                "beatae nostrum maiores voluptatum atque repellat necessitatibus ullam "   +
+                "molestias, mollitia neque quidem molestiae totam commodi ut sed dolorum." +
+                " Adipisci amet, molestias.\n"                                             +
+                "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum "       +
+                "incidunt tenetur error in veniam, vitae aut aliquid repellat dolores "    +
+                "alias necessitatibus nobis quidem unde ducimus. Repudiandae mollitia "    +
+                "nostrum, possimus velit.";
+        return tweetBody;
     }
 
 }
