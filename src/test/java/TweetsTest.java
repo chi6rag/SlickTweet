@@ -3,6 +3,7 @@ import org.junit.Before;
 import org.junit.Test;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import static org.junit.Assert.assertEquals;
 
@@ -26,17 +27,32 @@ public class TweetsTest {
 
     @Test
     public void testWhereMethodWithValidUserIdReturnsTweetsForUser(){
+        generateTweet("hello", user.getId(), this.connection);
         Hashtable queryHash = new Hashtable();
         queryHash.put("userId", user.getId());
-        Tweets[] tweets = allTweets.where(queryHash);
-        for(int i=0; i<tweets.length; i++){
-            assertEquals((tweets[i]).getId(), user.getId());
+        ArrayList<Tweet> tweets = allTweets.where(queryHash);
+        for(int i=0; i<tweets.size(); i++){
+            assertEquals( (tweets.get(i) ).getUserId(), user.getId());
+            assertEquals( (tweets.get(i) ).getClass().getName(), "Tweet");
         }
+    }
+
+    @Test
+    public void testWhereMethodWithInalidUserIdReturnsNull(){
+        Hashtable queryHash = new Hashtable();
+        queryHash.put("userId", -999);
+        ArrayList<Tweet> tweets = allTweets.where(queryHash);
+        assertEquals(tweets, null);
     }
 
     private User generateUser(String username, String password,
                               DbConnection connection){
         return (new User(username, password, connection)).save();
+    }
+
+    private Tweet generateTweet(String body, Integer userId,
+                                DbConnection connection){
+        return (new Tweet(body, userId, connection)).save();
     }
 
     private void deleteAllTweets(){
