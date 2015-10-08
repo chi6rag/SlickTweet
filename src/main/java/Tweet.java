@@ -16,8 +16,8 @@ public class Tweet {
         this.connection = connection;
     }
 
-    private Tweet(Integer id, String body, Integer userId,
-                  DbConnection connection){
+    Tweet(Integer id, String body, Integer userId,
+          DbConnection connection){
         this.id = id;
         this.body = body;
         this.userId = userId;
@@ -48,7 +48,7 @@ public class Tweet {
         try {
             this.tweetSavePreparedStatement = this.connection.prepareStatement("INSERT" +
                     " INTO tweets(body, user_id) VALUES(?, ?) RETURNING id, body," +
-                    " user_id");
+                    " user_id, created_at");
         } catch (SQLException e) {
             e.printStackTrace();
         }

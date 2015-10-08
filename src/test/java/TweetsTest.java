@@ -38,7 +38,7 @@ public class TweetsTest {
     }
 
     @Test
-    public void testWhereMethodWithInalidUserIdReturnsNull(){
+    public void testWhereMethodWithInvalidUserIdReturnsNull(){
         Hashtable queryHash = new Hashtable();
         queryHash.put("userId", -999);
         ArrayList<Tweet> tweets = allTweets.where(queryHash);
