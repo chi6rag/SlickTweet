@@ -29,16 +29,18 @@ TwitchBlade is a command line app which lets you share messages upto 140 charact
 
 ####Running in IDE
       - Fire up the IntelliJ Idea IDE and import Maven Dependencies
-      - Right click on main > java > Cli and click Run.
+      - Right click on main > java > net.chi6rag.twitchblade > Cli and click Run.
 
 ####Running on the Command Line
       - Install the maven dependencies by running the following command:
         ```
-        mvn install
+        ENV="development" mvn install
         ```
+        Note: Running the command will clean the database
+
       - Run the application by running the following command:
         ```
-        mvn exec:java -Dexec.mainClass="Cli"
+        mvn exec:java -Dexec.mainClass="net.chi6rag.twitchblade.Cli"
         ```
 
 ###Setting Up: Testing
