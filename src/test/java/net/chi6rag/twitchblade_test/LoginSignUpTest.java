@@ -139,7 +139,7 @@ public class LoginSignUpTest {
     private String getSignUpErrorMessage(){
         String signUpErrorMessage = "\nInvalid Username or Password\n"            +
                 "- Username can only contain letters, numbers and underscores\n"  +
-                "  and it can only be 6 to 20 characters long\n"                       +
+                "  and it can only be 6 to 20 characters long\n"                  +
                 "- Password must be at least 6 characters long\n";
         return signUpErrorMessage;
     }

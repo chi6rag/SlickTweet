@@ -33,7 +33,7 @@ public class Authentication {
     public User login(Hashtable authDetails){
         User user = allUsers.find(authDetails);
         if(user == null){
-            printAuthErrorMessage();
+            printLoginErrorMessage();
         }
         return user;
     }
@@ -53,17 +53,13 @@ public class Authentication {
     private void printSignUpErrorMessage(){
         String signUpErrorMessage = "\nInvalid Username or Password\n"            +
                 "- Username can only contain letters, numbers and underscores\n"  +
-                "  and it can only be 6 to 20 characters\n"                       +
+                "  and it can only be 6 to 20 characters long\n"                  +
                 "- Password must be at least 6 characters long\n";
         System.out.println(signUpErrorMessage);
     }
 
-    private void printAuthErrorMessage(){
-        String authErrorMessage =
-            "\nUsername or Password Not Proper\n" +
-            "Username can only contain letters, numbers and underscores\n" +
-            "and it can only be 6 to 20 characters\n";
-        System.out.println(authErrorMessage);
+    private void printLoginErrorMessage(){
+        System.out.println("\nInvalid Username or Password Combination\n");
     }
 
 }
