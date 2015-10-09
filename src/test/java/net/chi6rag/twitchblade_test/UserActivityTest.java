@@ -7,6 +7,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Field;
+
 import static org.junit.Assert.assertEquals;
 
 public class UserActivityTest {
@@ -89,9 +91,30 @@ public class UserActivityTest {
         Tweet secondValidTweet = tweetTestHelper.getSavedTweetObject("testing two",
                 this.currentUser.getId(), this.connection);
         userActivity.printTimeline();
-        assertionTestHelper.assertContains(consoleOutput.toString(), firstValidTweet.getBody());
-        assertionTestHelper.assertContains(consoleOutput.toString(), secondValidTweet.getBody());
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                firstValidTweet.getBody());
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                secondValidTweet.getBody());
         ioTestHelper.setStdOutToDefault();
+    }
+
+    @Test
+    public void testLogoutSetsDatabaseConnectionToNull(){
+        userActivity.logout();
+        try {
+            Field userActivityDBConnection = UserActivity.class
+                    .getDeclaredField("connection");
+            userActivityDBConnection.setAccessible(true);
+            String connectionValue = (String) userActivityDBConnection
+                    .get(userActivity);
+            assertEquals(connectionValue, null);
+        } catch (NoSuchFieldException e) {
+            System.out.println("UserActivityTest: " +
+                    "Private Field Connection not Found");
+        } catch (IllegalAccessException e) {
+            System.out.println("UserActivityTest: " +
+                    "Private Field not Accessible");
+        }
     }
 
 }
