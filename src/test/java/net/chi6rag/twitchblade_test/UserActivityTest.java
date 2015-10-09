@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
-
 import static org.junit.Assert.assertEquals;
 
 public class UserActivityTest {
@@ -95,7 +94,17 @@ public class UserActivityTest {
     }
 
     @Test
-    public void testPrintsUserTimelineOnStdOutForUserWithTweets(){
+    public void testTweetWithBlankBodyPrintsErrorOnStdOut(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        userActivity.tweet("");
+        CharSequence errorMessage = tweetTestHelper.getTweetErrorMessage();
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                (String) errorMessage);
+        ioTestHelper.setStdOutToDefault();
+    }
+
+    @Test
+    public void testTimelinePrintsUserTimelineOnStdOutForUserWithTweets(){
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         Tweet firstValidTweet = tweetTestHelper.getSavedTweetObject("testing one",
                 this.currentUser.getId(), this.connection);
@@ -110,7 +119,7 @@ public class UserActivityTest {
     }
 
     @Test
-    public void testPrintsNotificationIfNoTweetsPresent(){
+    public void testTimelinePrintsNotificationIfNoTweetsPresent(){
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         userActivity.printTimeline();
         assertionTestHelper.assertContains(consoleOutput.toString(),

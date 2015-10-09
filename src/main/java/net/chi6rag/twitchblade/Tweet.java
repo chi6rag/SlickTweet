@@ -58,7 +58,7 @@ public class Tweet {
                     " INTO tweets(body, user_id) VALUES(?, ?) RETURNING id, body," +
                     " user_id, created_at");
         } catch (SQLException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
     }
 
@@ -71,7 +71,7 @@ public class Tweet {
             this.tweetSavePreparedStatement.setInt(2, userId);
             res = this.tweetSavePreparedStatement.executeQuery();
         } catch (SQLException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
         return res;
     }
@@ -87,7 +87,7 @@ public class Tweet {
                 return new Tweet(id, body, userId, createdAt, this.connection);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
         return null;
     }

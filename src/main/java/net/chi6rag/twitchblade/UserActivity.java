@@ -67,7 +67,7 @@ public class UserActivity {
 
     private String getTweetErrorMessage(){
         String errorMessage = "\nTweet cannot be posted. Note: \n"  +
-                "- tweet's length should be upto 140 characters"    +
+                "- tweet's length should be upto 140 characters\n"    +
                 "- tweet should not be blank";
         return errorMessage;
     }
