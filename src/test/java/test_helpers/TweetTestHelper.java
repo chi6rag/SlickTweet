@@ -57,4 +57,11 @@ public class TweetTestHelper {
         return tweetBody;
     }
 
+    public String getTweetErrorMessage(){
+        String errorMessage = "\nTweet cannot be saved. Note: \n"      +
+                      "- tweet's length should be upto 140 characters" +
+                      "- tweet should not be blank";
+        return errorMessage;
+    }
+
 }

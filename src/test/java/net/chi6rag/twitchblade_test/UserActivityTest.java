@@ -77,9 +77,20 @@ public class UserActivityTest {
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         String invalidTweetbody = tweetTestHelper.getInvalidTweetBody();
         userActivity.tweet(invalidTweetbody);
-        CharSequence errorMessage = "Tweet cannot be saved";
+        CharSequence errorMessage = tweetTestHelper.getTweetErrorMessage();
         assertionTestHelper.assertContains(consoleOutput.toString(),
                 (String) errorMessage);
+        ioTestHelper.setStdOutToDefault();
+    }
+
+    @Test
+    public void testTweetWithValidBodyPrintsSavedStatus(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        String validTweetBody = "hello world";
+        userActivity.tweet(validTweetBody);
+        CharSequence savedStatusMessage = "\nTweet posted\n";
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                (String) savedStatusMessage);
         ioTestHelper.setStdOutToDefault();
     }
 
