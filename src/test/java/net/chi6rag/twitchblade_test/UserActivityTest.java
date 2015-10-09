@@ -102,12 +102,8 @@ public class UserActivityTest {
     public void testLogoutSetsDatabaseConnectionToNull(){
         userActivity.logout();
         try {
-            Field userActivityDBConnection = UserActivity.class
-                    .getDeclaredField("connection");
-            userActivityDBConnection.setAccessible(true);
-            String connectionValue = (String) userActivityDBConnection
-                    .get(userActivity);
-            assertEquals(connectionValue, null);
+            Object connection = getPrivateField(userActivity, "connection");
+            assertEquals(connection, null);
         } catch (NoSuchFieldException e) {
             System.out.println("UserActivityTest: " +
                     "Private Field Connection not Found");
@@ -115,6 +111,28 @@ public class UserActivityTest {
             System.out.println("UserActivityTest: " +
                     "Private Field not Accessible");
         }
+    }
+
+    @Test
+    public void testLogoutSetsCurrentUserToNull(){
+        userActivity.logout();
+        try {
+            Object currentUser = getPrivateField(userActivity, "currentUser");
+            assertEquals(currentUser, null);
+        } catch (NoSuchFieldException e) {
+            System.out.println("UserActivityTest: " +
+                    "Private Field CurrentUser not Found");
+        } catch (IllegalAccessException e) {
+            System.out.println("UserActivityTest: " +
+                    "Private Field not Accessible");
+        }
+    }
+
+    private Object getPrivateField(Object privateFieldContainer,
+       String privateFieldName) throws NoSuchFieldException, IllegalAccessException {
+        Field field = privateFieldContainer.getClass().getDeclaredField(privateFieldName);
+        field.setAccessible(true);
+        return field.get(privateFieldContainer);
     }
 
 }
