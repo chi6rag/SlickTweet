@@ -44,10 +44,18 @@ public class Authentication {
         User user = new User(username, password, connection);
         User savedUser = user.save();
         if(savedUser == null){
-            printAuthErrorMessage();
+            printSignUpErrorMessage();
             return null;
         }
         return savedUser;
+    }
+
+    private void printSignUpErrorMessage(){
+        String signUpErrorMessage = "\nInvalid Username or Password\n"            +
+                "- Username can only contain letters, numbers and underscores\n"  +
+                "  and it can only be 6 to 20 characters\n"                       +
+                "- Password must be at least 6 characters long\n";
+        System.out.println(signUpErrorMessage);
     }
 
     private void printAuthErrorMessage(){

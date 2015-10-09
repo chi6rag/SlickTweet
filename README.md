@@ -12,6 +12,7 @@ TwitchBlade is a command line app which lets you share messages upto 140 charact
       username varchar(20) NOT NULL,
       password varchar(30) NOT NULL,
       CONSTRAINT username_unique UNIQUE(username),
+      CONSTRAINT password_length_proper CHECK ( password ~* '^(.+){6,}$' ),
       CONSTRAINT username_proper CHECK ( username ~* '^[a-zA-Z0-9_]{6,20}$' )
     );
     ```
@@ -53,6 +54,7 @@ TwitchBlade is a command line app which lets you share messages upto 140 charact
       username varchar(20) NOT NULL,
       password varchar(30) NOT NULL,
       CONSTRAINT username_unique UNIQUE(username),
+      CONSTRAINT password_length_proper CHECK ( password ~* '^(.+){6,}$' ),
       CONSTRAINT username_proper CHECK ( username ~* '^[a-zA-Z0-9_]{6,20}$' )
     );
     ```
