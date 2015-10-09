@@ -40,7 +40,13 @@ public class TweetTest {
     @Test
     public void newCreatesATweetButSetsIdNull(){
         Tweet tweet = new Tweet("hello", user.getId(), this.connection);
-        Assert.assertEquals(tweet.getId(), null);
+        assertEquals(tweet.getId(), null);
+    }
+
+    @Test
+    public void newCreatesATweetButSetsCreatedAtNull(){
+        Tweet tweet = new Tweet("hello", user.getId(), this.connection);
+        assertEquals(tweet.getCreatedAt(), null);
     }
 
     @Test
