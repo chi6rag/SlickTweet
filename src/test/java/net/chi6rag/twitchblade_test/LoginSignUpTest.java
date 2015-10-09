@@ -52,6 +52,18 @@ public class LoginSignUpTest {
     }
 
     @Test
+    public void testLoginWithInvalidUsernamePasswordPrintsAuthError(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        Hashtable invalidUserDetails = userTestHelper
+                .getUserDetails("ab", "123456789");
+        String authErrorMessage = getLoginErrorMessage();
+        auth.login(invalidUserDetails);
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                authErrorMessage);
+        ioTestHelper.setStdOutToDefault();
+    }
+
+    @Test
     public void testSignUpWithValidAndUniqueUserDetailsReturnSignedUpUser(){
         Hashtable validUniqueUserDetails = userTestHelper
                 .getUserDetails("baz_example", "123456789");
@@ -76,34 +88,65 @@ public class LoginSignUpTest {
     }
 
     @Test
-    public void testSignUpWithInvalidUsernamePrintsAuthError(){
+    public void testSignUpWithInvalidUsernamePrintsSignUpError(){
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         Hashtable invalidUserDetails = userTestHelper
                 .getUserDetails("ab", "123456789");
-        String authErrorMessage = getAuthErrorMessage();
+        String signUpErrorMessage = getSignUpErrorMessage();
         auth.signUp(invalidUserDetails);
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                signUpErrorMessage);
+        ioTestHelper.setStdOutToDefault();
+    }
+
+    @Test
+    public void testSignUpWithValidButNotUniqueUserDetailsPrintsSignUpError(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        Hashtable validNotUniqueUserDetails = userTestHelper
+                .getUserDetails("foo_example", "123456789");
+        auth.signUp(validNotUniqueUserDetails);
+        String authErrorMessage = getSignUpErrorMessage();
         assertionTestHelper.assertContains(consoleOutput.toString(),
                 authErrorMessage);
         ioTestHelper.setStdOutToDefault();
     }
 
     @Test
-    public void testLoginWithInvalidUsernamePasswordPrintsAuthError(){
+    public void testSignUpWithBlankPasswordPrintsSignUpError(){
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
-        Hashtable invalidUserDetails = userTestHelper
-                .getUserDetails("ab", "123456789");
-        String authErrorMessage = getAuthErrorMessage();
-        auth.login(invalidUserDetails);
+        Hashtable invalidAuthDetails = userTestHelper
+                .getUserDetails("baz_example", "");
+        auth.signUp(invalidAuthDetails);
+        String authErrorMessage = getSignUpErrorMessage();
         assertionTestHelper.assertContains(consoleOutput.toString(),
                 authErrorMessage);
         ioTestHelper.setStdOutToDefault();
     }
 
-    private String getAuthErrorMessage(){
-        String authErrorMessage = "\nUsername or Password Not Proper\n" +
-        "Username can only contain letters, numbers and underscores\n"  +
-        "and it can only be 6 to 20 characters\n";
-        return authErrorMessage;
+    @Test
+    public void testSignUpWithPasswordLessThanSixCharsPrintsSignUpError(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        Hashtable invalidAuthDetails = userTestHelper
+                .getUserDetails("baz_example", "test");
+        auth.signUp(invalidAuthDetails);
+        String authErrorMessage = getSignUpErrorMessage();
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                authErrorMessage);
+        ioTestHelper.setStdOutToDefault();
+    }
+
+
+    private String getSignUpErrorMessage(){
+        String signUpErrorMessage = "\nInvalid Username or Password\n"  +
+                "- Username can only contain letters, numbers and underscores\n"  +
+                "  and it can only be 6 to 20 characters\n"                       +
+                "- Password should be at least 6 characters long";
+        return signUpErrorMessage;
+    }
+
+    private String getLoginErrorMessage(){
+        String signUpErrorMessage = "lorem ipsum dolor";
+        return signUpErrorMessage;
     }
 
 }
