@@ -3,11 +3,13 @@ package net.chi6rag.twitchblade;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 public class Tweet {
     private Integer id;
     private String body;
     private Integer userId;
+    private Date createdAt;
     private DbConnection connection;
     private PreparedStatement tweetSavePreparedStatement;
 
@@ -15,6 +17,7 @@ public class Tweet {
         this.id = null;
         this.body = body;
         this.userId = userId;
+        this.createdAt = null;
         this.connection = connection;
     }
 
@@ -45,6 +48,8 @@ public class Tweet {
     public Integer getUserId(){
         return this.userId;
     }
+
+    public Date getCreatedAt(){ return this.createdAt; }
 
     private void prepareTweetSaveStatement(){
         try {
