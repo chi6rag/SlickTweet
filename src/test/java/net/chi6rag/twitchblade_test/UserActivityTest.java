@@ -110,6 +110,15 @@ public class UserActivityTest {
     }
 
     @Test
+    public void testPrintsNotificationIfNoTweetsPresent(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        userActivity.printTimeline();
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                "\nNo Tweets\n");
+        ioTestHelper.setStdOutToDefault();
+    }
+
+    @Test
     public void testLogoutSetsDatabaseConnectionToNull(){
         userActivity.logout();
         try {

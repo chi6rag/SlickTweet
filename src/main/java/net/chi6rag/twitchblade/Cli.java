@@ -41,18 +41,18 @@ public class Cli {
             }
 
             if(isLoggedIn(currentUser)){
-                UserActivity currentUserActivity = new UserActivity(currentUser);
-                System.out.print(currentUserActivity.getActivityOptions());
+                UserActivity userActivity = new UserActivity(currentUser);
+                System.out.print(userActivity.getActivityOptions());
                 int userActivityChoice = scanner.nextInt();
                 scanner.nextLine();
                 switch(userActivityChoice){
                     case 1:
-                        System.out.println(currentUserActivity.askForTweet());
+                        System.out.println(userActivity.askForTweet());
                         String tweetBody = scanner.nextLine();
-                        currentUserActivity.tweet(tweetBody);
+                        userActivity.tweet(tweetBody);
                         break;
                     case 2:
-                        currentUserActivity.printTimeline();
+                        userActivity.printTimeline();
                         break;
                     case 3:
                         currentUser = null;

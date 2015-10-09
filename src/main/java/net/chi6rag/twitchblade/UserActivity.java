@@ -38,9 +38,10 @@ public class UserActivity {
     public void printTimeline(){
         Timeline timeline = new Timeline(this.currentUser, this.connection);
         ArrayList<Tweet> usersTweets = timeline.getTweets();
-        for(int i=0; i<usersTweets.size(); i++){
-            System.out.println( (usersTweets.get(i)).getUserId() );
-            System.out.println( (usersTweets.get(i)).getBody() );
+        if(areTweetsPresent(usersTweets)){
+            printTweets(usersTweets);
+        } else {
+            printNoTweetsPresentMessage();
         }
     }
 
@@ -69,6 +70,21 @@ public class UserActivity {
                 "- tweet's length should be upto 140 characters"    +
                 "- tweet should not be blank";
         return errorMessage;
+    }
+
+    private void printNoTweetsPresentMessage(){
+        System.out.println("\nNo Tweets\n");
+    }
+
+    private boolean areTweetsPresent(ArrayList<Tweet> tweets){
+        return !(tweets == null || tweets.size() == 0);
+    }
+
+    private void printTweets(ArrayList<Tweet> tweets){
+        for(int i=0; i<tweets.size(); i++){
+            System.out.println( (tweets.get(i)).getUserId() );
+            System.out.println( (tweets.get(i)).getBody() );
+        }
     }
 
 }
