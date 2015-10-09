@@ -1,5 +1,6 @@
 package net.chi6rag.twitchblade;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class UserActivity {
@@ -40,6 +41,16 @@ public class UserActivity {
         for(int i=0; i<usersTweets.size(); i++){
             System.out.println( (usersTweets.get(i)).getUserId() );
             System.out.println( (usersTweets.get(i)).getBody() );
+        }
+    }
+
+    public void logout(){
+        try {
+            this.connection.close();
+            this.connection = null;
+        } catch (SQLException e) {
+            System.out.println("\nSome errors during logout\n" +
+                    "Please contact the customer support");
         }
     }
 
