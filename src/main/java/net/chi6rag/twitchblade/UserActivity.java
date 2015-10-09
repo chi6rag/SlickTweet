@@ -31,7 +31,7 @@ public class UserActivity {
     public Tweet tweet(String tweetBody){
         Tweet tweet = (new Tweet(tweetBody, this.currentUser.getId(),
                 this.connection)).save();
-        if(tweet == null) System.out.println("Tweet cannot be saved");
+        printTweetSavedMessage(tweet);
         return tweet;
     }
 
@@ -53,6 +53,22 @@ public class UserActivity {
             System.out.println("\nSome errors during logout\n" +
                     "Please contact the customer support");
         }
+    }
+
+    private void printTweetSavedMessage(Tweet tweet){
+        if(tweet == null){
+            System.out.println(getTweetErrorMessage());
+        } else
+        {
+            System.out.println("\nTweet posted\n");
+        }
+    }
+
+    private String getTweetErrorMessage(){
+        String errorMessage = "\nTweet cannot be posted. Note: \n"  +
+                "- tweet's length should be upto 140 characters"    +
+                "- tweet should not be blank";
+        return errorMessage;
     }
 
 }
