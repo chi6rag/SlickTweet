@@ -47,7 +47,8 @@ public class UserActivity {
     public void logout(){
         try {
             this.connection.close();
-            this.connection = null;
+            this.connection  = null;
+            this.currentUser = null;
         } catch (SQLException e) {
             System.out.println("\nSome errors during logout\n" +
                     "Please contact the customer support");
