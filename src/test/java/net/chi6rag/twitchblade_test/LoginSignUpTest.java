@@ -52,7 +52,7 @@ public class LoginSignUpTest {
     }
 
     @Test
-    public void testLoginWithInvalidUsernamePasswordPrintsAuthError(){
+    public void testLoginWithInvalidUsernamePasswordPrintsLoginError(){
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         Hashtable invalidUserDetails = userTestHelper
                 .getUserDetails("ab", "123456789");
@@ -139,14 +139,13 @@ public class LoginSignUpTest {
     private String getSignUpErrorMessage(){
         String signUpErrorMessage = "\nInvalid Username or Password\n"            +
                 "- Username can only contain letters, numbers and underscores\n"  +
-                "  and it can only be 6 to 20 characters\n"                       +
+                "  and it can only be 6 to 20 characters long\n"                       +
                 "- Password must be at least 6 characters long\n";
         return signUpErrorMessage;
     }
 
     private String getLoginErrorMessage(){
-        String signUpErrorMessage = "lorem ipsum dolor";
-        return signUpErrorMessage;
+        return "\nInvalid Username or Password Combination\n";
     }
 
 }
