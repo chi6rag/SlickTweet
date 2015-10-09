@@ -1,4 +1,9 @@
+package net.chi6rag.twitchblade_test;
+
+import net.chi6rag.twitchblade.*;
+import test_helpers.*;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
@@ -34,8 +39,9 @@ public class TweetsTest {
         queryHash.put("userId", user.getId());
         ArrayList<Tweet> tweets = allTweets.where(queryHash);
         for(int i=0; i<tweets.size(); i++){
-            assertEquals( (tweets.get(i) ).getUserId(), user.getId());
-            assertEquals( (tweets.get(i) ).getClass().getName(), "Tweet");
+            Assert.assertEquals((tweets.get(i)).getUserId(), user.getId());
+            Assert.assertEquals((tweets.get(i)).getClass()
+                    .getSimpleName(),"Tweet");
         }
     }
 

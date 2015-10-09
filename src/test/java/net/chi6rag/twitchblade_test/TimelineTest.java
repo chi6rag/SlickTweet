@@ -1,4 +1,9 @@
+package net.chi6rag.twitchblade_test;
+
+import net.chi6rag.twitchblade.*;
+import test_helpers.*;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
@@ -12,8 +17,6 @@ public class TimelineTest {
     // Objects of helper classes
     UserTestHelper userTestHelper = new UserTestHelper(connection);
     TweetTestHelper tweetTestHelper = new TweetTestHelper(connection);
-    AssertionTestHelper assertionTestHelper = new AssertionTestHelper();
-    IOTestHelper ioTestHelper = new IOTestHelper();
 
     @Before
     public void BeforeEach(){
@@ -34,7 +37,7 @@ public class TimelineTest {
                 this.connection);
         ArrayList<Tweet> tweets = timeline.getTweets();
         for(int i=0; i<tweets.size(); i++){
-            assertEquals( (tweets.get(i)).getUserId(), currentUser.getId() );
+            Assert.assertEquals((tweets.get(i)).getUserId(), currentUser.getId());
         }
     }
 

@@ -1,3 +1,5 @@
+package net.chi6rag.twitchblade;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,14 +11,14 @@ public class Tweet {
     private DbConnection connection;
     private PreparedStatement tweetSavePreparedStatement;
 
-    Tweet(String body, Integer userId, DbConnection connection){
+    public Tweet(String body, Integer userId, DbConnection connection){
         this.id = null;
         this.body = body;
         this.userId = userId;
         this.connection = connection;
     }
 
-    Tweet(Integer id, String body, Integer userId,
+    public Tweet(Integer id, String body, Integer userId,
           DbConnection connection){
         this.id = id;
         this.body = body;

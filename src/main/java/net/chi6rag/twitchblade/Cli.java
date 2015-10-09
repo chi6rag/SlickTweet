@@ -1,3 +1,5 @@
+package net.chi6rag.twitchblade;
+
 import java.util.Hashtable;
 import java.util.Scanner;
 

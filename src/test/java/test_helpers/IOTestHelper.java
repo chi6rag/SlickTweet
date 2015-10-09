@@ -1,15 +1,17 @@
+package test_helpers;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 public class IOTestHelper {
 
-    ByteArrayOutputStream mockStdOut(){
+    public ByteArrayOutputStream mockStdOut(){
         ByteArrayOutputStream consoleOutput = new ByteArrayOutputStream();
         System.setOut(new PrintStream(consoleOutput));
         return consoleOutput;
     }
 
-    void setStdOutToDefault(){
+    public void setStdOutToDefault(){
         System.setOut(System.out);
     }
 

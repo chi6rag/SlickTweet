@@ -1,4 +1,4 @@
-import sun.rmi.runtime.Log;
+package net.chi6rag.twitchblade;
 
 import java.sql.*;
 
@@ -9,14 +9,14 @@ public class User {
     DbConnection connection;
     PreparedStatement userSavePreparedStatement = null;
 
-    User(String username, String password, DbConnection connection){
+    public User(String username, String password, DbConnection connection){
         this.id = null;
         this.connection = connection;
         this.username = username;
         this.password = password;
     }
 
-    User(Integer id, String username, String password,
+    public User(Integer id, String username, String password,
                  DbConnection connection){
         this.id         = id;
         this.username   = username;

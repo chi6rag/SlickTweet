@@ -1,3 +1,6 @@
+package net.chi6rag.twitchblade_test;
+
+import net.chi6rag.twitchblade.*;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import java.io.ByteArrayInputStream;

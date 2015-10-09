@@ -1,3 +1,5 @@
+package net.chi6rag.twitchblade;
+
 import java.sql.*;
 import java.util.Hashtable;
 
@@ -5,7 +7,7 @@ public class Users {
     DbConnection connection;
     PreparedStatement userFindPreparedStatement = null;
 
-    Users(DbConnection connection){
+    public Users(DbConnection connection){
         this.connection = connection;
     }
 

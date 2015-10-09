@@ -1,3 +1,5 @@
+package net.chi6rag.twitchblade;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,7 +10,7 @@ public class Tweets {
     private final DbConnection connection;
     private PreparedStatement tweetsWherePreparedStatement;
 
-    Tweets(DbConnection connection){
+    public Tweets(DbConnection connection){
         this.connection = connection;
     }
 

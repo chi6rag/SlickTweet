@@ -1,3 +1,5 @@
+package net.chi6rag.twitchblade;
+
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -7,7 +9,7 @@ public class Timeline {
     private User user;
     private Tweets tweets;
 
-    Timeline(User user, DbConnection connection){
+    public Timeline(User user, DbConnection connection){
         this.user = user;
         this.connection = connection;
         this.tweets = new Tweets(connection);

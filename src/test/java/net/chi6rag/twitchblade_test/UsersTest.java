@@ -1,7 +1,11 @@
+package net.chi6rag.twitchblade_test;
+
+import net.chi6rag.twitchblade.*;
+import test_helpers.*;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 import java.util.Hashtable;
 
 public class UsersTest {
@@ -26,11 +30,11 @@ public class UsersTest {
         Hashtable validAuthDetails = userTestHelper
                 .getUserDetails("foo_example", "123456789");
         User foundUser = allUsers.find(validAuthDetails);
-        assertEquals(foundUser.getId().getClass()
+        Assert.assertEquals(foundUser.getId().getClass()
                 .getSimpleName(), "Integer");
-        assertEquals(foundUser.getClass().getName(), "User");
-        assertEquals(foundUser.getUsername(), "foo_example");
-        assertEquals(foundUser.getPassword(), "123456789");
+        Assert.assertEquals(foundUser.getClass().getSimpleName(), "User");
+        Assert.assertEquals(foundUser.getUsername(), "foo_example");
+        Assert.assertEquals(foundUser.getPassword(), "123456789");
     }
 
     @Test
@@ -38,14 +42,14 @@ public class UsersTest {
         Hashtable inexistentAuthDetails = userTestHelper
                 .getUserDetails("baz_example", "123456789");
         User foundUser = allUsers.find(inexistentAuthDetails);
-        assertEquals(foundUser, null);
+        Assert.assertEquals(foundUser, null);
     }
 
     @Test
     public void returnsNullWhenCalledWithWrongUserDetailsHash(){
         Hashtable authDetails = getWrongUserDetailsHash();
         User foundUser = allUsers.find(authDetails);
-        assertEquals(foundUser, null);
+        Assert.assertEquals(foundUser, null);
     }
 
     private Hashtable getWrongUserDetailsHash(){

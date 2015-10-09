@@ -1,4 +1,9 @@
+package net.chi6rag.twitchblade_test;
+
+import net.chi6rag.twitchblade.*;
+import test_helpers.*;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.ByteArrayOutputStream;
@@ -51,18 +56,18 @@ public class UserActivityTest {
     public void testTweetWithValidBodyReturnsTweet(){
         String validTweetBody = "hello";
         Tweet tweet = userActivity.tweet(validTweetBody);
-        assertEquals(tweet.getClass().getName(), "Tweet");
-        assertEquals(tweet.getId().getClass()
+        Assert.assertEquals(tweet.getClass().getSimpleName(), "Tweet");
+        Assert.assertEquals(tweet.getId().getClass()
                 .getSimpleName(), "Integer");
-        assertEquals(tweet.getBody(), "hello");
-        assertEquals(tweet.getUserId(), currentUser.getId());
+        Assert.assertEquals(tweet.getBody(), "hello");
+        Assert.assertEquals(tweet.getUserId(), currentUser.getId());
     }
 
     @Test
     public void testTweetWithInvalidBodyReturnsNull(){
         String invalidTweetBody = tweetTestHelper.getInvalidTweetBody();
         Tweet tweet = userActivity.tweet(invalidTweetBody);
-        assertEquals(tweet, null);
+        Assert.assertEquals(tweet, null);
     }
 
     @Test
@@ -80,9 +85,9 @@ public class UserActivityTest {
     public void testPrintsUserTimelineOnStdOutForUserWithTweets(){
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         Tweet firstValidTweet = tweetTestHelper.getSavedTweetObject("testing one",
-                this.currentUser.id, this.connection);
+                this.currentUser.getId(), this.connection);
         Tweet secondValidTweet = tweetTestHelper.getSavedTweetObject("testing two",
-                this.currentUser.id, this.connection);
+                this.currentUser.getId(), this.connection);
         userActivity.printTimeline();
         assertionTestHelper.assertContains(consoleOutput.toString(), firstValidTweet.getBody());
         assertionTestHelper.assertContains(consoleOutput.toString(), secondValidTweet.getBody());

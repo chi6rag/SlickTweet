@@ -1,10 +1,12 @@
+package net.chi6rag.twitchblade;
+
 import java.util.ArrayList;
 
 public class UserActivity {
     private DbConnection connection = new DbConnection();
     private User currentUser;
 
-    UserActivity(User currentUser){
+    public UserActivity(User currentUser){
         this.currentUser = currentUser;
     }
 

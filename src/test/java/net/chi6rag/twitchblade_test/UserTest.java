@@ -1,6 +1,10 @@
-import org.junit.After;
-import org.junit.Test;
+package net.chi6rag.twitchblade_test;
 
+import net.chi6rag.twitchblade.*;
+import test_helpers.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class UserTest {
@@ -17,7 +21,7 @@ public class UserTest {
     @Test
     public void testNewWithValidDetailsSetsIdNull(){
         User user = new User("foo_example", "123456789", this.connection);
-        assertEquals(user.getId(), null);
+        Assert.assertEquals(user.getId(), null);
     }
 
     @Test
@@ -33,11 +37,11 @@ public class UserTest {
     public void testSaveWithValidUserObjectReturnsTheSavedUser(){
         User user = new User("foo_example", "123456789", this.connection);
         User savedUser = user.save();
-        assertEquals(savedUser.getId().getClass()
+        Assert.assertEquals(savedUser.getId().getClass()
                 .getSimpleName(), "Integer");
-        assertEquals(savedUser.getUsername(), "foo_example");
-        assertEquals(savedUser.getPassword(), "123456789");
-        assertEquals(savedUser.getClass().getName(), "User");
+        Assert.assertEquals(savedUser.getUsername(), "foo_example");
+        Assert.assertEquals(savedUser.getPassword(), "123456789");
+        Assert.assertEquals(savedUser.getClass().getSimpleName(), "User");
     }
 
     @Test
@@ -52,7 +56,7 @@ public class UserTest {
     @Test
     public void testSaveWithInvalidUserObjectReturnsNull(){
         User user = new User("ab", "123456789", this.connection);
-        assertEquals(user.save(), null);
+        Assert.assertEquals(user.save(), null);
     }
 
 }

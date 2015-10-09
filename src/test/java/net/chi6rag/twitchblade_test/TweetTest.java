@@ -1,4 +1,9 @@
+package net.chi6rag.twitchblade_test;
+
+import net.chi6rag.twitchblade.*;
+import test_helpers.*;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -35,7 +40,7 @@ public class TweetTest {
     @Test
     public void newCreatesATweetButSetsIdNull(){
         Tweet tweet = new Tweet("hello", user.getId(), this.connection);
-        assertEquals(tweet.getId(), null);
+        Assert.assertEquals(tweet.getId(), null);
     }
 
     @Test
@@ -61,31 +66,32 @@ public class TweetTest {
     public void saveOnValidTweetReturnsTweet(){
         Tweet tweet = new Tweet("hello", user.getId(), this.connection);
         Tweet savedTweet = tweet.save();
-        assertEquals(savedTweet.getClass().getName(), "Tweet");
-        assertEquals(savedTweet.getId().getClass()
+        Assert.assertEquals(savedTweet.getClass().getSimpleName(),
+                "Tweet");
+        Assert.assertEquals(savedTweet.getId().getClass()
                 .getSimpleName(), "Integer");
-        assertEquals(savedTweet.getBody(), "hello");
-        assertEquals(savedTweet.getUserId(), user.getId());
+        Assert.assertEquals(savedTweet.getBody(), "hello");
+        Assert.assertEquals(savedTweet.getUserId(), user.getId());
     }
 
     @Test
     public void saveOnInvalidTweetReturnsNull(){
         String tweetBody = tweetTestHelper.getInvalidTweetBody();
         Tweet tweet = new Tweet(tweetBody, user.getId(), this.connection);
-        assertEquals(tweet.save(), null);
+        Assert.assertEquals(tweet.save(), null);
     }
 
     @Test
     public void saveOnTweetWithInvalidUserIdReturnsNull(){
         Tweet tweet = new Tweet("hello", 99911223, this.connection);
-        assertEquals(tweet.save(), null);
+        Assert.assertEquals(tweet.save(), null);
     }
 
     @Test
     public void saveOnTweetWithInvalidBodyReturnsNull(){
         String invalidBody = tweetTestHelper.getInvalidTweetBody();
         Tweet tweet = new Tweet(invalidBody, 99911223, this.connection);
-        assertEquals(tweet.save(), null);
+        Assert.assertEquals(tweet.save(), null);
     }
 
 }

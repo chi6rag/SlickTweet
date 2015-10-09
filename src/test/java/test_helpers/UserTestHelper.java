@@ -1,3 +1,6 @@
+package test_helpers;
+
+import net.chi6rag.twitchblade.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

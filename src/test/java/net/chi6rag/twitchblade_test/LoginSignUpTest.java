@@ -1,3 +1,7 @@
+package net.chi6rag.twitchblade_test;
+
+import net.chi6rag.twitchblade.*;
+import test_helpers.*;
 import org.junit.*;
 import java.io.ByteArrayOutputStream;
 import java.util.Hashtable;
@@ -27,9 +31,9 @@ public class LoginSignUpTest {
         Hashtable validUserDetails = userTestHelper
                 .getUserDetails("foo_example", "123456789");
         User currentUser = auth.login(validUserDetails);
-        assertEquals(currentUser.getClass().getName(), "User");
-        assertEquals(currentUser.getUsername(), "foo_example");
-        assertEquals(currentUser.getPassword(), "123456789");
+        Assert.assertEquals(currentUser.getClass().getSimpleName(), "User");
+        Assert.assertEquals(currentUser.getUsername(), "foo_example");
+        Assert.assertEquals(currentUser.getPassword(), "123456789");
     }
 
     @Test
@@ -52,9 +56,9 @@ public class LoginSignUpTest {
         Hashtable validUniqueUserDetails = userTestHelper
                 .getUserDetails("baz_example", "123456789");
         User currentUser = auth.signUp(validUniqueUserDetails);
-        assertEquals(currentUser.getClass().getName(), "User");
-        assertEquals(currentUser.getUsername(), "baz_example");
-        assertEquals(currentUser.getPassword(), "123456789");
+        Assert.assertEquals(currentUser.getClass().getSimpleName(), "User");
+        Assert.assertEquals(currentUser.getUsername(), "baz_example");
+        Assert.assertEquals(currentUser.getPassword(), "123456789");
     }
 
     @Test

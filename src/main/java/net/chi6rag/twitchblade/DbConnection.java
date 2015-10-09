@@ -1,3 +1,5 @@
+package net.chi6rag.twitchblade;
+
 import java.sql.*;
 
 public class DbConnection {
