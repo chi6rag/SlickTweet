@@ -72,12 +72,14 @@ public class TweetTest {
     public void saveOnValidTweetReturnsTweet(){
         Tweet tweet = new Tweet("hello", user.getId(), this.connection);
         Tweet savedTweet = tweet.save();
-        Assert.assertEquals(savedTweet.getClass().getSimpleName(),
+        assertEquals(savedTweet.getClass().getSimpleName(),
                 "Tweet");
-        Assert.assertEquals(savedTweet.getId().getClass()
+        assertEquals(savedTweet.getId().getClass()
                 .getSimpleName(), "Integer");
-        Assert.assertEquals(savedTweet.getBody(), "hello");
-        Assert.assertEquals(savedTweet.getUserId(), user.getId());
+        assertEquals(savedTweet.getBody(), "hello");
+        assertEquals(savedTweet.getUserId(), user.getId());
+        assertEquals(savedTweet.getCreatedAt().getClass()
+                .getSimpleName(), "Date");
     }
 
     @Test

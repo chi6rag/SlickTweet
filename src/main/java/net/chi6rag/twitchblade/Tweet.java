@@ -21,11 +21,12 @@ public class Tweet {
         this.connection = connection;
     }
 
-    public Tweet(Integer id, String body, Integer userId,
+    public Tweet(Integer id, String body, Integer userId, Date createdAt,
           DbConnection connection){
         this.id = id;
         this.body = body;
         this.userId = userId;
+        this.createdAt = createdAt;
         this.connection = connection;
     }
 
@@ -81,7 +82,9 @@ public class Tweet {
                 Integer id = res.getInt("id");
                 String body = res.getString("body");
                 Integer userId = res.getInt("user_id");
-                return new Tweet(id, body, userId, this.connection);
+                Date createdAt = new java.util.Date(res.getDate("created_at")
+                        .getTime());
+                return new Tweet(id, body, userId, createdAt, this.connection);
             }
         } catch (SQLException e) {
             e.printStackTrace();
