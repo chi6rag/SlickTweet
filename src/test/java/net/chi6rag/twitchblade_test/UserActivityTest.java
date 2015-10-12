@@ -8,10 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
-
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 public class UserActivityTest {
     DbConnection connection = new DbConnection();
@@ -109,22 +108,19 @@ public class UserActivityTest {
     }
 
     @Test
-    public void testTimelinePrintsUserTimelineOnStdOutForUserWithTweets(){
+    public void testPrintTimelinePrintsUserTimelineOnStdOutForUserWithTweets(){
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         Tweet firstValidTweet = tweetTestHelper.getSavedTweetObject("testing one",
                 this.currentUser.getId(), this.connection);
         Tweet secondValidTweet = tweetTestHelper.getSavedTweetObject("testing two",
                 this.currentUser.getId(), this.connection);
         userActivity.printTimeline();
-        assertionTestHelper.assertContains(consoleOutput.toString(),
-                firstValidTweet.getBody());
-        assertionTestHelper.assertContains(consoleOutput.toString(),
-                secondValidTweet.getBody());
+        validateTimeline(consoleOutput, firstValidTweet, secondValidTweet);
         ioTestHelper.setStdOutToDefault();
     }
 
     @Test
-    public void testTimelinePrintsNotificationIfNoTweetsPresent(){
+    public void testPrintTimelinePrintsNotificationIfNoTweetsPresent(){
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         userActivity.printTimeline();
         assertionTestHelper.assertContains(consoleOutput.toString(),
@@ -167,6 +163,21 @@ public class UserActivityTest {
         Field field = privateFieldContainer.getClass().getDeclaredField(privateFieldName);
         field.setAccessible(true);
         return field.get(privateFieldContainer);
+    }
+
+    private void validateTimeline(ByteArrayOutputStream consoleOutput,
+                                  Tweet tweetOne, Tweet tweetTwo){
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                "Tweet ID: " + tweetOne.getId());
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                "Tweet ID: " + tweetTwo.getId());
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                tweetOne.getBody());
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                tweetTwo.getBody());
+        assertTrue(assertionTestHelper.containsAnyOf(consoleOutput.toString(),
+                "days ago", "hours ago", "minutes ago", "seconds ago"));
+
     }
 
 }
