@@ -8,7 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
+
+import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class UserActivityTest {
     DbConnection connection = new DbConnection();
@@ -57,11 +60,13 @@ public class UserActivityTest {
     public void testTweetWithValidBodyReturnsTweet(){
         String validTweetBody = "hello";
         Tweet tweet = userActivity.tweet(validTweetBody);
-        Assert.assertEquals(tweet.getClass().getSimpleName(), "Tweet");
-        Assert.assertEquals(tweet.getId().getClass()
-                .getSimpleName(), "Integer");
-        Assert.assertEquals(tweet.getBody(), "hello");
-        Assert.assertEquals(tweet.getUserId(), currentUser.getId());
+        assertEquals(tweet.getClass().getSimpleName(), "Tweet");
+        assertNotNull(tweet.getId());
+        assertNotNull(tweet.getCreatedAt());
+        assertEquals(tweet.getId().getClass().getSimpleName(), "Integer");
+        assertEquals(tweet.getCreatedAt().getClass().getSimpleName(), "Date");
+        assertEquals(tweet.getBody(), "hello");
+        assertEquals(tweet.getUserId(), currentUser.getId());
     }
 
     @Test

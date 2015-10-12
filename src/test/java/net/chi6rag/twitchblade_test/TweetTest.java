@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class TweetTest {
     DbConnection connection = new DbConnection();
@@ -80,6 +81,7 @@ public class TweetTest {
         assertEquals(savedTweet.getUserId(), user.getId());
         assertEquals(savedTweet.getCreatedAt().getClass()
                 .getSimpleName(), "Date");
+        assertNotNull(savedTweet.getCreatedAt());
     }
 
     @Test

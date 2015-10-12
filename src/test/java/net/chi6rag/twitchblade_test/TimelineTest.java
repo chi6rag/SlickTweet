@@ -7,7 +7,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.ArrayList;
+
+import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class TimelineTest {
     DbConnection connection = new DbConnection();
@@ -37,7 +40,14 @@ public class TimelineTest {
                 this.connection);
         ArrayList<Tweet> tweets = timeline.getTweets();
         for(int i=0; i<tweets.size(); i++){
-            Assert.assertEquals((tweets.get(i)).getUserId(), currentUser.getId());
+            Tweet extractedTweet = tweets.get(i);
+            assertEquals(extractedTweet.getUserId(), currentUser.getId());
+            assertEquals(extractedTweet.getCreatedAt().getClass()
+                            .getSimpleName(), "Date");
+            assertNotNull(extractedTweet.getCreatedAt());
+            assertEquals(extractedTweet.getId().getClass()
+                    .getSimpleName(), "Integer");
+            assertNotNull(extractedTweet.getId());
         }
     }
 

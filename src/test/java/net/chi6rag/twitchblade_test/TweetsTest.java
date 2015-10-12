@@ -38,8 +38,10 @@ public class TweetsTest {
         queryHash.put("userId", user.getId());
         ArrayList<Tweet> tweets = allTweets.where(queryHash);
         for(int i=0; i<tweets.size(); i++){
-            assertEquals((tweets.get(i)).getUserId(), user.getId());
-            assertEquals((tweets.get(i)).getClass().getSimpleName(),"Tweet");
+            assertEquals(tweets.get(i).getUserId(), user.getId());
+            assertEquals(tweets.get(i).getCreatedAt().getClass()
+                            .getSimpleName(), "Date");
+            assertEquals(tweets.get(i).getClass().getSimpleName(),"Tweet");
         }
     }
 
