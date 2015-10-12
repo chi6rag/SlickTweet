@@ -34,7 +34,9 @@ public class Authentication {
         User user = allUsers.find(authDetails);
         if(user == null){
             printLoginErrorMessage();
+            return null;
         }
+        printLoginMessage();
         return user;
     }
 
@@ -47,7 +49,16 @@ public class Authentication {
             printSignUpErrorMessage();
             return null;
         }
+        printSignUpMessage();
         return savedUser;
+    }
+
+    private void printLoginMessage(){
+        System.out.println("Logged In");
+    }
+
+    private void printSignUpMessage(){
+        System.out.println("Signed Up");
     }
 
     private void printSignUpErrorMessage(){

@@ -19,16 +19,10 @@ public class Cli {
                     case 1:
                         authDetails = authentication.getAuthDetails();
                         currentUser = authentication.signUp(authDetails);
-                        if(currentUser != null){
-                            System.out.println("\nSigned Up");
-                        }
                         break;
                     case 2:
                         authDetails = authentication.getAuthDetails();
                         currentUser = authentication.login(authDetails);
-                        if(currentUser != null){
-                            System.out.println("\nLogged In");
-                        }
                         break;
                     case 3:
                         System.exit(0);

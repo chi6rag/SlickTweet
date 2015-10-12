@@ -78,7 +78,7 @@ public class LoginSignUpTest {
     public void testSignUpWithValidUsernamePasswordPrintsSignedUpMessage(){
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         Hashtable validUserDetails = userTestHelper
-                .getUserDetails("foo_example", "123456789");
+                .getUserDetails("bar_example", "123456789");
         auth.signUp(validUserDetails);
         assertionTestHelper.assertContains(consoleOutput.toString(),
                 "Signed Up");
