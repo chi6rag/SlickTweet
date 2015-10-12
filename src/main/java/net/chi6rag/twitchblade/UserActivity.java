@@ -3,6 +3,7 @@ package net.chi6rag.twitchblade;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 
 public class UserActivity {
     private DbConnection connection = new DbConnection();
@@ -55,6 +56,10 @@ public class UserActivity {
             System.out.println("\nSome errors during logout\n" +
                     "Please contact the customer support");
         }
+    }
+
+    public String getUsernameQuestion(){
+        return "Enter username: ";
     }
 
     private void printTweetSavedMessage(Tweet tweet){

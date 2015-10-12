@@ -51,6 +51,8 @@ public class Cli {
                     case 3:
                         currentUser = null;
                         break;
+                    case 4:
+                        System.out.println(userActivity.getUsernameQuestion());
                     default:
                         System.out.println("Wrong Choice");
                         break;
