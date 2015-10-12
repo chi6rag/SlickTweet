@@ -6,6 +6,7 @@ import java.util.Hashtable;
 public class Users {
     DbConnection connection;
     PreparedStatement userFindPreparedStatement = null;
+    PreparedStatement userFindByUsernamePreparedStatement = null;
 
     public Users(DbConnection connection){
         this.connection = connection;
@@ -16,6 +17,13 @@ public class Users {
         String username = (String) authDetails.get("username");
         String password = (String) authDetails.get("password");
         ResultSet res = findUserFromDB(username, password);
+        if(res != null) return getUserFromDBResult(res);
+        return null;
+    }
+
+    public User findByUsername(String username){
+        prepareUserFindByUsernameStatement();
+        ResultSet res = findUserByUsernameFromDB(username);
         if(res != null) return getUserFromDBResult(res);
         return null;
     }
@@ -38,8 +46,19 @@ public class Users {
         if(this.userFindPreparedStatement == null){
             try {
                 this.userFindPreparedStatement = this.connection
-                        .prepareStatement("SELECT * FROM users WHERE users.username = ?" +
+                        .prepareStatement("SELECT * FROM users WHERE users.user_id = ?" +
                                 " AND users.password = ?");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void prepareUserFindByUsernameStatement(){
+        if(this.userFindByUsernamePreparedStatement == null){
+            try {
+                this.userFindByUsernamePreparedStatement = this.connection
+                        .prepareStatement("SELECT * FROM users WHERE users.username = ?");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -54,6 +73,18 @@ public class Users {
             this.userFindPreparedStatement.setString(1, username);
             this.userFindPreparedStatement.setString(2, password);
             res = this.userFindPreparedStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
+    }
+
+    private ResultSet findUserByUsernameFromDB(String username){
+        if(username == null || username.isEmpty()) return null;
+        ResultSet res = null;
+        try {
+            this.userFindByUsernamePreparedStatement.setString(1, username);
+            res = this.userFindByUsernamePreparedStatement.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }
