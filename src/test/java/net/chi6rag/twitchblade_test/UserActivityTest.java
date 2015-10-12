@@ -6,8 +6,12 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
+import java.util.Hashtable;
+
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -54,6 +58,19 @@ public class UserActivityTest {
     public void testAsksForTweet(){
         String question = "What's in your mind?";
         assertEquals(userActivity.askForTweet(), question);
+    }
+
+    @Test
+    public void testAsksForUsernameReturnsUsernameEnteredByUser(){
+        ByteArrayInputStream consoleInput = ioTestHelper
+                .mockStdIn("foo_example\n");
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        String username = userActivity.askForUsername();
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                getUsernamePrompt());
+        assertionTestHelper.assertContains(consoleInput.toString(), username);
+        ioTestHelper.setStdInToDefault();
+        ioTestHelper.setStdOutToDefault();
     }
 
     @Test
@@ -157,6 +174,10 @@ public class UserActivityTest {
             System.out.println("UserActivityTest: " +
                     "Private Field not Accessible");
         }
+    }
+
+    private String getUsernamePrompt(){
+        return "Enter username: ";
     }
 
     private Object getPrivateField(Object privateFieldContainer,
