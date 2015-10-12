@@ -31,9 +31,9 @@ public class LoginSignUpTest {
         Hashtable validUserDetails = userTestHelper
                 .getUserDetails("foo_example", "123456789");
         User currentUser = auth.login(validUserDetails);
-        Assert.assertEquals(currentUser.getClass().getSimpleName(), "User");
-        Assert.assertEquals(currentUser.getUsername(), "foo_example");
-        Assert.assertEquals(currentUser.getPassword(), "123456789");
+        assertEquals(currentUser.getClass().getSimpleName(), "User");
+        assertEquals(currentUser.getUsername(), "foo_example");
+        assertEquals(currentUser.getPassword(), "123456789");
     }
 
     @Test
@@ -64,13 +64,35 @@ public class LoginSignUpTest {
     }
 
     @Test
+    public void testLoginWithValidUsernamePasswordPrintsLoggedInMessage(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        Hashtable validUserDetails = userTestHelper
+                .getUserDetails("foo_example", "123456789");
+        auth.login(validUserDetails);
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                "Logged In");
+        ioTestHelper.setStdOutToDefault();
+    }
+
+    @Test
+    public void testSignUpWithValidUsernamePasswordPrintsSignedUpMessage(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        Hashtable validUserDetails = userTestHelper
+                .getUserDetails("foo_example", "123456789");
+        auth.signUp(validUserDetails);
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                "Signed Up");
+        ioTestHelper.setStdOutToDefault();
+    }
+
+    @Test
     public void testSignUpWithValidAndUniqueUserDetailsReturnSignedUpUser(){
         Hashtable validUniqueUserDetails = userTestHelper
                 .getUserDetails("baz_example", "123456789");
         User currentUser = auth.signUp(validUniqueUserDetails);
-        Assert.assertEquals(currentUser.getClass().getSimpleName(), "User");
-        Assert.assertEquals(currentUser.getUsername(), "baz_example");
-        Assert.assertEquals(currentUser.getPassword(), "123456789");
+        assertEquals(currentUser.getClass().getSimpleName(), "User");
+        assertEquals(currentUser.getUsername(), "baz_example");
+        assertEquals(currentUser.getPassword(), "123456789");
     }
 
     @Test
