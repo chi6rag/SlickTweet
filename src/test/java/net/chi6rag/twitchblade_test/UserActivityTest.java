@@ -39,11 +39,12 @@ public class UserActivityTest {
     @Test
     public void testGetsActivityOptions(){
         String activityOptions =
-            "\nWelcome foo_example" +
-            "\n\n"                  +
-            "1. Tweet\n"            +
-            "2. Your Timeline\n"    +
-            "3. Logout\n"           +
+            "\nWelcome foo_example"       +
+            "\n\n"                        +
+            "1. Tweet\n"                  +
+            "2. Your Timeline\n"          +
+            "3. See someone's timeline\n" +
+            "4. Logout\n"                 +
             "Choose: ";
         assertEquals(userActivity.getActivityOptions(),
                 activityOptions);
