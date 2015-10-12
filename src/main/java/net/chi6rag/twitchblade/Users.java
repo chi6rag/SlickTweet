@@ -46,7 +46,7 @@ public class Users {
         if(this.userFindPreparedStatement == null){
             try {
                 this.userFindPreparedStatement = this.connection
-                        .prepareStatement("SELECT * FROM users WHERE users.user_id = ?" +
+                        .prepareStatement("SELECT * FROM users WHERE users.username = ?" +
                                 " AND users.password = ?");
             } catch (SQLException e) {
                 e.printStackTrace();

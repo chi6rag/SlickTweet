@@ -181,6 +181,14 @@ public class UserActivityTest {
     }
 
     // test print timeline for selected user to print no tweets message if no tweets
+    @Test
+    public void testPrintTimelineWithInvalidUsernameToPrintErrorMessage(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        userActivity.printTimeline("random_user");
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                "Username does not exist");
+        ioTestHelper.setStdOutToDefault();
+    }
 
     private Object getPrivateField(Object privateFieldContainer,
        String privateFieldName) throws NoSuchFieldException, IllegalAccessException {

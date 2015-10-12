@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.Hashtable;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class UsersTest {
     DbConnection connection = new DbConnection();
@@ -60,6 +61,12 @@ public class UsersTest {
         assertEquals(foundUser.getId().getClass()
                 .getSimpleName(), "Integer");
         assertEquals(foundUser.getPassword(), "123456789");
+    }
+
+    @Test
+    public void testFindByUsernameForInvalidUsernameReturnsNull(){
+        User foundUser = allUsers.findByUsername("baz_example");
+        assertNull(foundUser);
     }
 
     private Hashtable getWrongUserDetailsHash(){
