@@ -169,13 +169,13 @@ public class UserActivityTest {
     @Test
     public void testPrintTimelineWithValidUsernameToPrintTimelineForSelectedUser(){
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
-        User user = userTestHelper.getSavedUserObject("bar_example", "123456789",
+        User testUser = userTestHelper.getSavedUserObject("bar_example", "123456789",
                 this.connection);
         Tweet userTweetOne = tweetTestHelper.getSavedTweetObject("hello world!",
-                user.getId(), this.connection);
+                testUser.getId(), this.connection);
         Tweet userTweetTwo = tweetTestHelper.getSavedTweetObject("hello world!",
-                user.getId(), this.connection);
-        userActivity.printTimeline(user.getUsername());
+                testUser.getId(), this.connection);
+        userActivity.printTimeline(testUser.getUsername());
         validateTimeline(consoleOutput, userTweetOne, userTweetTwo);
         ioTestHelper.setStdOutToDefault();
     }
