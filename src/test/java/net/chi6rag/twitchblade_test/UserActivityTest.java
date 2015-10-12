@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
-
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -166,6 +165,22 @@ public class UserActivityTest {
                     "Private Field not Accessible");
         }
     }
+
+    @Test
+    public void testPrintTimelineWithValidUsernameToPrintTimelineForSelectedUser(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        User user = userTestHelper.getSavedUserObject("bar_example", "123456789",
+                this.connection);
+        Tweet userTweetOne = tweetTestHelper.getSavedTweetObject("hello world!",
+                user.getId(), this.connection);
+        Tweet userTweetTwo = tweetTestHelper.getSavedTweetObject("hello world!",
+                user.getId(), this.connection);
+        userActivity.printTimeline(user.getUsername());
+        validateTimeline(consoleOutput, userTweetOne, userTweetTwo);
+        ioTestHelper.setStdOutToDefault();
+    }
+
+    // test print timeline for selected user to print no tweets message if no tweets
 
     private Object getPrivateField(Object privateFieldContainer,
        String privateFieldName) throws NoSuchFieldException, IllegalAccessException {

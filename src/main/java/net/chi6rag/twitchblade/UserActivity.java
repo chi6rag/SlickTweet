@@ -3,7 +3,6 @@ package net.chi6rag.twitchblade;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Scanner;
 
 public class UserActivity {
     private DbConnection connection = new DbConnection();

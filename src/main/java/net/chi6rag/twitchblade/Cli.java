@@ -53,6 +53,8 @@ public class Cli {
                         break;
                     case 4:
                         System.out.println(userActivity.getUsernameQuestion());
+                        String username = scanner.nextLine();
+//                        userActivity.printTimeline(username);
                     default:
                         System.out.println("Wrong Choice");
                         break;
