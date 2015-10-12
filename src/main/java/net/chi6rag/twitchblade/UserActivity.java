@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class UserActivity {
     private DbConnection connection = new DbConnection();
+    private Users allUsers;
     private User currentUser;
 
     public UserActivity(User currentUser){
@@ -38,6 +39,22 @@ public class UserActivity {
 
     public void printTimeline(){
         Timeline timeline = new Timeline(this.currentUser, this.connection);
+        ArrayList<Tweet> usersTweets = timeline.getTweets();
+        if(areTweetsPresent(usersTweets)){
+            printTweets(usersTweets);
+        } else {
+            printNoTweetsPresentMessage();
+        }
+    }
+
+    public void printTimeline(String username){
+        this.allUsers = new Users(connection);
+        User queriedUser = allUsers.findByUsername(username);
+        if(queriedUser == null){
+            System.out.println("Username does not exist");
+            return;
+        }
+        Timeline timeline = new Timeline(queriedUser, this.connection);
         ArrayList<Tweet> usersTweets = timeline.getTweets();
         if(areTweetsPresent(usersTweets)){
             printTweets(usersTweets);

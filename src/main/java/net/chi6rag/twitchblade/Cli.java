@@ -49,12 +49,13 @@ public class Cli {
                         userActivity.printTimeline();
                         break;
                     case 3:
-                        currentUser = null;
-                        break;
-                    case 4:
                         System.out.println(userActivity.getUsernameQuestion());
                         String username = scanner.nextLine();
-//                        userActivity.printTimeline(username);
+                        userActivity.printTimeline(username);
+                        break;
+                    case 4:
+                        currentUser = null;
+                        break;
                     default:
                         System.out.println("Wrong Choice");
                         break;
