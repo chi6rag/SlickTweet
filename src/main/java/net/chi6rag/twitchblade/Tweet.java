@@ -30,6 +30,16 @@ public class Tweet {
         this.connection = connection;
     }
 
+    public static Tweet buildFromDbResult(ResultSet res, DbConnection connection) throws SQLException {
+        Integer id = res.getInt("id");
+        String body = res.getString("body");
+        Integer userId = res.getInt("user_id");
+        Date createdAt = new Date(res.getTimestamp("created_at")
+                .getTime());
+        return new Tweet(id, body, userId, createdAt,
+                connection);
+    }
+
     public Tweet save(){
         prepareTweetSaveStatement();
         ResultSet res = null;
@@ -79,12 +89,7 @@ public class Tweet {
     private Tweet getTweetFromDBResult(ResultSet res){
         try {
             if(res.next()){
-                Integer id = res.getInt("id");
-                String body = res.getString("body");
-                Integer userId = res.getInt("user_id");
-                Date createdAt = new java.util.Date(res.getDate("created_at")
-                        .getTime());
-                return new Tweet(id, body, userId, createdAt, this.connection);
+                return buildFromDbResult(res, connection);
             }
         } catch (SQLException e) {
             // e.printStackTrace();

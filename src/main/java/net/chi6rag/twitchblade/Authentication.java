@@ -18,7 +18,7 @@ public class Authentication {
         return preSignInOptions;
     }
 
-    public Hashtable getAuthDetails(){
+    public Hashtable<String,String> getAuthDetails(){
         Scanner consoleInput = new Scanner(System.in);
         System.out.println("Username: ");
         String username = consoleInput.nextLine();
@@ -40,9 +40,9 @@ public class Authentication {
         return user;
     }
 
-    public User signUp(Hashtable authDetails){
-        String username = (String) authDetails.get("username");
-        String password = (String) authDetails.get("password");
+    public User signUp(Hashtable<String, String> authDetails){
+        String username = authDetails.get("username");
+        String password = authDetails.get("password");
         User user = new User(username, password, connection);
         User savedUser = user.save();
         if(savedUser == null){

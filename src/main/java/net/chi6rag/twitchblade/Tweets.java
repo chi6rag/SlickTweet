@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Hashtable;
 
 public class Tweets {
@@ -39,13 +38,7 @@ public class Tweets {
         ArrayList<Tweet> tweets = new ArrayList<Tweet>();
         try {
             while(res.next()){
-                Integer id = res.getInt("id");
-                String body = res.getString("body");
-                Integer userId = res.getInt("user_id");
-                Date createdAt = new Date(res.getTimestamp("created_at")
-                        .getTime());
-                tweets.add(new Tweet(id, body, userId, createdAt,
-                        this.connection));
+                tweets.add(Tweet.buildFromDbResult(res, this.connection));
             }
         } catch (SQLException e) {
             e.printStackTrace();

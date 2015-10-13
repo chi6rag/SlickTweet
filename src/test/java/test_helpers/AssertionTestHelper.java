@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 public class AssertionTestHelper {
 
     public void assertContains(String parentString, String subString){
+        System.out.println(parentString);
+        System.out.println(subString);
         assertTrue(parentString.contains(subString));
     }
 

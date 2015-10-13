@@ -36,4 +36,11 @@ public class DbConnection {
         return this.connection.createStatement();
     }
 
+    public void setAutoCommit(boolean val) throws SQLException {
+        this.connection.setAutoCommit(val);
+    }
+
+    public void rollback() throws SQLException {
+        this.connection.rollback();
+    }
 }

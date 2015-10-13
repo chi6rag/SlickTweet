@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
+import java.sql.SQLException;
+
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -25,6 +27,11 @@ public class UserActivityTest {
 
     @Before
     public void beforeEach(){
+//        try {
+//            connection.setAutoCommit(false);
+//        } catch (SQLException e) {
+//            // Do nothing
+//        }
         currentUser = userTestHelper.getSavedUserObject("foo_example",
                 "123456789", connection);
         userActivity = new UserActivity(currentUser);
@@ -32,6 +39,11 @@ public class UserActivityTest {
 
     @After
     public void afterEach(){
+//        try {
+//            connection.rollback();
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
         tweetTestHelper.deleteAllTweets();
         userTestHelper.deleteAllUsers();
     }
@@ -117,11 +129,11 @@ public class UserActivityTest {
 
     @Test
     public void testPrintTimelinePrintsUserTimelineOnStdOutForUserWithTweets(){
-        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         Tweet firstValidTweet = tweetTestHelper.getSavedTweetObject("testing one",
                 this.currentUser.getId(), this.connection);
         Tweet secondValidTweet = tweetTestHelper.getSavedTweetObject("testing two",
                 this.currentUser.getId(), this.connection);
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         userActivity.printTimeline();
         validateTimeline(consoleOutput, firstValidTweet, secondValidTweet);
         ioTestHelper.setStdOutToDefault();

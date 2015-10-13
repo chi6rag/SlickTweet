@@ -8,7 +8,7 @@ public class Cli {
         Scanner scanner = new Scanner(System.in);
         Authentication authentication = new Authentication();
         User currentUser = null;
-        Hashtable authDetails = null;
+        Hashtable<String, String> authDetails = null;
 
         while(true){
 
@@ -29,8 +29,6 @@ public class Cli {
                         break;
                     default:
                         System.out.println("\nUnrecognized Option");
-                        System.exit(0);
-                        break;
                 }
             }
 
@@ -58,7 +56,6 @@ public class Cli {
                         break;
                     default:
                         System.out.println("Wrong Choice");
-                        break;
                 }
             }
 

@@ -15,12 +15,12 @@ public class UserActivity {
 
     public String getActivityOptions(){
         String activityOptions =
-            "\nWelcome foo_example"       +
-            "\n\n"                        +
-            "1. Tweet\n"                  +
-            "2. Your Timeline\n"          +
-            "3. See someone's timeline\n" +
-            "4. Logout\n"                 +
+            "\nWelcome " + currentUser.getUsername() +
+            "\n\n"                                   +
+            "1. Tweet\n"                             +
+            "2. Your Timeline\n"                     +
+            "3. See someone's timeline\n"            +
+            "4. Logout\n"                            +
             "Choose: ";
         return activityOptions;
     }
