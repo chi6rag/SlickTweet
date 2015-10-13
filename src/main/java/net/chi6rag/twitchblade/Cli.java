@@ -47,7 +47,7 @@ public class Cli {
                         userActivity.printTimeline();
                         break;
                     case 3:
-                        System.out.println(userActivity.getUsernameQuestion());
+                        userActivity.printUsernameQuestion();
                         String username = scanner.nextLine();
                         userActivity.printTimeline(username);
                         break;

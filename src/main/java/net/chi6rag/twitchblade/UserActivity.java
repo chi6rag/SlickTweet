@@ -64,6 +64,8 @@ public class UserActivity {
         }
     }
 
+
+
     public void logout(){
         try {
             this.connection.close();
@@ -75,8 +77,8 @@ public class UserActivity {
         }
     }
 
-    public String getUsernameQuestion(){
-        return "Enter username: ";
+    public void printUsernameQuestion(){
+        System.out.println("Enter username: ");
     }
 
     private void printTweetSavedMessage(Tweet tweet){

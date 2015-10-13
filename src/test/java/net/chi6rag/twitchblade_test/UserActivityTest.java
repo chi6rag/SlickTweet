@@ -70,9 +70,11 @@ public class UserActivityTest {
     }
 
     @Test
-    public void testGetUsernameQuestionReturnsUsernameQuestion(){
+    public void testPrintUsernameQuestionPrintsUsernameQuestionOnStdOut(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         String usernameQuestion = "Enter username: ";
-        assertEquals(usernameQuestion, userActivity.getUsernameQuestion());
+        userActivity.printUsernameQuestion();
+        assertionTestHelper.assertContains(consoleOutput.toString(), usernameQuestion);
     }
 
 
