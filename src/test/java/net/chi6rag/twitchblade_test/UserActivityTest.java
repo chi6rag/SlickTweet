@@ -55,7 +55,7 @@ public class UserActivityTest {
             "1. Tweet\n"                  +
             "2. Your Timeline\n"          +
             "3. See someone's timeline\n" +
-            "4. Your Followers"           +
+            "4. Your Followers\n"         +
             "5. Logout\n"                 +
             "Choose: ";
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
