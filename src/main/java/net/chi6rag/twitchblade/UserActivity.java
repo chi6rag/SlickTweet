@@ -13,7 +13,7 @@ public class UserActivity {
         this.currentUser = currentUser;
     }
 
-    public String getActivityOptions(){
+    public void printActivityOptions(){
         String activityOptions =
             "\nWelcome " + currentUser.getUsername() +
             "\n\n"                                   +
@@ -22,7 +22,7 @@ public class UserActivity {
             "3. See someone's timeline\n"            +
             "4. Logout\n"                            +
             "Choose: ";
-        return activityOptions;
+        System.out.println(activityOptions);
     }
 
     public String askForTweet(){
@@ -134,5 +134,4 @@ public class UserActivity {
         if(seconds > 1) { return(seconds + " seconds ago"); }
         return "1 seconds ago";
     }
-
 }

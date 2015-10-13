@@ -34,7 +34,7 @@ public class Cli {
 
             if(isLoggedIn(currentUser)){
                 UserActivity userActivity = new UserActivity(currentUser);
-                System.out.print(userActivity.getActivityOptions());
+                userActivity.printActivityOptions();
                 int userActivityChoice = scanner.nextInt();
                 scanner.nextLine();
                 switch(userActivityChoice){
