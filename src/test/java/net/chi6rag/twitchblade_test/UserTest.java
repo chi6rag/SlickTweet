@@ -5,7 +5,8 @@ import test_helpers.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
-
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -19,6 +20,7 @@ public class UserTest {
     @After
     public void afterEach(){
         userTestHelper.deleteAllUsers();
+        deleteAllRelationships();
     }
 
     @Test
@@ -63,11 +65,28 @@ public class UserTest {
     }
 
     @Test
-    public void testPrintFollowersForValidUserWithoutFollowersReturnsEmptyArray(){
+    public void testFollowersForValidUserWithoutFollowersReturnsEmptyArray(){
         User user = userTestHelper.getSavedUserObject("foo_example",
-                "123456789",connection);
+                "123456789", connection);
         ArrayList<User> followers = user.followers();
         assertEquals(followers.size(), 0);
+    }
+
+    @Test
+    public void testFollowersForUnsavedUserReturnsEmptyArray(){
+        User user = new User("ab", "123456789", this.connection);
+        ArrayList<User> followers = user.followers();
+        assertEquals(followers.size(), 0);
+    }
+
+    private void deleteAllRelationships() {
+        try {
+            PreparedStatement preparedStatement = this.connection
+                    .prepareStatement("DELETE FROM relationship");
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
