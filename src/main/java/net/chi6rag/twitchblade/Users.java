@@ -1,6 +1,7 @@
 package net.chi6rag.twitchblade;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class Users {
@@ -10,6 +11,21 @@ public class Users {
 
     public Users(DbConnection connection){
         this.connection = connection;
+    }
+
+    public static ArrayList<User> buildFromDbResult(ResultSet res, DbConnection connection){
+        ArrayList<User> users = new ArrayList<User>();
+        try {
+            while(res.next()){
+                Integer id = res.getInt("id");
+                String username = res.getString("username");
+                String password = res.getString("password");
+                users.add(new User(id, username, password, connection));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 
     public User find(Hashtable authDetails){
