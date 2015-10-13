@@ -22,8 +22,8 @@ public class RelationshipTestHelper {
         try {
             PreparedStatement followerStatement = connection.prepareStatement
                     (
-                        "INSERT INTO relationship(follower_id, followed_id) " +
-                        "VALUES(?,?)"
+                            "INSERT INTO relationship(follower_id, followed_id) " +
+                                    "VALUES(?,?)"
                     );
             followerStatement.setInt(1, followerOne.getId());
             followerStatement.setInt(2, user.getId());
@@ -31,6 +31,37 @@ public class RelationshipTestHelper {
             followerStatement.setInt(1, followerTwo.getId());
             followerStatement.setInt(2, user.getId());
             followerStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteAllRelationships() {
+        try {
+            PreparedStatement preparedStatement = this.connection
+                    .prepareStatement("DELETE FROM relationship");
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void createSampleFollowersFor(User user, String... usernames){
+        ArrayList<User> followers = new ArrayList<User>();
+        for(int i=0; i<usernames.length; i++){
+            followers.add((new User(usernames[i], "123456789", connection)).save());
+        }
+        try {
+            PreparedStatement followerStatement = connection.prepareStatement
+                (
+                    "INSERT INTO relationship(follower_id, followed_id) " +
+                    "VALUES(?,?)"
+                );
+            for(int i=0; i<followers.size(); i++){
+                followerStatement.setInt(1, followers.get(i).getId());
+                followerStatement.setInt(2, user.getId());
+                followerStatement.execute();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

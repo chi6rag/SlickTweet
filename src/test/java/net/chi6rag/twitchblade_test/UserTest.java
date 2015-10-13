@@ -21,7 +21,7 @@ public class UserTest {
 
     @After
     public void afterEach(){
-        deleteAllRelationships();
+        relationshipTestHelper.deleteAllRelationships();
         userTestHelper.deleteAllUsers();
     }
 
@@ -89,16 +89,6 @@ public class UserTest {
         ArrayList<User> followers = user.followers();
         assertEquals(followers.size(), 2);
         relationshipTestHelper.validateFollowers(user, followers);
-    }
-
-    private void deleteAllRelationships() {
-        try {
-            PreparedStatement preparedStatement = this.connection
-                    .prepareStatement("DELETE FROM relationship");
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 }

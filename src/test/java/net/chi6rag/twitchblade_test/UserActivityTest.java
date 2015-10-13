@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
-
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -23,6 +22,8 @@ public class UserActivityTest {
     TweetTestHelper tweetTestHelper = new TweetTestHelper(connection);
     IOTestHelper ioTestHelper = new IOTestHelper();
     AssertionTestHelper assertionTestHelper = new AssertionTestHelper();
+    RelationshipTestHelper relationTestHelper = new
+            RelationshipTestHelper(connection);
 
     @Before
     public void beforeEach(){
@@ -44,6 +45,7 @@ public class UserActivityTest {
 //            e.printStackTrace();
 //        }
         tweetTestHelper.deleteAllTweets();
+        relationTestHelper.deleteAllRelationships();
         userTestHelper.deleteAllUsers();
     }
 
@@ -217,6 +219,18 @@ public class UserActivityTest {
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         userActivity.printFollowers();
         assertionTestHelper.assertContains(consoleOutput.toString(), "No Followers");
+        ioTestHelper.setStdOutToDefault();
+    }
+
+    @Test
+    public void testPrintFollowersForUserWithExistentFollowers(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        relationTestHelper.createSampleFollowersFor(currentUser,
+                "bar_example", "baz_example");
+        userActivity.printFollowers();
+        assertionTestHelper.assertContains(consoleOutput.toString(), "bar_example");
+        assertionTestHelper.assertContains(consoleOutput.toString(), "baz_example");
+        ioTestHelper.setStdOutToDefault();
     }
 
     private Object getPrivateField(Object privateFieldContainer,
