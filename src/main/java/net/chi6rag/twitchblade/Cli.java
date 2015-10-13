@@ -36,7 +36,7 @@ public class Cli {
                 UserActivity userActivity = new UserActivity(currentUser);
                 userActivity.printActivityOptions();
                 int userActivityChoice = scanner.nextInt();
-                scanner.nextLine();
+                String username;
                 switch(userActivityChoice){
                     case 1:
                         System.out.println(userActivity.askForTweet());
@@ -48,10 +48,15 @@ public class Cli {
                         break;
                     case 3:
                         userActivity.printUsernameQuestion();
-                        String username = scanner.nextLine();
+                         username = scanner.nextLine();
                         userActivity.printTimeline(username);
                         break;
                     case 4:
+                        userActivity.printUsernameQuestion();
+                        username = scanner.nextLine();
+                        break;
+                    case 5:
+                        userActivity.logout();
                         currentUser = null;
                         break;
                     default:

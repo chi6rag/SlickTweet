@@ -195,13 +195,20 @@ public class UserActivityTest {
         ioTestHelper.setStdOutToDefault();
     }
 
-    // test print timeline for selected user to print no tweets message if no tweets
     @Test
     public void testPrintTimelineWithInvalidUsernameToPrintErrorMessage(){
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         userActivity.printTimeline("random_user");
         assertionTestHelper.assertContains(consoleOutput.toString(),
                 "Username does not exist");
+        ioTestHelper.setStdOutToDefault();
+    }
+
+    @Test
+    public void testPrintTimelineForValidUserWithNoTweetsPrintsNoTweets(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        userActivity.printTimeline("foo_example");
+        assertionTestHelper.assertContains(consoleOutput.toString(), "No Tweets");
         ioTestHelper.setStdOutToDefault();
     }
 
