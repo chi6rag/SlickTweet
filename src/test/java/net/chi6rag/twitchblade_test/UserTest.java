@@ -5,6 +5,9 @@ import test_helpers.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 
 public class UserTest {
@@ -57,6 +60,14 @@ public class UserTest {
     public void testSaveWithInvalidUserObjectReturnsNull(){
         User user = new User("ab", "123456789", this.connection);
         Assert.assertEquals(user.save(), null);
+    }
+
+    @Test
+    public void testPrintFollowersForValidUserWithoutFollowersReturnsEmptyArray(){
+        User user = userTestHelper.getSavedUserObject("foo_example",
+                "123456789",connection);
+        ArrayList<User> followers = user.followers();
+        assertEquals(followers.size(), 0);
     }
 
 }
