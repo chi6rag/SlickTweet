@@ -59,12 +59,21 @@ public class UserActivity {
         ArrayList<Tweet> usersTweets = timeline.getTweets();
         if(areTweetsPresent(usersTweets)){
             printTweets(usersTweets);
-        } else {
+        }
+        else {
             printNoTweetsPresentMessage();
         }
     }
 
-
+    public void printFollowers() {
+        ArrayList<User> followers = currentUser.followers();
+        if(areFollowersPresent(followers)) {
+            // print followers
+        }
+        else {
+            System.out.println("No Followers");
+        }
+    }
 
     public void logout(){
         try {
@@ -105,6 +114,10 @@ public class UserActivity {
         return !(tweets == null || tweets.size() == 0);
     }
 
+    private boolean areFollowersPresent(ArrayList<User> followers) {
+        return !(followers == null || followers.size() == 0);
+    }
+
     private void printTweets(ArrayList<Tweet> tweets){
         System.out.println("\nTimeline of " + currentUser.getUsername());
         System.out.println(getUnderlineFor(
@@ -137,4 +150,5 @@ public class UserActivity {
         if(seconds > 1) { return(seconds + " seconds ago"); }
         return "1 seconds ago";
     }
+
 }
