@@ -27,6 +27,17 @@ TwitchBlade is a command line app which lets you share messages upto 140 charact
       CONSTRAINT body_proper CHECK ( body ~* '[\w|\s]+' )
     );
     ```
+4. Create a relationship table as follows:
+
+    ```
+    CREATE TABLE relationship(
+      id SERIAL PRIMARY KEY,
+      follower_id integer NOT NULL REFERENCES users(id),
+      followed_id integer NOT NULL REFERENCES users(id),
+      created_at timestamptz DEFAULT statement_timestamp(),
+      CONSTRAINT relationship_unique UNIQUE(follower_id, followed_id)
+    );
+    ```
 
 ####Running in IDE
       - Fire up the IntelliJ Idea IDE and import Maven Dependencies
@@ -69,8 +80,19 @@ TwitchBlade is a command line app which lets you share messages upto 140 charact
       CONSTRAINT body_proper CHECK ( body ~* '[\w|\s]+' )
     );
     ```
-4. Fire up the IntelliJ Idea IDE and import Maven Dependencies
-5. Run the tests by clicking Fn + Shift + F10
+4. Create a relationship table as follows:
+
+    ```
+    CREATE TABLE relationship(
+      id SERIAL PRIMARY KEY,
+      follower_id integer NOT NULL REFERENCES users(id),
+      followed_id integer NOT NULL REFERENCES users(id),
+      created_at timestamptz DEFAULT statement_timestamp(),
+      CONSTRAINT relationship_unique UNIQUE(follower_id, followed_id)
+    );
+    ```
+5. Fire up the IntelliJ Idea IDE and import Maven Dependencies
+6. Run the tests by clicking Fn + Shift + F10
    Alternatively, run the tests by executing the following command in the
    project root directory:
    
