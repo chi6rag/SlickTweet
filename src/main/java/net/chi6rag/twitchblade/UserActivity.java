@@ -68,7 +68,12 @@ public class UserActivity {
     public void printFollowers() {
         ArrayList<User> followers = currentUser.followers();
         if(areFollowersPresent(followers)) {
-            // print followers
+            for(int i=0; i<followers.size(); i++){
+                User follower = followers.get(i);
+                System.out.println("User ID: " + follower.getId());
+                System.out.println("Username: " + follower.getUsername());
+                System.out.println();
+            }
         }
         else {
             System.out.println("No Followers");

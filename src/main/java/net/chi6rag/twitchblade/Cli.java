@@ -37,6 +37,7 @@ public class Cli {
                 userActivity.printActivityOptions();
                 int userActivityChoice = scanner.nextInt();
                 String username;
+                scanner.nextLine();
                 switch(userActivityChoice){
                     case 1:
                         System.out.println(userActivity.askForTweet());
@@ -48,13 +49,11 @@ public class Cli {
                         break;
                     case 3:
                         userActivity.printUsernameQuestion();
-                         username = scanner.nextLine();
+                        username = scanner.nextLine();
                         userActivity.printTimeline(username);
                         break;
                     case 4:
-                        userActivity.printUsernameQuestion();
-                        username = scanner.nextLine();
-                        // userActivity.printFollowersFor(username);
+                        userActivity.printFollowers();
                         break;
                     case 5:
                         userActivity.logout();
