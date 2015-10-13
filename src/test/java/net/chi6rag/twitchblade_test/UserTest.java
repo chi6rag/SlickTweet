@@ -16,11 +16,13 @@ public class UserTest {
 
     // Objects of helper classes
     UserTestHelper userTestHelper = new UserTestHelper(connection);
+    RelationshipTestHelper relationshipTestHelper = new
+            RelationshipTestHelper(connection);
 
     @After
     public void afterEach(){
-        userTestHelper.deleteAllUsers();
         deleteAllRelationships();
+        userTestHelper.deleteAllUsers();
     }
 
     @Test
@@ -77,6 +79,16 @@ public class UserTest {
         User user = new User("ab", "123456789", this.connection);
         ArrayList<User> followers = user.followers();
         assertEquals(followers.size(), 0);
+    }
+
+    @Test
+    public void testFollowersForValidUserWithExistentFollowersReturnsFollowers(){
+        User user = userTestHelper.getSavedUserObject("foo_example",
+                "123456789", connection);
+        relationshipTestHelper.createSampleFollowersFor(user);
+        ArrayList<User> followers = user.followers();
+        assertEquals(followers.size(), 2);
+        relationshipTestHelper.validateFollowers(user, followers);
     }
 
     private void deleteAllRelationships() {
