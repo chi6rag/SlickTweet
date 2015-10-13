@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
-import java.sql.SQLException;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
@@ -49,7 +48,7 @@ public class UserActivityTest {
     }
 
     @Test
-    public void testGetsActivityOptions(){
+    public void testPrintsActivityOptions(){
         String activityOptions =
             "\nWelcome foo_example"       +
             "\n\n"                        +
@@ -58,8 +57,9 @@ public class UserActivityTest {
             "3. See someone's timeline\n" +
             "4. Logout\n"                 +
             "Choose: ";
-        assertEquals(userActivity.getActivityOptions(),
-                activityOptions);
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        userActivity.printActivityOptions();
+        assertionTestHelper.assertContains(consoleOutput.toString(), activityOptions);
     }
 
     @Test
