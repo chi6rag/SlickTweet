@@ -212,6 +212,13 @@ public class UserActivityTest {
         ioTestHelper.setStdOutToDefault();
     }
 
+    @Test
+    public void testPrintFollowersForUserWithNoFollowersPrintsNoFollowersNotice(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        userActivity.printFollowers();
+        assertionTestHelper.assertContains(consoleOutput.toString(), "No Followers");
+    }
+
     private Object getPrivateField(Object privateFieldContainer,
        String privateFieldName) throws NoSuchFieldException, IllegalAccessException {
         Field field = privateFieldContainer.getClass().getDeclaredField(privateFieldName);
