@@ -15,13 +15,14 @@ public class UserActivity {
 
     public void printActivityOptions(){
         String activityOptions =
-            "\nWelcome " + currentUser.getUsername() +
-            "\n\n"                                   +
-            "1. Tweet\n"                             +
-            "2. Your Timeline\n"                     +
-            "3. See someone's timeline\n"            +
-            "4. Your Followers\n"                    +
-            "5. Logout\n"                            +
+            "\nWelcome foo_example"       +
+            "\n\n"                        +
+            "1. Tweet\n"                  +
+            "2. Your Timeline\n"          +
+            "3. See someone's timeline\n" +
+            "4. Your Followers\n"         +
+            "5. Follow User\n"            +
+            "6. Logout\n"                 +
             "Choose: ";
         System.out.println(activityOptions);
     }

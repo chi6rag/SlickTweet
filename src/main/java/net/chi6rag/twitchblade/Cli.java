@@ -56,6 +56,11 @@ public class Cli {
                         userActivity.printFollowers();
                         break;
                     case 5:
+                        userActivity.printUsernameQuestion();
+                        username = scanner.nextLine();
+                        userActivity.followUser(username);
+                        break;
+                    case 6:
                         userActivity.logout();
                         currentUser = null;
                         break;
