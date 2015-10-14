@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import test_helpers.RelationshipTestHelper;
 import test_helpers.UserTestHelper;
-import static junit.framework.TestCase.assertNull;
+import static junit.framework.Assert.assertFalse;
 
 public class FollowerTest {
     DbConnection connection = new DbConnection();
@@ -22,7 +22,7 @@ public class FollowerTest {
     public void beforeEach(){
         user = userTestHelper.getSavedUserObject("foo_example",
                 "123456789", connection);
-        follower = new Follower(user);
+        follower = new Follower(user, connection);
     }
 
     @After
@@ -32,12 +32,12 @@ public class FollowerTest {
     }
 
     @Test
-    public void testFollowForUnsavedUserWithValidArgumentsReturnsNull(){
+    public void testFollowForUnsavedUserWithValidArgumentsReturnsFalse(){
         User userToFollow = userTestHelper.getSavedUserObject("bar_example",
                 "123456789", this.connection);
-        User followedUser = follower.follow("bar_example");
-        relationshipTestHelper.validateNonFollower(user, followedUser);
-        assertNull(followedUser);
+        boolean hasFollowed = follower.follow("bar_example");
+        relationshipTestHelper.validateNonFollower(user, userToFollow);
+        assertFalse("Unsaved user followed User bar_example", hasFollowed);
     }
 
 }

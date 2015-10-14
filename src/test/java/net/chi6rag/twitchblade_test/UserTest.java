@@ -25,7 +25,7 @@ public class UserTest {
     @Test
     public void testNewWithValidDetailsSetsIdNull(){
         User user = new User("foo_example", "123456789", this.connection);
-        Assert.assertEquals(user.getId(), null);
+        assertEquals(user.getId(), null);
     }
 
     @Test
@@ -89,13 +89,13 @@ public class UserTest {
     }
 
     @Test
-    public void testFollowForUnsavedUserWithValidArgumentsReturnsNull(){
+    public void testFollowForUnsavedUserWithValidArgumentsReturnsFalse(){
         User userOne = new User("foo_example", "123456789", connection);
         User userTwo = userTestHelper.getSavedUserObject("bar_example",
                 "123456789", connection);
-        User follower = userOne.follow("bar_example");
+        boolean hasFollowed = userOne.follow("bar_example");
         relationshipTestHelper.validateNonFollower(userOne, userTwo);
-        assertNull(follower);
+        assertNull(hasFollowed);
     }
 
 }
