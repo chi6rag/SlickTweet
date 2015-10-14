@@ -64,4 +64,11 @@ public class TweetTestHelper {
         return errorMessage;
     }
 
+    public void createSampleTweetsFor(User user, String... tweetBodies){
+        for(int i=0; i<tweetBodies.length; i++){
+            String body = tweetBodies[i];
+            (new Tweet(body, user.getId(), connection)).save();
+        }
+    }
+
 }

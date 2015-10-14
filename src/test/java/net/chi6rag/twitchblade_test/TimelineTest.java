@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TimelineTest {
     DbConnection connection;
@@ -69,5 +70,30 @@ public class TimelineTest {
         ArrayList<Tweet> tweets = timeline.getTweets();
         assertEquals(tweets, null);
     }
+
+    @Test
+    public void testGetTweetsForUserReturnsTweetsForUserAndUsersUserFollows(){
+        User userToFollow = userTestHelper.getSavedUserObject("bar_example",
+                "123456789", this.connection);
+        tweetTestHelper.createSampleTweetsFor(userToFollow, "testing_one",
+                "testing two");
+        tweetTestHelper.createSampleTweetsFor(currentUser, "testing_three");
+        ArrayList<Tweet> tweets = timeline.getTweets();
+        String[] expectedTweetsBodies = {"testing_one", "testing_two", "testing_three"};
+        validateTimeline(tweets, expectedTweetsBodies);
+    }
+
+    private void validateTimeline(ArrayList<Tweet> tweetsQueried,
+                                  String[] expectedTweetBodies){
+        String tweetBody;
+        for(int i=0; i<expectedTweetBodies.length; i++){
+            tweetBody = expectedTweetBodies[i];
+            assertTrue(tweetBody + " not found in queried tweets",
+                    tweetsQueried.contains(tweetBody));
+        }
+    }
+
+    // test get tweets returns blank arraylist if neither user neither users followers have tweets
+    // test get tweets returns null for unsaved user
 
 }
