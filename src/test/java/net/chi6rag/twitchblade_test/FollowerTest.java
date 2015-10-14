@@ -7,7 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 import test_helpers.RelationshipTestHelper;
 import test_helpers.UserTestHelper;
+
+import java.util.ArrayList;
+
 import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class FollowerTest {
     DbConnection connection = new DbConnection();
@@ -34,6 +38,8 @@ public class FollowerTest {
 
     @Test
     public void testFollowForUnsavedUserWithValidArgumentsReturnsFalse(){
+        user = new User("baz_example", "123456789", this.connection);
+        follower = new Follower(user, this.connection);
         User userToFollow = userTestHelper.getSavedUserObject("bar_example",
                 "123456789", this.connection);
         boolean hasFollowed = follower.follow(userToFollow);
@@ -48,5 +54,15 @@ public class FollowerTest {
         assertFalse("foo_example followed unsaved bar_example", hasFollowed);
         relationshipTestHelper.validateNonFollower(user, userToFollow);
     }
+
+    @Test
+    public void testFollowForSavedUserWithValidUserArgumentToReturnTrue(){
+        User userToFollow = userTestHelper.getSavedUserObject("bar_example",
+                "123456789", this.connection);
+        boolean hasFollowed = follower.follow(userToFollow);
+        assertTrue("foo_example did not follow bar_example", hasFollowed);
+    }
+
+    // test follow for saved user with valid arguments returns false on refollow
 
 }

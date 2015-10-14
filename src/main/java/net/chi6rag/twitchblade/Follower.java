@@ -38,7 +38,7 @@ public class Follower {
         try {
             this.userFollowPreparedStatement = this.connection
                     .prepareStatement("INSERT INTO relationship(follower_id, followed_id) " +
-                            "VALUES(?, ?)");
+                            "VALUES(?, ?) RETURNING follower_id, followed_id");
         } catch (SQLException e) {
             // e.printStackTrace();
         }
