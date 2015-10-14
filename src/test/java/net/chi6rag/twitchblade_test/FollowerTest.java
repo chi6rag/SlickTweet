@@ -2,6 +2,7 @@ package net.chi6rag.twitchblade_test;
 
 import net.chi6rag.twitchblade.*;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import test_helpers.RelationshipTestHelper;
@@ -35,17 +36,16 @@ public class FollowerTest {
     public void testFollowForUnsavedUserWithValidArgumentsReturnsFalse(){
         User userToFollow = userTestHelper.getSavedUserObject("bar_example",
                 "123456789", this.connection);
-        boolean hasFollowed = follower.follow("bar_example");
+        boolean hasFollowed = follower.follow(userToFollow);
         relationshipTestHelper.validateNonFollower(user, userToFollow);
         assertFalse("Unsaved user followed User bar_example", hasFollowed);
     }
 
     @Test
-    public void testFollowForSavedUserWithInvalidUsernameArgumentToReturnFalse(){
-        User userToFollow = userTestHelper.getSavedUserObject("bar_example",
-                "123456789", this.connection);
-        boolean hasFollowed = user.follow("baz_example");
-        assertFalse("foo_example followed inexistent baz_example", hasFollowed);
+    public void testFollowForSavedUserWithInvalidUserArgumentToReturnFalse(){
+        User userToFollow = new User("bar_example", "123456789", this.connection);
+        boolean hasFollowed = follower.follow(userToFollow);
+        assertFalse("foo_example followed unsaved bar_example", hasFollowed);
         relationshipTestHelper.validateNonFollower(user, userToFollow);
     }
 
