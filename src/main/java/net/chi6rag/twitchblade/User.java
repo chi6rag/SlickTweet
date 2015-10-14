@@ -10,6 +10,7 @@ public class User {
     DbConnection connection;
     PreparedStatement userSavePreparedStatement = null;
     PreparedStatement usersFollowersPreparedStatement = null;
+    Users allUsers;
 
     public User(String username, String password, DbConnection connection){
         this.id = null;
@@ -49,6 +50,14 @@ public class User {
     }
 
     public Integer getId() { return this.id; }
+
+    public boolean follow(String username) {
+        allUsers = new Users(this.connection);
+        User userToFollow = allUsers.findByUsername(username);
+        if(userToFollow == null) return false;
+        Follower follower = new Follower(this, this.connection);
+        return follower.follow(userToFollow);
+    }
 
     private User getUserFromDBResult(ResultSet res){
         try {
