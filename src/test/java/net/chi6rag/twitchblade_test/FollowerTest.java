@@ -2,14 +2,10 @@ package net.chi6rag.twitchblade_test;
 
 import net.chi6rag.twitchblade.*;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import test_helpers.RelationshipTestHelper;
 import test_helpers.UserTestHelper;
-
-import java.util.ArrayList;
-
 import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -63,6 +59,13 @@ public class FollowerTest {
         assertTrue("foo_example did not follow bar_example", hasFollowed);
     }
 
-    // test follow for saved user with valid arguments returns false on refollow
+    @Test
+    public void testFollowForSavedUserWithValidArgumentsReturnsFalseOnRefollow(){
+        User userToFollow = userTestHelper.getSavedUserObject("bar_example",
+                "123456789", this.connection);
+        follower.follow(userToFollow);
+        boolean hasFollowedAgain = follower.follow(userToFollow);
+        assertFalse("foo_example followed bar_example again", hasFollowedAgain);
+    }
 
 }
