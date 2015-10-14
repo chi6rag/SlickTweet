@@ -28,8 +28,12 @@ public class DbConnection {
         return this.connection.prepareStatement(query);
     }
 
-    public void close() throws SQLException {
-        this.connection.close();
+    public void close(){
+        try {
+            this.connection.close();
+        } catch (SQLException e) {
+            // e.printStackTrace();
+        }
     }
 
     public Statement createStatement() throws SQLException {

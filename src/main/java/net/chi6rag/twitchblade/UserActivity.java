@@ -81,13 +81,18 @@ public class UserActivity {
     }
 
     public void logout(){
-        try {
-            this.connection.close();
-            this.connection  = null;
-            this.currentUser = null;
-        } catch (SQLException e) {
-            System.out.println("\nSome errors during logout\n" +
-                    "Please contact the customer support");
+        this.connection.close();
+        this.connection  = null;
+        this.currentUser = null;
+    }
+
+    public void followUser(String username){
+        boolean hasFollowed = currentUser.follow(username);
+        if(hasFollowed) {
+            System.out.println("Followed " + username);
+        }
+        else {
+            System.out.println("Cannot follow " + username);
         }
     }
 
