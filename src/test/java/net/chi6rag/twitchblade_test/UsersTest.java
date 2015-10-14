@@ -6,7 +6,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.Hashtable;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -40,14 +39,6 @@ public class UsersTest {
     }
 
     @Test
-    public void returnsNullWhenCalledFindWithInexistentUserDetails(){
-        Hashtable inexistentAuthDetails = userTestHelper
-                .getUserDetails("baz_example", "123456789");
-        User foundUser = allUsers.find(inexistentAuthDetails);
-        assertEquals(foundUser, null);
-    }
-
-    @Test
     public void returnsNullWhenCalledWithWrongUserDetailsHash(){
         Hashtable authDetails = getWrongUserDetailsHash();
         User foundUser = allUsers.find(authDetails);
@@ -67,6 +58,14 @@ public class UsersTest {
     public void testFindByUsernameForInvalidUsernameReturnsNull(){
         User foundUser = allUsers.findByUsername("baz_example");
         assertNull(foundUser);
+    }
+
+    @Test
+    public void returnsNullWhenCalledFindWithInexistentUserDetails(){
+        Hashtable inexistentAuthDetails = userTestHelper
+                .getUserDetails("baz_example", "123456789");
+        User foundUser = allUsers.find(inexistentAuthDetails);
+        assertEquals(foundUser, null);
     }
 
     private Hashtable getWrongUserDetailsHash(){

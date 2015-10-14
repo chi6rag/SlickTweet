@@ -9,21 +9,26 @@ import static org.junit.Assert.assertEquals;
 
 public class LoginSignUpTest {
     Authentication auth = new Authentication();
-    DbConnection connection = new DbConnection();
+    DbConnection connection;
 
     // Objects of helper classes
-    UserTestHelper userTestHelper = new UserTestHelper(connection);
-    AssertionTestHelper assertionTestHelper = new AssertionTestHelper();
-    IOTestHelper ioTestHelper = new IOTestHelper();
+    UserTestHelper userTestHelper;
+    AssertionTestHelper assertionTestHelper;
+    IOTestHelper ioTestHelper;
 
     @Before
     public void beforeEach(){
+        connection = new DbConnection();
+        userTestHelper = new UserTestHelper(connection);
+        assertionTestHelper = new AssertionTestHelper();
+        ioTestHelper = new IOTestHelper();
         userTestHelper.createTestUser("foo_example", "123456789");
     }
 
     @After
     public void afterEach(){
         userTestHelper.deleteAllUsers();
+        connection.close();
     }
 
     @Test

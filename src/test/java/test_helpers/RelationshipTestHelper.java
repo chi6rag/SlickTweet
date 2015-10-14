@@ -73,8 +73,18 @@ public class RelationshipTestHelper {
         for(int i=0; i<followers.size(); i++){
             assertEquals(followers.get(i).getClass().getSimpleName(), "User");
             isFollowingErrorMessage = "Failure: " + followers.get(i).getUsername() +
-                                      " is not following " + user.getUsername();
+                    " is not following " + user.getUsername();
             assertTrue(isFollowingErrorMessage, isFollowing(followers.get(i), user));
+        }
+    }
+
+    public void validateFollowers(User user, User... followers){
+        String isFollowingErrorMessage;
+        for(int i=0; i<followers.length; i++){
+            assertEquals(followers[i].getClass().getSimpleName(), "User");
+            isFollowingErrorMessage = "Failure: " + followers[i].getUsername() +
+                    " is not following " + user.getUsername();
+            assertTrue(isFollowingErrorMessage, isFollowing(followers[i], user));
         }
     }
 
@@ -84,7 +94,7 @@ public class RelationshipTestHelper {
         assertTrue(nonFollowerError, !isFollowing(follower, followed));
     }
 
-    private boolean isFollowing(User follower, User followed){
+    public boolean isFollowing(User follower, User followed){
         boolean isFollowing = false;
         if(follower.getId() == null || followed.getId() == null) return false;
         try {

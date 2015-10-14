@@ -57,10 +57,10 @@ public class UserTestHelper {
                     "(username, password) VALUES(?, ?) RETURNING username, password");
             preparedStatement.setString(1, "foo_example");
             preparedStatement.setString(2, "123456789");
-            preparedStatement.executeQuery();
+            preparedStatement.execute();
             preparedStatement.setString(1, "bar_example");
             preparedStatement.setString(2, "123456789");
-            preparedStatement.executeQuery();
+            preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }

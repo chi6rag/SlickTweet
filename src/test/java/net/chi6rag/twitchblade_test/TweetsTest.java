@@ -11,15 +11,18 @@ import static org.junit.Assert.assertEquals;
 
 public class TweetsTest {
     Tweets allTweets;
-    DbConnection connection = new DbConnection();
+    DbConnection connection;
     User user;
 
     // Objects of helper classes
-    UserTestHelper userTestHelper = new UserTestHelper(connection);
-    TweetTestHelper tweetTestHelper = new TweetTestHelper(connection);
+    UserTestHelper userTestHelper;
+    TweetTestHelper tweetTestHelper;
 
     @Before
     public void beforeEach(){
+        connection = new DbConnection();
+        userTestHelper = new UserTestHelper(connection);
+        tweetTestHelper = new TweetTestHelper(connection);
         user = userTestHelper.getSavedUserObject("foo_example",
                 "123456789", connection);
         allTweets = new Tweets(this.connection);

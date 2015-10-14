@@ -13,16 +13,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 public class TimelineTest {
-    DbConnection connection = new DbConnection();
+    DbConnection connection;
     Timeline timeline;
     User currentUser;
 
     // Objects of helper classes
-    UserTestHelper userTestHelper = new UserTestHelper(connection);
-    TweetTestHelper tweetTestHelper = new TweetTestHelper(connection);
+    UserTestHelper userTestHelper;
+    TweetTestHelper tweetTestHelper;
 
     @Before
     public void BeforeEach(){
+        connection = new DbConnection();
+        userTestHelper = new UserTestHelper(connection);
+        tweetTestHelper = new TweetTestHelper(connection);
         currentUser = userTestHelper.getSavedUserObject("foo_example", "123456789",
                 this.connection);
         timeline = new Timeline(currentUser, this.connection);
@@ -32,6 +35,7 @@ public class TimelineTest {
     public void afterEach(){
         tweetTestHelper.deleteAllTweets();
         userTestHelper.deleteAllUsers();
+        connection.close();
     }
 
     @Test

@@ -10,17 +10,19 @@ import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class FollowerTest {
-    DbConnection connection = new DbConnection();
+    DbConnection connection;
     Follower follower;
     User user;
 
     // Objects of helper classes
-    UserTestHelper userTestHelper = new UserTestHelper(connection);
-    RelationshipTestHelper relationshipTestHelper = new
-            RelationshipTestHelper(connection);
+    UserTestHelper userTestHelper;
+    RelationshipTestHelper relationshipTestHelper;
 
     @Before
     public void beforeEach(){
+        connection = new DbConnection();
+        userTestHelper = new UserTestHelper(connection);
+        relationshipTestHelper = new RelationshipTestHelper(connection);
         user = userTestHelper.getSavedUserObject("foo_example",
                 "123456789", connection);
         follower = new Follower(user, connection);
@@ -30,6 +32,7 @@ public class FollowerTest {
     public void afterEach(){
         relationshipTestHelper.deleteAllRelationships();
         userTestHelper.deleteAllUsers();
+        connection.close();
     }
 
     @Test

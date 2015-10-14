@@ -95,7 +95,8 @@ public class UserTest {
                 "123456789", connection);
         boolean hasFollowed = userOne.follow("bar_example");
         relationshipTestHelper.validateNonFollower(userOne, userTwo);
-        assertNull(hasFollowed);
+        assertFalse("Unsaved user foo_example followed saved user " +
+                "bar_example", hasFollowed);
     }
 
     @Test
@@ -106,7 +107,48 @@ public class UserTest {
                 "123456789", connection);
         boolean hasFollowed = user.follow("baz_example");
         relationshipTestHelper.validateNonFollower(user, userToFollow);
-        assertFalse("foo_example followed inexistent bax_example", hasFollowed);
+        assertFalse("foo_example followed inexistent User bax_example", hasFollowed);
+    }
+
+    // test follow for saved user with invalid arguments returns false
+    @Test
+    public void testFollowForSavedUserWithInvalidArgumentsReturnsFalse(){
+        User user = userTestHelper.getSavedUserObject("foo_example",
+                "123456789", connection);
+        boolean hasFollowed = user.follow("a");
+        assertFalse("foo_example followed inexistent User a", hasFollowed);
+    }
+
+    // test follow for saved user with valid arguments returns true
+    @Test
+    public void testFollowForSavedUserWithValidArgumentsReturnsTrue(){
+        User user = userTestHelper.getSavedUserObject("foo_example",
+                "123456789", connection);
+        User userToFollow = userTestHelper.getSavedUserObject("bar_example",
+                "123456789", connection);
+        boolean hasFollowed = user.follow("bar_example");
+        assertTrue("foo_example did not follow valid user bar_example", hasFollowed);
+    }
+
+    @Test
+    public void testFollowForSavedUserWithValidArgumentsMakesUserFollowArgumentUser(){
+        User user = userTestHelper.getSavedUserObject("foo_example",
+                "123456789", connection);
+        User userToFollow = userTestHelper.getSavedUserObject("bar_example",
+                "123456789", connection);
+        user.follow("bar_example");
+        relationshipTestHelper.validateFollowers(userToFollow, user);
+    }
+
+    // test follow for saved user with valid arguments returns false on refollow
+    @Test
+    public void testFollowForSavedUserWithValidArgumentsReturnsFalseOnRefollow(){
+        User user = userTestHelper.getSavedUserObject("foo_example",
+                "123456789", connection);
+        userTestHelper.getSavedUserObject("bar_example", "123456789", connection);
+        user.follow("bar_example");
+        boolean hasFollowedAgain = user.follow("bar_example");
+        assertFalse("foo_example followed bar_example again", hasFollowedAgain);
     }
 
 }
