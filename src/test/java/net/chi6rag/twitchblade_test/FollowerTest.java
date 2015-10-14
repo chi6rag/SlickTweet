@@ -40,4 +40,13 @@ public class FollowerTest {
         assertFalse("Unsaved user followed User bar_example", hasFollowed);
     }
 
+    @Test
+    public void testFollowForSavedUserWithInvalidUsernameArgumentToReturnFalse(){
+        User userToFollow = userTestHelper.getSavedUserObject("bar_example",
+                "123456789", this.connection);
+        boolean hasFollowed = user.follow("baz_example");
+        assertFalse("foo_example followed inexistent baz_example", hasFollowed);
+        relationshipTestHelper.validateNonFollower(user, userToFollow);
+    }
+
 }
