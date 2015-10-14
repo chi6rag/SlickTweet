@@ -52,7 +52,7 @@ TwitchBlade is a command line app which lets you share messages upto 140 charact
 
       - Run the application by running the following command:
         ```
-        mvn exec:java -Dexec.mainClass="net.chi6rag.twitchblade.Cli"
+        mvn exec:java -Dexec.mainClass="net.chi6rag.twitchblade.Main"
         ```
 
 ###Setting Up: Testing

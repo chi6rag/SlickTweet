@@ -4,8 +4,9 @@ import java.util.Hashtable;
 import java.util.Scanner;
 
 public class Cli {
-    public static void main(String[] args){
-        Scanner scanner = new Scanner(System.in);
+    Scanner scanner = new Scanner(System.in);
+
+    public void start(){
         Authentication authentication = new Authentication();
         User currentUser = null;
         Hashtable<String, String> authDetails = null;
@@ -68,9 +69,7 @@ public class Cli {
                         System.out.println("Wrong Choice");
                 }
             }
-
         }
-
     }
 
     private static boolean isLoggedIn(User user){

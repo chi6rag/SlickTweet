@@ -1,6 +1,5 @@
 package net.chi6rag.twitchblade;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -15,14 +14,14 @@ public class UserActivity {
 
     public void printActivityOptions(){
         String activityOptions =
-            "\nWelcome foo_example"       +
-            "\n\n"                        +
-            "1. Tweet\n"                  +
-            "2. Your Timeline\n"          +
-            "3. See someone's timeline\n" +
-            "4. Your Followers\n"         +
-            "5. Follow User\n"            +
-            "6. Logout\n"                 +
+            "\nWelcome " + currentUser.getUsername() +
+            "\n\n"                                   +
+            "1. Tweet\n"                             +
+            "2. Your Timeline\n"                     +
+            "3. See someone's timeline\n"            +
+            "4. Your Followers\n"                    +
+            "5. Follow User\n"                       +
+            "6. Logout\n"                            +
             "Choose: ";
         System.out.println(activityOptions);
     }

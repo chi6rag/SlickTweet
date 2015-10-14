@@ -52,14 +52,14 @@ public class UserActivityTest {
     @Test
     public void testPrintsActivityOptions(){
         String activityOptions =
-            "\nWelcome foo_example"       +
-            "\n\n"                        +
-            "1. Tweet\n"                  +
-            "2. Your Timeline\n"          +
-            "3. See someone's timeline\n" +
-            "4. Your Followers\n"         +
-            "5. Follow User\n"            +
-            "6. Logout\n"                 +
+            "\nWelcome " + currentUser.getUsername() +
+            "\n\n"                                   +
+            "1. Tweet\n"                             +
+            "2. Your Timeline\n"                     +
+            "3. See someone's timeline\n"            +
+            "4. Your Followers\n"                    +
+            "5. Follow User\n"                       +
+            "6. Logout\n"                            +
             "Choose: ";
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         userActivity.printActivityOptions();
