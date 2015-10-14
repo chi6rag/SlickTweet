@@ -88,4 +88,14 @@ public class UserTest {
         relationshipTestHelper.validateFollowers(user, followers);
     }
 
+    @Test
+    public void testFollowForUnsavedUserWithValidArgumentsReturnsNull(){
+        User userOne = new User("foo_example", "123456789", connection);
+        User userTwo = userTestHelper.getSavedUserObject("bar_example",
+                "123456789", connection);
+        User follower = userOne.follow("bar_example");
+        relationshipTestHelper.validateNonFollower(userOne, userTwo);
+        assertNull(follower);
+    }
+
 }
