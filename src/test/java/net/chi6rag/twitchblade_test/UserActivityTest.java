@@ -22,7 +22,7 @@ public class UserActivityTest {
     TweetTestHelper tweetTestHelper = new TweetTestHelper(connection);
     IOTestHelper ioTestHelper = new IOTestHelper();
     AssertionTestHelper assertionTestHelper = new AssertionTestHelper();
-    RelationshipTestHelper relationTestHelper = new
+    RelationshipTestHelper relationshipTestHelper = new
             RelationshipTestHelper(connection);
 
     @Before
@@ -45,7 +45,7 @@ public class UserActivityTest {
 //            e.printStackTrace();
 //        }
         tweetTestHelper.deleteAllTweets();
-        relationTestHelper.deleteAllRelationships();
+        relationshipTestHelper.deleteAllRelationships();
         userTestHelper.deleteAllUsers();
     }
 
@@ -225,11 +225,29 @@ public class UserActivityTest {
     @Test
     public void testPrintFollowersForUserWithExistentFollowers(){
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
-        relationTestHelper.createSampleFollowersFor(currentUser,
+        relationshipTestHelper.createSampleFollowersFor(currentUser,
                 "bar_example", "baz_example");
         userActivity.printFollowers();
         assertionTestHelper.assertContains(consoleOutput.toString(), "bar_example");
         assertionTestHelper.assertContains(consoleOutput.toString(), "baz_example");
+        ioTestHelper.setStdOutToDefault();
+    }
+
+    @Test
+    public void testFollowUserWithValidUsernameFollowsUser(){
+        User userToFollow = userTestHelper.getSavedUserObject("bar_example",
+                "123456789", connection);
+        userActivity.followUser("bar_example");
+        relationshipTestHelper.validateFollowers(userToFollow, currentUser);
+    }
+
+    @Test
+    public void testFollowUserWithValidUsernamePrintsFollowedUsernameOnStdOut(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        userTestHelper.createTestUser("bar_example", "123456789");
+        userActivity.followUser("bar_example");
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                "Followed bar_example");
         ioTestHelper.setStdOutToDefault();
     }
 

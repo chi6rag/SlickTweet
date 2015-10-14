@@ -7,7 +7,8 @@ public class AssertionTestHelper {
     public void assertContains(String parentString, String subString){
         System.out.println(parentString);
         System.out.println(subString);
-        assertTrue(parentString.contains(subString));
+        String errorMessage = parentString + " does not contain " + subString;
+        assertTrue(errorMessage, parentString.contains(subString));
     }
 
     // if none of the arguments is contained in the target string
