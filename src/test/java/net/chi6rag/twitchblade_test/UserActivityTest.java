@@ -251,6 +251,26 @@ public class UserActivityTest {
         ioTestHelper.setStdOutToDefault();
     }
 
+    @Test
+    public void testFollowUserWithInvalidUsernamePrintsErrorOnStdOut(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        userActivity.followUser("a");
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                "Cannot follow a");
+        ioTestHelper.setStdOutToDefault();
+    }
+
+    @Test
+    public void testReFollowUserWithValidUsernamePrintsErrorOnStdOut(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        userTestHelper.createTestUser("bar_example", "123456789");
+        userActivity.followUser("bar_example");
+        userActivity.followUser("bar_example");
+        assertionTestHelper.assertContains(consoleOutput.toString(),
+                "Cannot follow bar_example");
+        ioTestHelper.setStdOutToDefault();
+    }
+
     private Object getPrivateField(Object privateFieldContainer,
        String privateFieldName) throws NoSuchFieldException, IllegalAccessException {
         Field field = privateFieldContainer.getClass().getDeclaredField(privateFieldName);
