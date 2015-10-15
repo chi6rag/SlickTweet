@@ -58,9 +58,8 @@ public class UserActivityTest {
             "2. Your Timeline\n"                     +
             "3. See someone's profile page\n"        +
             "4. Your Followers\n"                    +
-            "5. People you are following\n"          +
-            "6. Follow User\n"                       +
-            "7. Logout\n"                            +
+            "5. Follow User\n"                       +
+            "6. Logout\n"                            +
             "Choose: ";
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         userActivity.printActivityOptions();

@@ -22,9 +22,8 @@ public class UserActivity {
             "2. Your Timeline\n"                     +
             "3. See someone's profile page\n"        +
             "4. Your Followers\n"                    +
-            "5. People you are following\n"          +
-            "6. Follow User\n"                       +
-            "7. Logout\n"                            +
+            "5. Follow User\n"                       +
+            "6. Logout\n"                            +
             "Choose: ";
         System.out.println(activityOptions);
     }
@@ -76,9 +75,8 @@ public class UserActivity {
             System.out.println("Username does not exist");
             return;
         }
-        Hashtable query = new Hashtable();
-        query.put("userId", queriedUser.getId());
-        ArrayList<Tweet> usersTweets = allTweets.where(query);
+        Profile profile = new Profile(queriedUser, connection);
+        ArrayList<Tweet> usersTweets = profile.getTweets();
         if(areTweetsPresent(usersTweets)){
             printTweets(usersTweets);
         }
@@ -108,7 +106,7 @@ public class UserActivity {
         this.currentUser = null;
     }
 
-    public void followUser(String username){
+    public void followUser(String username) {
         boolean hasFollowed = currentUser.follow(username);
         if(hasFollowed) {
             System.out.println("Followed " + username);
@@ -151,10 +149,6 @@ public class UserActivity {
     }
 
     private void printTweets(ArrayList<Tweet> tweets){
-        System.out.println("\nTimeline of " + currentUser.getUsername());
-        System.out.println(getUnderlineFor(
-                "Timeline of" + currentUser.getUsername())
-        );
         for(int i=0; i<tweets.size(); i++){
             Tweet tweet = tweets.get(i);
             System.out.println("Tweet ID: " + tweet.getId());
@@ -162,12 +156,6 @@ public class UserActivity {
             System.out.println("Posted: " + timeAgoInWords(tweet.getCreatedAt()));
             System.out.println();
         }
-    }
-
-    private String getUnderlineFor(String string){
-        String s = "";
-        for(int i=0; i<string.length(); i++){ s.concat("-"); }
-        return s;
     }
 
     private String timeAgoInWords(Date date){

@@ -51,7 +51,7 @@ public class Cli {
                     case 3:
                         userActivity.printUsernameQuestion();
                         username = scanner.nextLine();
-                        userActivity.printTimeline(username);
+                        userActivity.printProfilePageOf(username);
                         break;
                     case 4:
                         userActivity.printFollowers();
