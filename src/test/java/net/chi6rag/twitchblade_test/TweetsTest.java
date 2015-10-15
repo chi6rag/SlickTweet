@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class TweetsTest {
     Tweets allTweets;
@@ -65,11 +66,56 @@ public class TweetsTest {
     }
 
     @Test
-    public void testWhereMethodWithValidUserButNoTweetsReturnsEmptyArrayList(){
+    public void testWhereMethodWithValidUserIDButNoTweetsReturnsEmptyArrayList(){
         Hashtable queryHash = new Hashtable();
         queryHash.put("userId", user.getId());
         ArrayList<Tweet> tweets = allTweets.where(queryHash);
         assertEquals(tweets.size(), 0);
+    }
+
+    @Test
+    public void testForTimelineOfWithInvalidUserIdReturnsEmptyArrayList(){
+        ArrayList<Tweet> tweets = allTweets.forTimelineOf(2147483647);
+        assertEquals(tweets.size(), 0);
+    }
+
+    @Test
+    public void testForTimelineOfWithValidUserIdHavingNoFollowersReturnsTweetsOfUserOnly(){
+        tweetTestHelper.createSampleTweetsFor(user, "testing_one", "testing_two");
+        ArrayList<Tweet> tweets = allTweets.forTimelineOf(user.getId());
+        String[] expectedTweetsBodies = {"testing_one", "testing_two"};
+        Tweet tweet;
+        for(int i=0; i<tweets.size(); i++){
+            tweet = tweets.get(i);
+            assertEquals(tweet.getUserId(), user.getId());
+            assertTrue(tweet.getBody() + " not a part of " + expectedTweetsBodies,
+                    containsElement(expectedTweetsBodies, tweet.getBody())
+            );
+        }
+    }
+
+    @Test
+    public void testForTimelineOfWithValidUserIdReturnsTweetsForUserAndUsersUserFollows(){
+        User userToFollow = userTestHelper.getSavedUserObject("bar_example",
+                "123456789", this.connection);
+        tweetTestHelper.createSampleTweetsFor(userToFollow, "testing_one",
+                "testing two");
+        tweetTestHelper.createSampleTweetsFor(user, "testing_three");
+        ArrayList<Tweet> tweets = allTweets.forTimelineOf(user.getId());
+
+        Integer[] expectedTweetsUserIds = {user.getId(), userToFollow.getId()};
+        String[] expectedTweetsBodies = {"testing_one", "testing_two", "testing_three"};
+        for(int i=0; i<tweets.size(); i++){
+            assertTrue(containsElement(expectedTweetsUserIds, tweets.get(i).getUserId()));
+            assertTrue(containsElement(expectedTweetsBodies, tweets.get(i).getBody()));
+        }
+    }
+
+    private <T> boolean containsElement(T[] array, T element){
+        for(int i=0; i<array.length; i++) {
+            if(array[i].equals(element) || array[i] == element) return true;
+        }
+        return false;
     }
 
 }
