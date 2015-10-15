@@ -2,10 +2,12 @@ package net.chi6rag.twitchblade;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 
 public class UserActivity {
     private DbConnection connection = new DbConnection();
     private Users allUsers;
+    private Tweets allTweets;
     private User currentUser;
 
     public UserActivity(User currentUser){
@@ -58,6 +60,25 @@ public class UserActivity {
         }
         Timeline timeline = new Timeline(queriedUser, this.connection);
         ArrayList<Tweet> usersTweets = timeline.getTweets();
+        if(areTweetsPresent(usersTweets)){
+            printTweets(usersTweets);
+        }
+        else {
+            printNoTweetsPresentMessage();
+        }
+    }
+
+    public void printProfilePageOf(String username){
+        this.allUsers = new Users(connection);
+        this.allTweets = new Tweets(connection);
+        User queriedUser = allUsers.findByUsername(username);
+        if(queriedUser == null){
+            System.out.println("Username does not exist");
+            return;
+        }
+        Hashtable query = new Hashtable();
+        query.put("userId", queriedUser.getId());
+        ArrayList<Tweet> usersTweets = allTweets.where(query);
         if(areTweetsPresent(usersTweets)){
             printTweets(usersTweets);
         }
