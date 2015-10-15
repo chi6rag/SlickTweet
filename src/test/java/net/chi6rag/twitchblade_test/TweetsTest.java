@@ -18,12 +18,14 @@ public class TweetsTest {
     // Objects of helper classes
     UserTestHelper userTestHelper;
     TweetTestHelper tweetTestHelper;
+    RelationshipTestHelper relationshipTestHelper;
 
     @Before
     public void beforeEach(){
         connection = new DbConnection();
         userTestHelper = new UserTestHelper(connection);
         tweetTestHelper = new TweetTestHelper(connection);
+        relationshipTestHelper = new RelationshipTestHelper(connection);
         user = userTestHelper.getSavedUserObject("foo_example",
                 "123456789", connection);
         allTweets = new Tweets(this.connection);
@@ -32,6 +34,7 @@ public class TweetsTest {
     @After
     public void afterEach(){
         tweetTestHelper.deleteAllTweets();
+        relationshipTestHelper.deleteAllRelationships();
         userTestHelper.deleteAllUsers();
     }
 
@@ -80,6 +83,12 @@ public class TweetsTest {
     }
 
     @Test
+    public void testForTimelineOfWithNegativeUserIdReturnsEmptyArrayList(){
+        ArrayList<Tweet> tweets = allTweets.forTimelineOf(2147483647);
+        assertEquals(tweets.size(), 0);
+    }
+
+    @Test
     public void testForTimelineOfWithValidUserIdHavingNoFollowersReturnsTweetsOfUserOnly(){
         tweetTestHelper.createSampleTweetsFor(user, "testing_one", "testing_two");
         ArrayList<Tweet> tweets = allTweets.forTimelineOf(user.getId());
@@ -95,20 +104,62 @@ public class TweetsTest {
     }
 
     @Test
+    public void testForTimelineOfWithValidUserIdHavingNoTweetsNorFollowersTweetsReturnsEmptyArraylist(){
+        userTestHelper.getSavedUserObject("bar_example", "123456789", this.connection);
+        user.follow("bar_example");
+        ArrayList<Tweet> tweets = allTweets.forTimelineOf(user.getId());
+        assertEquals(tweets.size(), 0);
+    }
+
+    @Test
     public void testForTimelineOfWithValidUserIdReturnsTweetsForUserAndUsersUserFollows(){
+        // ------ setup data ------
         User userToFollow = userTestHelper.getSavedUserObject("bar_example",
                 "123456789", this.connection);
         tweetTestHelper.createSampleTweetsFor(userToFollow, "testing_one",
-                "testing two");
+                "testing_two");
         tweetTestHelper.createSampleTweetsFor(user, "testing_three");
+        user.follow("bar_example");
         ArrayList<Tweet> tweets = allTweets.forTimelineOf(user.getId());
-
+        String[]  queriedTweetBodies  = getTweetBodies(tweets);
+        Integer[] queriedTweetUserIds = getTweetUserIds(tweets);
+        // --------- test ---------
         Integer[] expectedTweetsUserIds = {user.getId(), userToFollow.getId()};
-        String[] expectedTweetsBodies = {"testing_one", "testing_two", "testing_three"};
-        for(int i=0; i<tweets.size(); i++){
-            assertTrue(containsElement(expectedTweetsUserIds, tweets.get(i).getUserId()));
-            assertTrue(containsElement(expectedTweetsBodies, tweets.get(i).getBody()));
+        String[]  expectedTweetsBodies  = {"testing_one", "testing_two", "testing_three"};
+        validatePresenceOfTweetBodies(expectedTweetsBodies, queriedTweetBodies);
+        validatePresenceOfTweetUserIds(expectedTweetsUserIds, queriedTweetUserIds);
+    }
+
+    private void validatePresenceOfTweetUserIds(Integer[] expectedTweetsUserIds,
+                                                Integer[] queriedTweetsUserIds) {
+        Integer userId;
+        for(int i=0; i<expectedTweetsUserIds.length; i++){
+            userId = expectedTweetsUserIds[i];
+            assertTrue(expectedTweetsUserIds + " does not contain " + userId,
+                    containsElement(queriedTweetsUserIds, userId));
         }
+    }
+
+    private void validatePresenceOfTweetBodies(String[] expectedTweetsBodies,
+                                               String[] queriedTweetBodies) {
+        String tweetBody;
+        for(int i=0; i<expectedTweetsBodies.length; i++){
+            tweetBody = expectedTweetsBodies[i];
+            assertTrue("expectedTweetsBodies array does not contain "
+                    + tweetBody,  containsElement(queriedTweetBodies, tweetBody));
+        }
+    }
+
+    private String[] getTweetBodies(ArrayList<Tweet> tweets){
+        String[] tweetBodies = new String[tweets.size()];
+        for(int i=0; i<tweets.size(); i++){ tweetBodies[i] = tweets.get(i).getBody(); }
+        return tweetBodies;
+    }
+
+    private Integer[] getTweetUserIds(ArrayList<Tweet> tweets){
+        Integer[] tweetUserIds = new Integer[tweets.size()];
+        for(int i=0; i<tweets.size(); i++){ tweetUserIds[i] = tweets.get(i).getUserId(); }
+        return tweetUserIds;
     }
 
     private <T> boolean containsElement(T[] array, T element){
