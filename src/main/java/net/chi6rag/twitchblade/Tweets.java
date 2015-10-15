@@ -61,12 +61,12 @@ public class Tweets {
             try {
                 this.tweetsForTimelinePreparedStatement = this.connection
                     .prepareStatement(
-                            "(SELECT T.id, T.body, T.user_id, T.created_at" +
-                                    " FROM relationship AS R INNER JOIN tweets AS T" +
-                                    " ON R.followed_id=T.user_id WHERE R.follower_id=?)" +
-                                    " UNION (SELECT * FROM tweets AS T WHERE T.user_id=?)" +
-                                    " ORDER BY created_at DESC RETURNING T.id, T.body," +
-                                    " T.user_id, T.created_at");
+                        "(SELECT T.id, T.body, T.user_id, T.created_at"        +
+                        " FROM relationship AS R INNER JOIN tweets AS T"       +
+                        " ON R.followed_id=T.user_id WHERE R.follower_id=?)"   +
+                        " UNION (SELECT * FROM tweets AS T WHERE T.user_id=?)" +
+                        " ORDER BY created_at DESC"
+                    );
             } catch (SQLException e) {
                 // e.printStackTrace();
             }
