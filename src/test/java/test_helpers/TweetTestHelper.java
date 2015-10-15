@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class TweetTestHelper {
     private final DbConnection connection;
@@ -22,6 +23,12 @@ public class TweetTestHelper {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public String[] getTweetBodies(ArrayList<Tweet> tweets){
+        String[] tweetBodies = new String[tweets.size()];
+        for(int i=0; i<tweets.size(); i++){ tweetBodies[i] = tweets.get(i).getBody(); }
+        return tweetBodies;
     }
 
     public Tweet getSavedTweetObject(String body, Integer userId,

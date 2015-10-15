@@ -21,6 +21,7 @@ public class TimelineTest {
     // Objects of helper classes
     UserTestHelper userTestHelper;
     TweetTestHelper tweetTestHelper;
+    AssertionTestHelper assertionTestHelper;
     RelationshipTestHelper relationshipTestHelper;
 
     @Before
@@ -29,6 +30,7 @@ public class TimelineTest {
         userTestHelper = new UserTestHelper(connection);
         tweetTestHelper = new TweetTestHelper(connection);
         relationshipTestHelper = new RelationshipTestHelper(connection);
+        assertionTestHelper = new AssertionTestHelper();
         currentUser = userTestHelper.getSavedUserObject("foo_example", "123456789",
                 this.connection);
         timeline = new Timeline(currentUser, this.connection);
@@ -48,7 +50,7 @@ public class TimelineTest {
         User userToFollow = userTestHelper.getSavedUserObject("bar_example",
                 "123456789", this.connection);
         tweetTestHelper.createSampleTweetsFor(userToFollow, "testing_one",
-                "testing two");
+                "testing_two");
         tweetTestHelper.createSampleTweetsFor(currentUser, "testing_three");
         currentUser.follow("bar_example");
         // -------- test --------
@@ -82,11 +84,13 @@ public class TimelineTest {
 
     private void validateTimeline(ArrayList<Tweet> tweetsQueried,
                                   String[] expectedTweetBodies){
+        String[] queriedTweetBodies = tweetTestHelper.getTweetBodies(tweetsQueried);
         String tweetBody;
         for(int i=0; i<expectedTweetBodies.length; i++){
             tweetBody = expectedTweetBodies[i];
             assertTrue(tweetBody + " not found in queried tweets",
-                    tweetsQueried.contains(tweetBody));
+                assertionTestHelper.containsElement(queriedTweetBodies, tweetBody)
+            );
         }
     }
 

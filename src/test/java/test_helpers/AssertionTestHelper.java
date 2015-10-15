@@ -22,4 +22,11 @@ public class AssertionTestHelper {
         return false;
     }
 
+    public <T> boolean containsElement(T[] array, T element){
+        for(int i=0; i<array.length; i++) {
+            if(array[i].equals(element) || array[i] == element) return true;
+        }
+        return false;
+    }
+
 }

@@ -18,6 +18,7 @@ public class TweetsTest {
     // Objects of helper classes
     UserTestHelper userTestHelper;
     TweetTestHelper tweetTestHelper;
+    AssertionTestHelper assertionTestHelper;
     RelationshipTestHelper relationshipTestHelper;
 
     @Before
@@ -25,6 +26,7 @@ public class TweetsTest {
         connection = new DbConnection();
         userTestHelper = new UserTestHelper(connection);
         tweetTestHelper = new TweetTestHelper(connection);
+        assertionTestHelper = new AssertionTestHelper();
         relationshipTestHelper = new RelationshipTestHelper(connection);
         user = userTestHelper.getSavedUserObject("foo_example",
                 "123456789", connection);
@@ -98,7 +100,7 @@ public class TweetsTest {
             tweet = tweets.get(i);
             assertEquals(tweet.getUserId(), user.getId());
             assertTrue(tweet.getBody() + " not a part of " + expectedTweetsBodies,
-                    containsElement(expectedTweetsBodies, tweet.getBody())
+                assertionTestHelper.containsElement(expectedTweetsBodies, tweet.getBody())
             );
         }
     }
@@ -121,7 +123,7 @@ public class TweetsTest {
         tweetTestHelper.createSampleTweetsFor(user, "testing_three");
         user.follow("bar_example");
         ArrayList<Tweet> tweets = allTweets.forTimelineOf(user.getId());
-        String[]  queriedTweetBodies  = getTweetBodies(tweets);
+        String[]  queriedTweetBodies  = tweetTestHelper.getTweetBodies(tweets);
         Integer[] queriedTweetUserIds = getTweetUserIds(tweets);
         // --------- test ---------
         Integer[] expectedTweetsUserIds = {user.getId(), userToFollow.getId()};
@@ -136,7 +138,7 @@ public class TweetsTest {
         for(int i=0; i<expectedTweetsUserIds.length; i++){
             userId = expectedTweetsUserIds[i];
             assertTrue(expectedTweetsUserIds + " does not contain " + userId,
-                    containsElement(queriedTweetsUserIds, userId));
+                    assertionTestHelper.containsElement(queriedTweetsUserIds, userId));
         }
     }
 
@@ -145,28 +147,15 @@ public class TweetsTest {
         String tweetBody;
         for(int i=0; i<expectedTweetsBodies.length; i++){
             tweetBody = expectedTweetsBodies[i];
-            assertTrue("expectedTweetsBodies array does not contain "
-                    + tweetBody,  containsElement(queriedTweetBodies, tweetBody));
+            assertTrue("expectedTweetsBodies array does not contain " + tweetBody,
+                assertionTestHelper.containsElement(queriedTweetBodies, tweetBody));
         }
-    }
-
-    private String[] getTweetBodies(ArrayList<Tweet> tweets){
-        String[] tweetBodies = new String[tweets.size()];
-        for(int i=0; i<tweets.size(); i++){ tweetBodies[i] = tweets.get(i).getBody(); }
-        return tweetBodies;
     }
 
     private Integer[] getTweetUserIds(ArrayList<Tweet> tweets){
         Integer[] tweetUserIds = new Integer[tweets.size()];
         for(int i=0; i<tweets.size(); i++){ tweetUserIds[i] = tweets.get(i).getUserId(); }
         return tweetUserIds;
-    }
-
-    private <T> boolean containsElement(T[] array, T element){
-        for(int i=0; i<array.length; i++) {
-            if(array[i].equals(element) || array[i] == element) return true;
-        }
-        return false;
     }
 
 }
