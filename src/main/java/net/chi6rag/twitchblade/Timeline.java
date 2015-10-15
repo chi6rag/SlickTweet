@@ -15,9 +15,7 @@ public class Timeline {
 
     public ArrayList<Tweet> getTweets(){
         if(this.user.getId() == null) { return null; }
-        Hashtable queryHash = new Hashtable();
-        queryHash.put("userId", this.user.getId());
-        return tweets.where(queryHash);
+        return tweets.forTimelineOf(this.user.getId());
     }
 
 }
