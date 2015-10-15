@@ -156,6 +156,18 @@ public class UserActivityTest {
     }
 
     @Test
+    public void testPrintProfilePageOfWithValidUserArgumentPrintsUsersTweets(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        User testUser = userTestHelper.getSavedUserObject("bar_example", "123456789",
+                this.connection);
+        tweetTestHelper.createSampleTweetsFor(testUser, "hello world!", "hello!");
+        userActivity.printProfilePageOf("bar_example");
+        assertionTestHelper.assertContains(consoleOutput.toString(), "hello world!");
+        assertionTestHelper.assertContains(consoleOutput.toString(), "hello!");
+        ioTestHelper.setStdOutToDefault();
+    }
+
+    @Test
     public void testLogoutSetsDatabaseConnectionToNull(){
         userActivity.logout();
         try {
