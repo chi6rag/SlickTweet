@@ -56,10 +56,11 @@ public class UserActivityTest {
             "\n\n"                                   +
             "1. Tweet\n"                             +
             "2. Your Timeline\n"                     +
-            "3. See someone's timeline\n"            +
+            "3. See someone's profile page\n"        +
             "4. Your Followers\n"                    +
-            "5. Follow User\n"                       +
-            "6. Logout\n"                            +
+            "5. People you are following\n"          +
+            "6. Follow User\n"                       +
+            "7. Logout\n"                            +
             "Choose: ";
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         userActivity.printActivityOptions();
@@ -134,7 +135,7 @@ public class UserActivityTest {
     }
 
     @Test
-    public void testPrintTimelinePrintsUserTimelineOnStdOutForUserWithTweets(){
+    public void testPrintTimelinePrintsUsersTimelineOnStdOutForUserWithTweets(){
         Tweet firstValidTweet = tweetTestHelper.getSavedTweetObject("testing one",
                 this.currentUser.getId(), this.connection);
         Tweet secondValidTweet = tweetTestHelper.getSavedTweetObject("testing two",
