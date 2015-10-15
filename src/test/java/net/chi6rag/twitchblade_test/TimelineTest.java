@@ -21,12 +21,14 @@ public class TimelineTest {
     // Objects of helper classes
     UserTestHelper userTestHelper;
     TweetTestHelper tweetTestHelper;
+    RelationshipTestHelper relationshipTestHelper;
 
     @Before
     public void BeforeEach(){
         connection = new DbConnection();
         userTestHelper = new UserTestHelper(connection);
         tweetTestHelper = new TweetTestHelper(connection);
+        relationshipTestHelper = new RelationshipTestHelper(connection);
         currentUser = userTestHelper.getSavedUserObject("foo_example", "123456789",
                 this.connection);
         timeline = new Timeline(currentUser, this.connection);
@@ -35,29 +37,28 @@ public class TimelineTest {
     @After
     public void afterEach(){
         tweetTestHelper.deleteAllTweets();
+        relationshipTestHelper.deleteAllRelationships();
         userTestHelper.deleteAllUsers();
         connection.close();
     }
 
     @Test
-    public void testGetTweetsForUserReturnsUsersTweets(){
-        tweetTestHelper.getSavedTweetObject("hello", currentUser.getId(),
-                this.connection);
+    public void testGetTweetsForUserReturnsTweetsForUserAndUsersUserFollows(){
+        // ----- setup data -----
+        User userToFollow = userTestHelper.getSavedUserObject("bar_example",
+                "123456789", this.connection);
+        tweetTestHelper.createSampleTweetsFor(userToFollow, "testing_one",
+                "testing two");
+        tweetTestHelper.createSampleTweetsFor(currentUser, "testing_three");
+        currentUser.follow("bar_example");
+        // -------- test --------
         ArrayList<Tweet> tweets = timeline.getTweets();
-        for(int i=0; i<tweets.size(); i++){
-            Tweet extractedTweet = tweets.get(i);
-            assertEquals(extractedTweet.getUserId(), currentUser.getId());
-            assertEquals(extractedTweet.getCreatedAt().getClass()
-                            .getSimpleName(), "Date");
-            assertNotNull(extractedTweet.getCreatedAt());
-            assertEquals(extractedTweet.getId().getClass()
-                    .getSimpleName(), "Integer");
-            assertNotNull(extractedTweet.getId());
-        }
+        String[] expectedTweetsBodies = {"testing_one", "testing_two", "testing_three"};
+        validateTimeline(tweets, expectedTweetsBodies);
     }
 
     @Test
-    public void testGetTweetsReturnsBlankArrayListForValidUserWithNoTweets(){
+    public void testGetTweetsReturnsBlankArrayListForValidUserWithNoFollowersAndNoTweets(){
         ArrayList<Tweet> tweets = timeline.getTweets();
         assertEquals(tweets.size(), 0);
     }
@@ -72,15 +73,11 @@ public class TimelineTest {
     }
 
     @Test
-    public void testGetTweetsForUserReturnsTweetsForUserAndUsersUserFollows(){
-        User userToFollow = userTestHelper.getSavedUserObject("bar_example",
-                "123456789", this.connection);
-        tweetTestHelper.createSampleTweetsFor(userToFollow, "testing_one",
-                "testing two");
-        tweetTestHelper.createSampleTweetsFor(currentUser, "testing_three");
+    public void testGetTweetsReturnsBlankArraylistIfNeitherUserNeitherUsersFollowersHaveTweets(){
+        userTestHelper.getSavedUserObject("bar_example", "123456789", this.connection);
+        currentUser.follow("bar_example");
         ArrayList<Tweet> tweets = timeline.getTweets();
-        String[] expectedTweetsBodies = {"testing_one", "testing_two", "testing_three"};
-        validateTimeline(tweets, expectedTweetsBodies);
+        assertEquals(tweets.size(), 0);
     }
 
     private void validateTimeline(ArrayList<Tweet> tweetsQueried,
@@ -92,8 +89,5 @@ public class TimelineTest {
                     tweetsQueried.contains(tweetBody));
         }
     }
-
-    // test get tweets returns blank arraylist if neither user neither users followers have tweets
-    // test get tweets returns null for unsaved user
 
 }
