@@ -16,6 +16,7 @@ public class UserTest {
     UserTestHelper userTestHelper;
     RelationshipTestHelper relationshipTestHelper;
     TweetTestHelper tweetTestHelper;
+    RetweetTestHelper retweetTestHelper;
 
     @Before
     public void beforeEach(){
@@ -23,10 +24,12 @@ public class UserTest {
         userTestHelper = new UserTestHelper(connection);
         relationshipTestHelper = new RelationshipTestHelper(connection);
         tweetTestHelper = new TweetTestHelper(connection);
+        retweetTestHelper = new RetweetTestHelper(connection);
     }
 
     @After
     public void afterEach(){
+        retweetTestHelper.deleteAllRetweets();
         relationshipTestHelper.deleteAllRelationships();
         tweetTestHelper.deleteAllTweets();
         userTestHelper.deleteAllUsers();

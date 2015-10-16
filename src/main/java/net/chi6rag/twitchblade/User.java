@@ -43,6 +43,11 @@ public class User {
         return (count > 0 ? true : false);
     }
 
+    public boolean retweet(int tweetId){
+        Retweet retweet = new Retweet(tweetId, this, connection);
+        return retweet.save();
+    }
+
     public boolean isValid(){
         return (this.getId() == null) ? false : true;
     }
