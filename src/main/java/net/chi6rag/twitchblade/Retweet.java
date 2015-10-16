@@ -4,20 +4,21 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class Retweet {
-    private Integer userId;
+    private User user;
     private Integer tweetId;
     private DbConnection connection;
     private PreparedStatement retweetSavePreparedStatement;
 
-    public Retweet(Integer tweetId, Integer userId, DbConnection connection){
+    public Retweet(Integer tweetId, User user, DbConnection connection){
         this.tweetId = tweetId;
-        this.userId = userId;
+        this.user = user;
         this.connection = connection;
     }
 
     public boolean save(){
         prepareRetweetSaveStatement();
-        return insertRetweetIntoDB(this.tweetId, this.userId);
+        if(this.user.hasTweetByID(this.tweetId) || !this.user.isValid()) return false;
+        return insertRetweetIntoDB(this.tweetId, this.user.getId());
     }
 
     private void prepareRetweetSaveStatement(){
