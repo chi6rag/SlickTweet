@@ -10,6 +10,7 @@ public class User {
     DbConnection connection;
     PreparedStatement userSavePreparedStatement = null;
     PreparedStatement usersFollowersPreparedStatement = null;
+    PreparedStatement usersTweetCountByIdPreparedStatement = null;
     Users allUsers;
 
     public User(String username, String password, DbConnection connection){
@@ -35,6 +36,12 @@ public class User {
         return null;
     }
 
+    public boolean hasTweetByID(Integer id){
+        prepareUsersTweetCountByIdStatement();
+        int count = getTweetCountByID(id);
+        return (count > 0 ? true : false);
+    }
+
     public ArrayList<User> followers(){
         prepareUsersFollowersStatement();
         ResultSet res = findFollowersFromDB(this.getUsername());
@@ -57,6 +64,32 @@ public class User {
         if(userToFollow == null) return false;
         Follower follower = new Follower(this, this.connection);
         return follower.follow(userToFollow);
+    }
+
+    private int getTweetCountByID(Integer id){
+        int count = 0;
+        try {
+            this.usersTweetCountByIdPreparedStatement.setInt(1, this.getId());
+            this.usersTweetCountByIdPreparedStatement.setInt(2, id);
+            ResultSet res = this.usersTweetCountByIdPreparedStatement.executeQuery();
+            if(res.next()){ count = res.getInt("tweets_count"); }
+        } catch (SQLException e) {
+            // e.printStackTrace();
+        }
+        return count;
+    }
+
+    private void prepareUsersTweetCountByIdStatement(){
+        try {
+            this.usersTweetCountByIdPreparedStatement = this.connection
+                .prepareStatement(
+                    "SELECT COUNT(*) AS tweets_count FROM tweets AS T " +
+                    "INNER JOIN users AS U ON T.user_id=U.id "          +
+                    "WHERE U.id=? AND T.id=?"
+                );
+        } catch (SQLException e) {
+            // e.printStackTrace();
+        }
     }
 
     private User getUserFromDBResult(ResultSet res){
