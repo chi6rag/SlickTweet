@@ -27,7 +27,7 @@ public class Retweet {
                 " RETURNING id"
             );
         } catch (SQLException e) {
-            // e.printStackTrace();
+            e.printStackTrace();
         }
     }
 

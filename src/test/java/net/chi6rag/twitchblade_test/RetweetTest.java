@@ -8,6 +8,8 @@ import test_helpers.TweetTestHelper;
 import test_helpers.UserTestHelper;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class RetweetTest {
@@ -41,8 +43,41 @@ public class RetweetTest {
     public void testSaveWithValidTweetIdAndValidUserIdReturnsTrue(){
         Retweet retweet = new Retweet(tweet.getId(), user.getId(), this.connection);
         boolean isSaved = retweet.save();
-        assertTrue("#retweet with valid tweet id and user id " +
+        assertTrue("#save with valid tweet id and user id " +
                 "returned false", isSaved);
+    }
+
+    @Test
+    public void testSaveWithValidTweetIdAndInvalidUserIdReturnsFalse(){
+        Retweet retweet = new Retweet(tweet.getId(), 2147483647, this.connection);
+        boolean isSaved = retweet.save();
+        assertFalse("#save with valid tweet id and invalid user id" +
+                " returned true", isSaved);
+    }
+
+    @Test
+    public void testSaveWithInvalidTweetIdAndValidUserIdReturnsFalse(){
+        Retweet retweet = new Retweet(2147483647, user.getId(), this.connection);
+        boolean isSaved = retweet.save();
+        assertFalse("#save with invalid tweet id and valid user id" +
+                " returned true", isSaved);
+    }
+
+    @Test
+    public void testSaveWithTweetIdIfAlreadyRetweetedByUserReturnsFalse(){
+        Retweet retweet = new Retweet(tweet.getUserId(), user.getId(), this.connection);
+        retweet.save();
+        boolean isRetweetedAgain = retweet.save();
+        assertFalse("#save with valid tweet id and valid user id" +
+                " returned false if executed twice on same tweet", isRetweetedAgain);
+    }
+
+    @Test
+    public void testSaveWithValidDetailsAndRetweeterIdSameAsTweetsUserIdReturnsFalse(){
+        Retweet retweet = new Retweet(tweet.getId(), user.getId(), this.connection);
+        boolean isSaved = retweet.save();
+        assertFalse("\n#save with valid tweet_id but retweeter_id same as\n" +
+                "tweet's user_id returned true but must return false", isSaved);
     }
 
     private void deleteAllRetweets(){
