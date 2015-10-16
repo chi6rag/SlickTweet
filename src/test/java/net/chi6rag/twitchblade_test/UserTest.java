@@ -185,8 +185,8 @@ public class UserTest {
                 secondUser.getId(), this.connection);
         // -------- test --------
         assertFalse(user.getUsername() + " does not have a tweet by tweet id " +
-              secondUsersTweet.getId() + " but #hasTweetByID fetches it"
-            , user.hasTweetByID(secondUsersTweet.getId())
+                        secondUsersTweet.getId() + " but #hasTweetByID fetches it"
+                , user.hasTweetByID(secondUsersTweet.getId())
         );
     }
 
@@ -197,6 +197,19 @@ public class UserTest {
         assertFalse(user.getUsername() + " does not have a tweet by id 123456",
                 user.hasTweetByID(123456)
         );
+    }
+
+    @Test
+    public void testIsValidOnSavedUserToReturnTrue(){
+        User user = userTestHelper.getSavedUserObject("foo_example", "123456789",
+                this.connection);
+        assertTrue(user.getUsername() + " is a valid user", user.isValid());
+    }
+
+    @Test
+    public void testIsValidOnUnsavedUserToReturnFalse(){
+        User user = new User("foo_example", "123456789", this.connection);
+        assertFalse(user.getUsername() + " is not a valid user", user.isValid());
     }
 
 }

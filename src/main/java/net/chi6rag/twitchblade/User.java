@@ -42,6 +42,10 @@ public class User {
         return (count > 0 ? true : false);
     }
 
+    public boolean isValid(){
+        return (this.getId() == null) ? false : true;
+    }
+
     public ArrayList<User> followers(){
         prepareUsersFollowersStatement();
         ResultSet res = findFollowersFromDB(this.getUsername());
