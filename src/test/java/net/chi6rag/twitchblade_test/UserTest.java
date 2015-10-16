@@ -1,6 +1,7 @@
 package net.chi6rag.twitchblade_test;
 
 import net.chi6rag.twitchblade.*;
+import org.junit.Before;
 import test_helpers.*;
 import org.junit.After;
 import org.junit.Assert;
@@ -9,17 +10,27 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class UserTest {
-    DbConnection connection = new DbConnection();
+    DbConnection connection;
 
     // Objects of helper classes
-    UserTestHelper userTestHelper = new UserTestHelper(connection);
-    RelationshipTestHelper relationshipTestHelper = new
-            RelationshipTestHelper(connection);
+    UserTestHelper userTestHelper;
+    RelationshipTestHelper relationshipTestHelper;
+    TweetTestHelper tweetTestHelper;
+
+    @Before
+    public void beforeEach(){
+        connection = new DbConnection();
+        userTestHelper = new UserTestHelper(connection);
+        relationshipTestHelper = new RelationshipTestHelper(connection);
+        tweetTestHelper = new TweetTestHelper(connection);
+    }
 
     @After
     public void afterEach(){
         relationshipTestHelper.deleteAllRelationships();
+        tweetTestHelper.deleteAllTweets();
         userTestHelper.deleteAllUsers();
+        connection.close();
     }
 
     @Test
@@ -149,6 +160,43 @@ public class UserTest {
         user.follow("bar_example");
         boolean hasFollowedAgain = user.follow("bar_example");
         assertFalse("foo_example followed bar_example again", hasFollowedAgain);
+    }
+
+    @Test
+    public void testHasTweetByIdWithValidTweetIdArgumentToReturnTrueIfUsersTweetsIncludesIt(){
+        User user = userTestHelper.getSavedUserObject("foo_example",
+                "123456789", connection);
+        Tweet usersTweet = tweetTestHelper.getSavedTweetObject("hello!",
+                user.getId(), this.connection);
+        assertTrue(user.getUsername() + " has a tweet by tweet id " +
+                usersTweet.getId() + " but #hasTweetByID fails to fetch it"
+                , user.hasTweetByID(usersTweet.getId())
+        );
+    }
+
+    @Test
+    public void testHasTweetByIdWithValidTweetIdArgumentToReturnFalseIfUsersTweetsDoNotIncludeIt(){
+        // ----- setup test -----
+        User user = userTestHelper.getSavedUserObject("foo_example",
+                "123456789", connection);
+        User secondUser = userTestHelper.getSavedUserObject("bar_example",
+                "123456789", connection);
+        Tweet secondUsersTweet = tweetTestHelper.getSavedTweetObject("hello!",
+                secondUser.getId(), this.connection);
+        // -------- test --------
+        assertFalse(user.getUsername() + " does not have a tweet by tweet id " +
+              secondUsersTweet.getId() + " but #hasTweetByID fetches it"
+            , user.hasTweetByID(secondUsersTweet.getId())
+        );
+    }
+
+    @Test
+    public void testHasTweetByIdWithInvalidTweetIdArgumentToReturnFalse(){
+        User user = userTestHelper.getSavedUserObject("foo_example",
+                "123456789", connection);
+        assertFalse(user.getUsername() + " does not have a tweet by id 123456",
+                user.hasTweetByID(123456)
+        );
     }
 
 }
