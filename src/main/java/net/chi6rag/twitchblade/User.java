@@ -37,6 +37,7 @@ public class User {
     }
 
     public boolean hasTweetByID(Integer id){
+        if(!this.isValid()) return false;
         prepareUsersTweetCountByIdStatement();
         int count = getTweetCountByID(id);
         return (count > 0 ? true : false);

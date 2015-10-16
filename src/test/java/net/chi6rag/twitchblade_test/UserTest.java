@@ -200,6 +200,14 @@ public class UserTest {
     }
 
     @Test
+    public void testHasTweetByIdOnInvalidUserToReturnFalse(){
+        User user = new User("foo_example", "123456789", connection);
+        assertFalse(user.getUsername() + " does not have a tweet by id 123456",
+                user.hasTweetByID(123456)
+        );
+    }
+
+    @Test
     public void testIsValidOnSavedUserToReturnTrue(){
         User user = userTestHelper.getSavedUserObject("foo_example", "123456789",
                 this.connection);
