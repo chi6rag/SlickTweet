@@ -2,7 +2,6 @@ package net.chi6rag.twitchblade;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Hashtable;
 
 public class UserActivity {
     private DbConnection connection = new DbConnection();
@@ -162,13 +161,22 @@ public class UserActivity {
         long milliseconds = ((new Date()).getTime() - date.getTime());
         long seconds = milliseconds/1000;
         long minutes = seconds/60;
-        long hours = minutes/60;
-        long days = hours/24;
-        if(days > 1){ return(days + " days ago"); }
-        if(hours > 1) { return(hours + " hours ago"); }
-        if(minutes > 1) { return(minutes+ " minutes ago"); }
-        if(seconds > 1) { return(seconds + " seconds ago"); }
+        long hours = (long) (minutes/60.0);
+        long days = (long) (hours/24.0);
+        if(days >= 1){ return(pluralize(days, "day") + " ago"); }
+        if(hours > 1) { return(pluralize(hours, "hour") + " ago"); }
+        if(minutes > 1) { return(pluralize(minutes, "minute") + " ago"); }
+        if(seconds > 1) { return(pluralize(seconds, "seconds") + " ago"); }
         return "1 seconds ago";
+    }
+
+    private String pluralize(long number, String singularWord){
+        if(number <= 1){
+            return number + " " + singularWord;
+        }
+        else {
+            return number + " " + singularWord + "s";
+        }
     }
 
 }
