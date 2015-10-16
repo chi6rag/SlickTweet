@@ -22,7 +22,8 @@ public class UserActivity {
             "3. See someone's profile page\n"        +
             "4. Your Followers\n"                    +
             "5. Follow User\n"                       +
-            "6. Logout\n"                            +
+            "6. Retweet Tweet\n"                     +
+            "7. Logout\n"                            +
             "Choose: ";
         System.out.println(activityOptions);
     }
