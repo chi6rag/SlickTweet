@@ -4,10 +4,9 @@ import net.chi6rag.twitchblade.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import test_helpers.RetweetTestHelper;
 import test_helpers.TweetTestHelper;
 import test_helpers.UserTestHelper;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -19,12 +18,14 @@ public class RetweetTest {
     // Objects of helper classes
     UserTestHelper userTestHelper;
     TweetTestHelper tweetTestHelper;
+    RetweetTestHelper retweetTestHelper;
 
     @Before
     public void beforeEach(){
         connection = new DbConnection();
         userTestHelper = new UserTestHelper(connection);
         tweetTestHelper = new TweetTestHelper(connection);
+        retweetTestHelper = new RetweetTestHelper(connection);
         user = userTestHelper.getSavedUserObject("foo_example",
                 "123456789", connection);
         tweet = tweetTestHelper.getSavedTweetObject("hello!", user.getId(), connection);
@@ -32,7 +33,7 @@ public class RetweetTest {
 
     @After
     public void afterEach(){
-        deleteAllRetweets();
+        retweetTestHelper.deleteAllRetweets();
         tweetTestHelper.deleteAllTweets();
         userTestHelper.deleteAllUsers();
         connection.close();
@@ -80,16 +81,6 @@ public class RetweetTest {
         boolean isSaved = retweet.save();
         assertFalse("\n#save with valid tweet_id but retweeter_id same as\n" +
                 "tweet's user_id returned true but must return false", isSaved);
-    }
-
-    private void deleteAllRetweets(){
-        try {
-            PreparedStatement deleteRetweetsStatement = this.connection
-                    .prepareStatement("DELETE FROM retweets");
-            deleteRetweetsStatement.execute();
-        } catch (SQLException e) {
-            // e.printStackTrace();
-        }
     }
 
 }
