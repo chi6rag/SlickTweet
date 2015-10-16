@@ -6,6 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 import test_helpers.TweetTestHelper;
 import test_helpers.UserTestHelper;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import static org.junit.Assert.assertTrue;
 
 public class RetweetTest {
     DbConnection connection;
@@ -28,6 +31,7 @@ public class RetweetTest {
 
     @After
     public void afterEach(){
+        deleteAllRetweets();
         tweetTestHelper.deleteAllTweets();
         userTestHelper.deleteAllUsers();
         connection.close();
@@ -35,10 +39,20 @@ public class RetweetTest {
 
     @Test
     public void testSaveWithValidTweetIdAndValidUserIdReturnsTrue(){
-        Retweet retweet = new Retweet(tweet.getId(), user.getId());
+        Retweet retweet = new Retweet(tweet.getId(), user.getId(), this.connection);
         boolean isSaved = retweet.save();
         assertTrue("#retweet with valid tweet id and user id " +
                 "returned false", isSaved);
+    }
+
+    private void deleteAllRetweets(){
+        try {
+            PreparedStatement deleteRetweetsStatement = this.connection
+                    .prepareStatement("DELETE FROM retweets");
+            deleteRetweetsStatement.execute();
+        } catch (SQLException e) {
+            // e.printStackTrace();
+        }
     }
 
 }
