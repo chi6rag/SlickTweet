@@ -220,4 +220,26 @@ public class UserTest {
         assertFalse(user.getUsername() + " is not a valid user", user.isValid());
     }
 
+    @Test
+    public void testRetweetWithValidTweetIdReturnsTrue(){
+        User user = userTestHelper.getSavedUserObject("foo_example",
+                "123456789", this.connection);
+        User secondUser = userTestHelper.getSavedUserObject("bar_example",
+                "123456789", this.connection);
+        Tweet tweet = tweetTestHelper.getSavedTweetObject("hello!",
+                secondUser.getId(), this.connection);
+        boolean isSuccessful = user.retweet(tweet.getId());
+        assertTrue(user.getUsername() + " could not retweet " +
+                secondUser.getUsername() + "'s tweet", isSuccessful);
+    }
+
+    @Test
+    public void testRetweetWithInvalidTweetIdReturnsFalse(){
+        User user = userTestHelper.getSavedUserObject("foo_example",
+                "123456789", this.connection);
+        boolean isSuccessful = user.retweet(2147483647);
+        assertFalse(user.getUsername() + " retweeted an inexistent " +
+                "tweet ", isSuccessful);
+    }
+
 }
