@@ -116,6 +116,16 @@ public class UserActivity {
         }
     }
 
+    public void retweet(int tweetId){
+        boolean isRetweetSuccessful = currentUser.retweet(tweetId);
+        if(isRetweetSuccessful){
+            System.out.println("\nTweet Retweeted!\n");
+        }
+        else {
+            System.out.println("\nCannot retweet this tweet!\n");
+        }
+    }
+
     public void printUsernameQuestion(){
         System.out.println("Enter username: ");
     }
