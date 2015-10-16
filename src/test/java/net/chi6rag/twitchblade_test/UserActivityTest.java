@@ -13,17 +13,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class UserActivityTest {
-    DbConnection connection = new DbConnection();
+    DbConnection connection;
     User currentUser;
     UserActivity userActivity;
 
     // Objects of helper classes
-    UserTestHelper userTestHelper = new UserTestHelper(connection);
-    TweetTestHelper tweetTestHelper = new TweetTestHelper(connection);
-    IOTestHelper ioTestHelper = new IOTestHelper();
-    AssertionTestHelper assertionTestHelper = new AssertionTestHelper();
-    RelationshipTestHelper relationshipTestHelper = new
-            RelationshipTestHelper(connection);
+    UserTestHelper userTestHelper;
+    TweetTestHelper tweetTestHelper;
+    IOTestHelper ioTestHelper;
+    AssertionTestHelper assertionTestHelper;
+    RelationshipTestHelper relationshipTestHelper;
+    RetweetTestHelper retweetTestHelper;
 
     @Before
     public void beforeEach(){
@@ -32,6 +32,13 @@ public class UserActivityTest {
 //        } catch (SQLException e) {
 //            // Do nothing
 //        }
+        connection = new DbConnection();
+        tweetTestHelper = new TweetTestHelper(connection);
+        userTestHelper = new UserTestHelper(connection);
+        ioTestHelper = new IOTestHelper();
+        assertionTestHelper = new AssertionTestHelper();
+        relationshipTestHelper = new RelationshipTestHelper(connection);
+        retweetTestHelper = new RetweetTestHelper(connection);
         currentUser = userTestHelper.getSavedUserObject("foo_example",
                 "123456789", connection);
         userActivity = new UserActivity(currentUser);
@@ -44,6 +51,7 @@ public class UserActivityTest {
 //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
+        retweetTestHelper.deleteAllRetweets();
         tweetTestHelper.deleteAllTweets();
         relationshipTestHelper.deleteAllRelationships();
         userTestHelper.deleteAllUsers();
@@ -282,6 +290,27 @@ public class UserActivityTest {
         userActivity.followUser("bar_example");
         assertionTestHelper.assertContains(consoleOutput.toString(),
                 "Cannot follow bar_example");
+        ioTestHelper.setStdOutToDefault();
+    }
+
+    @Test
+    public void testRetweetWithValidTweetIdToPrintSuccessOnStdOut(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        User testUser = userTestHelper.getSavedUserObject("bar_example",
+                "123456789", this.connection);
+        Tweet testTweet = tweetTestHelper.getSavedTweetObject("hello", testUser.getId(),
+                this.connection);
+        userActivity.retweet(testTweet.getId());
+        assertionTestHelper.assertContains(consoleOutput.toString(), "\nTweet Retweeted!\n");
+        ioTestHelper.setStdOutToDefault();
+    }
+
+    @Test
+    public void testRetweetWithInvalidTweetIdToPrintErrorOnStdOut(){
+        ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
+        userActivity.retweet(2147483647);
+        assertionTestHelper.assertContains(consoleOutput.toString(), "\nCannot " +
+                "retweet this tweet!\n");
         ioTestHelper.setStdOutToDefault();
     }
 
