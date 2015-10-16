@@ -124,7 +124,7 @@ public class UserTest {
     public void testFollowForSavedUserWithValidArgumentsReturnsTrue(){
         User user = userTestHelper.getSavedUserObject("foo_example",
                 "123456789", connection);
-        User userToFollow = userTestHelper.getSavedUserObject("bar_example",
+        userTestHelper.getSavedUserObject("bar_example",
                 "123456789", connection);
         boolean hasFollowed = user.follow("bar_example");
         assertTrue("foo_example did not follow valid user bar_example", hasFollowed);
