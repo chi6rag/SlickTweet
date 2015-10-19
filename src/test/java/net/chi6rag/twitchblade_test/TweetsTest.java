@@ -96,8 +96,9 @@ public class TweetsTest {
         ArrayList<Tweet> tweets = allTweets.forProfileOf(user.getId());
         // --------- testing ---------
         String[]  queriedTweetBodies  = tweetTestHelper.getTweetBodies(tweets);
-        String[] expectedTweetBodies = { "hello!", "hello world!" };
-        validatePresenceOfTweetBodies(expectedTweetBodies, queriedTweetBodies);
+        String[] expectedTweetBodies = { "hello!", "hello world!", "hello from testUser!"};
+        tweetTestHelper.validatePresenceOfTweetBodies(expectedTweetBodies,
+                queriedTweetBodies);
     }
 
     @Test
@@ -168,7 +169,8 @@ public class TweetsTest {
         // --------- test ---------
         Integer[] expectedTweetsUserIds = {user.getId(), userToFollow.getId()};
         String[]  expectedTweetsBodies  = {"testing_one", "testing_two", "testing_three"};
-        validatePresenceOfTweetBodies(expectedTweetsBodies, queriedTweetBodies);
+        tweetTestHelper.validatePresenceOfTweetBodies(expectedTweetsBodies,
+                queriedTweetBodies);
         validatePresenceOfTweetUserIds(expectedTweetsUserIds, queriedTweetUserIds);
     }
 
@@ -179,16 +181,6 @@ public class TweetsTest {
             userId = expectedTweetsUserIds[i];
             assertTrue(expectedTweetsUserIds + " does not contain " + userId,
                     assertionTestHelper.containsElement(queriedTweetsUserIds, userId));
-        }
-    }
-
-    private void validatePresenceOfTweetBodies(String[] expectedTweetsBodies,
-                                               String[] queriedTweetBodies) {
-        String tweetBody;
-        for(int i=0; i<expectedTweetsBodies.length; i++){
-            tweetBody = expectedTweetsBodies[i];
-            assertTrue("expectedTweetsBodies array does not contain " + tweetBody,
-                assertionTestHelper.containsElement(queriedTweetBodies, tweetBody));
         }
     }
 

@@ -14,9 +14,7 @@ public class Profile {
 
     public ArrayList<Tweet> getTweets(){
         if( !this.user.isValid() ) { return null; }
-        Hashtable query = new Hashtable();
-        query.put("userId", this.user.getId());
-        return allTweets.where(query);
+        return allTweets.forProfileOf(this.user.getId());
     }
 
 }

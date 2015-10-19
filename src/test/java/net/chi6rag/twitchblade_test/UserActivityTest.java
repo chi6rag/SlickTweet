@@ -164,14 +164,20 @@ public class UserActivityTest {
     }
 
     @Test
-    public void testPrintProfilePageOfWithValidUserArgumentPrintsUsersTweets(){
+    public void testPrintProfilePageOfWithValidUserArgumentPrintsUsersTweetsAndRetweets(){
+        // ------ prepare test data ------
+        tweetTestHelper.createSampleTweetsFor(currentUser, "hello by currentUser");
         ByteArrayOutputStream consoleOutput = ioTestHelper.mockStdOut();
         User testUser = userTestHelper.getSavedUserObject("bar_example", "123456789",
                 this.connection);
-        tweetTestHelper.createSampleTweetsFor(testUser, "hello world!", "hello!");
-        userActivity.printProfilePageOf("bar_example");
-        assertionTestHelper.assertContains(consoleOutput.toString(), "hello world!");
-        assertionTestHelper.assertContains(consoleOutput.toString(), "hello!");
+        Tweet testUserTweet = tweetTestHelper.getSavedTweetObject("hello by testUser",
+                testUser.getId(), this.connection);
+        Retweet retweet = new Retweet(testUserTweet.getId(), currentUser, this.connection);
+        retweet.save();
+        // ------------- test -------------
+        userActivity.printProfilePageOf("foo_example");
+        assertionTestHelper.assertContains(consoleOutput.toString(), "hello by currentUser");
+        assertionTestHelper.assertContains(consoleOutput.toString(), "hello by testUser");
         ioTestHelper.setStdOutToDefault();
     }
 

@@ -7,13 +7,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertTrue;
+
 public class TweetTestHelper {
     private final DbConnection connection;
+    private final AssertionTestHelper assertionTestHelper;
     PreparedStatement preparedStatement;
 
     public TweetTestHelper(DbConnection connection) {
+        this.assertionTestHelper = new AssertionTestHelper();
         this.connection = connection;
     }
+
 
     public void deleteAllTweets(){
         try {
@@ -46,6 +51,16 @@ public class TweetTestHelper {
             e.printStackTrace();
         }
         return count;
+    }
+
+    public void validatePresenceOfTweetBodies(String[] expectedTweetsBodies,
+                                               String[] queriedTweetBodies) {
+        String tweetBody;
+        for(int i=0; i<expectedTweetsBodies.length; i++){
+            tweetBody = expectedTweetsBodies[i];
+            assertTrue("expectedTweetsBodies array does not contain " + tweetBody,
+                    assertionTestHelper.containsElement(queriedTweetBodies, tweetBody));
+        }
     }
 
     public String getInvalidTweetBody(){
