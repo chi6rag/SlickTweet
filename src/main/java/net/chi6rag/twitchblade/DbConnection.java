@@ -14,25 +14,12 @@ public class DbConnection {
     private String username;
     private String password;
     private String dbName;
-
     private Connection connection;
 
     public DbConnection(String environment) {
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("PostgreSQL JDBC Driver not Found!");
-            // e.printStackTrace();
-        }
+        setDatabaseDriver("org.postgresql.Driver");
         setConfiguration(environment);
-        try {
-            connection = DriverManager.getConnection(
-                "jdbc:postgresql://" + this.host + ":" + this.port +
-                "/" + this.dbName, this.username, this.password);
-        } catch (SQLException e) {
-            System.out.println("Configuration Not Specified");
-            //e.printStackTrace();
-        }
+        setConnection();
     }
 
     public PreparedStatement prepareStatement(String query) throws SQLException{
@@ -95,6 +82,26 @@ public class DbConnection {
             }
         }
 
+    }
+
+    private void setDatabaseDriver(String driverUrl){
+        try {
+            Class.forName(driverUrl);
+        } catch (ClassNotFoundException e) {
+            System.out.println("PostgreSQL JDBC Driver not Found!");
+            // e.printStackTrace();
+        }
+    }
+
+    private void setConnection(){
+        try {
+            this.connection = DriverManager.getConnection(
+                "jdbc:postgresql://" + this.host + ":" + this.port +
+                "/" + this.dbName, this.username, this.password);
+        } catch (SQLException e) {
+            System.out.println("Configuration Not Specified");
+            //e.printStackTrace();
+        }
     }
 
 }
