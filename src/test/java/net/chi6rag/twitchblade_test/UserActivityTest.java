@@ -32,7 +32,7 @@ public class UserActivityTest {
 //        } catch (SQLException e) {
 //            // Do nothing
 //        }
-        connection = new DbConnection();
+        connection = new DbConnection("testing");
         tweetTestHelper = new TweetTestHelper(connection);
         userTestHelper = new UserTestHelper(connection);
         ioTestHelper = new IOTestHelper();
@@ -41,7 +41,7 @@ public class UserActivityTest {
         retweetTestHelper = new RetweetTestHelper(connection);
         currentUser = userTestHelper.getSavedUserObject("foo_example",
                 "123456789", connection);
-        userActivity = new UserActivity(currentUser);
+        userActivity = new UserActivity(currentUser, connection);
     }
 
     @After
@@ -55,6 +55,7 @@ public class UserActivityTest {
         tweetTestHelper.deleteAllTweets();
         relationshipTestHelper.deleteAllRelationships();
         userTestHelper.deleteAllUsers();
+        connection.close();
     }
 
     @Test

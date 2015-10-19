@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class UserActivity {
-    private DbConnection connection = new DbConnection();
+    private DbConnection connection;
     private Users allUsers;
-    private Tweets allTweets;
     private User currentUser;
 
-    public UserActivity(User currentUser){
+    public UserActivity(User currentUser, DbConnection connection)
+    {
         this.currentUser = currentUser;
+        this.connection = connection;
     }
 
     public void printActivityOptions(){
@@ -69,7 +70,6 @@ public class UserActivity {
 
     public void printProfilePageOf(String username){
         this.allUsers = new Users(connection);
-        this.allTweets = new Tweets(connection);
         User queriedUser = allUsers.findByUsername(username);
         if(queriedUser == null){
             System.out.println("Username does not exist");

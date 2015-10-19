@@ -25,7 +25,7 @@ public class TweetsTest {
 
     @Before
     public void beforeEach(){
-        connection = new DbConnection();
+        connection = new DbConnection("testing");
         userTestHelper = new UserTestHelper(connection);
         tweetTestHelper = new TweetTestHelper(connection);
         assertionTestHelper = new AssertionTestHelper();

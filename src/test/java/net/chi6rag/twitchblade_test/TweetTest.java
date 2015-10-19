@@ -11,15 +11,18 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class TweetTest {
-    DbConnection connection = new DbConnection();
+    DbConnection connection;
     User user;
 
     // Objects of helper classes
-    UserTestHelper userTestHelper = new UserTestHelper(connection);
-    TweetTestHelper tweetTestHelper = new TweetTestHelper(connection);
+    UserTestHelper userTestHelper;
+    TweetTestHelper tweetTestHelper;
 
     @Before
     public void beforeEach(){
+        connection = new DbConnection("testing");
+        userTestHelper = new UserTestHelper(connection);
+        tweetTestHelper = new TweetTestHelper(connection);
         user = userTestHelper.getSavedUserObject("foo_example",
                 "123456789", connection);
     }
@@ -28,6 +31,7 @@ public class TweetTest {
     public void afterEach(){
         tweetTestHelper.deleteAllTweets();
         userTestHelper.deleteAllUsers();
+        connection.close();
     }
 
     @Test

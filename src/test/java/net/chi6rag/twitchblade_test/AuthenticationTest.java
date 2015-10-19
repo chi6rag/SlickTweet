@@ -2,12 +2,26 @@ package net.chi6rag.twitchblade_test;
 
 import net.chi6rag.twitchblade.*;
 import static org.junit.Assert.assertEquals;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.util.Hashtable;
 
 public class AuthenticationTest {
-    Authentication auth = new Authentication();
+    private DbConnection connection;
+    private Authentication auth;
+
+    @Before
+    public void beforeEach(){
+        this.connection = new DbConnection("testing");
+        this.auth = new Authentication(connection);
+    }
+
+    @After
+    public void afterEach(){
+        this.connection.close();
+    }
 
     @Test
     public void testGetsPreSignInOptions() {

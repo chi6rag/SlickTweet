@@ -4,10 +4,15 @@ import java.util.Hashtable;
 import java.util.Scanner;
 
 public class Cli {
-    Scanner scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
+    private DbConnection connection;
+
+    Cli (DbConnection connection){
+        this.connection = connection;
+    }
 
     public void start(){
-        Authentication authentication = new Authentication();
+        Authentication authentication = new Authentication(connection);
         User currentUser = null;
         Hashtable<String, String> authDetails = null;
 
@@ -34,7 +39,7 @@ public class Cli {
             }
 
             if(isLoggedIn(currentUser)){
-                UserActivity userActivity = new UserActivity(currentUser);
+                UserActivity userActivity = new UserActivity(currentUser, connection);
                 userActivity.printActivityOptions();
                 int userActivityChoice = scanner.nextInt();
                 String username;

@@ -20,7 +20,7 @@ public class UserTest {
 
     @Before
     public void beforeEach(){
-        connection = new DbConnection();
+        connection = new DbConnection("testing");
         userTestHelper = new UserTestHelper(connection);
         relationshipTestHelper = new RelationshipTestHelper(connection);
         tweetTestHelper = new TweetTestHelper(connection);

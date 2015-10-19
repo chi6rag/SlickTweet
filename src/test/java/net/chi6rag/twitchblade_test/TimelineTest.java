@@ -26,7 +26,7 @@ public class TimelineTest {
 
     @Before
     public void BeforeEach(){
-        connection = new DbConnection();
+        connection = new DbConnection("testing");
         userTestHelper = new UserTestHelper(connection);
         tweetTestHelper = new TweetTestHelper(connection);
         relationshipTestHelper = new RelationshipTestHelper(connection);

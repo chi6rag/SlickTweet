@@ -10,20 +10,24 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class UsersTest {
-    DbConnection connection = new DbConnection();
-    Users allUsers = new Users(connection);
+    DbConnection connection;
+    Users allUsers;
 
     // Objects of helper classes
-    UserTestHelper userTestHelper = new UserTestHelper(connection);
+    UserTestHelper userTestHelper;
 
     @Before
     public void beforeEach(){
+        connection = new DbConnection("testing");
+        userTestHelper = new UserTestHelper(connection);
         userTestHelper.setupTestUsers();
+        allUsers = new Users(connection);
     }
 
     @After
     public void afterEach(){
         userTestHelper.deleteAllUsers();
+        connection.close();
     }
 
     @Test

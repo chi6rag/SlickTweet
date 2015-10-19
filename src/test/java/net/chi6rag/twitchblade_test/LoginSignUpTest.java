@@ -8,7 +8,7 @@ import java.util.Hashtable;
 import static org.junit.Assert.assertEquals;
 
 public class LoginSignUpTest {
-    Authentication auth = new Authentication();
+    Authentication auth;
     DbConnection connection;
 
     // Objects of helper classes
@@ -18,7 +18,8 @@ public class LoginSignUpTest {
 
     @Before
     public void beforeEach(){
-        connection = new DbConnection();
+        connection = new DbConnection("testing");
+        auth = new Authentication(connection);
         userTestHelper = new UserTestHelper(connection);
         assertionTestHelper = new AssertionTestHelper();
         ioTestHelper = new IOTestHelper();

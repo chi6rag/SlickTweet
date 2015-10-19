@@ -22,7 +22,7 @@ public class ProfileTest {
 
     @Before
     public void BeforeEach(){
-        connection = new DbConnection();
+        connection = new DbConnection("testing");
         userTestHelper = new UserTestHelper(connection);
         tweetTestHelper = new TweetTestHelper(connection);
         retweetTestHelper = new RetweetTestHelper(connection);

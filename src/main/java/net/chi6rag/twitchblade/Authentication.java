@@ -4,8 +4,13 @@ import java.util.Hashtable;
 import java.util.Scanner;
 
 public class Authentication {
-    DbConnection connection = new DbConnection();
-    Users allUsers = new Users(connection);
+    private Users allUsers;
+    private DbConnection connection;
+
+    public Authentication(DbConnection connection) {
+        this.connection = connection;
+        this.allUsers = new Users(connection);
+    }
 
     public String getPreSignInOptions(){
         String preSignInOptions =
