@@ -101,8 +101,6 @@ public class UserActivity {
     }
 
     public void logout(){
-        this.connection.close();
-        this.connection  = null;
         this.currentUser = null;
     }
 

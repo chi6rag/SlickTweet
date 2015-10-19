@@ -183,21 +183,6 @@ public class UserActivityTest {
     }
 
     @Test
-    public void testLogoutSetsDatabaseConnectionToNull(){
-        userActivity.logout();
-        try {
-            Object connection = getPrivateField(userActivity, "connection");
-            assertEquals(connection, null);
-        } catch (NoSuchFieldException e) {
-            System.out.println("UserActivityTest: " +
-                    "Private Field Connection not Found");
-        } catch (IllegalAccessException e) {
-            System.out.println("UserActivityTest: " +
-                    "Private Field not Accessible");
-        }
-    }
-
-    @Test
     public void testLogoutSetsCurrentUserToNull(){
         userActivity.logout();
         try {

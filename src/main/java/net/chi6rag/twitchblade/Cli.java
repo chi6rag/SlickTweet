@@ -31,6 +31,7 @@ public class Cli {
                         currentUser = authentication.login(authDetails);
                         break;
                     case 3:
+                        this.connection.close();
                         System.exit(0);
                         break;
                     default:
