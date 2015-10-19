@@ -13,7 +13,7 @@ public class Profile {
     }
 
     public ArrayList<Tweet> getTweets(){
-        if(this.user.getId() == null) { return null; }
+        if( !this.user.isValid() ) { return null; }
         Hashtable query = new Hashtable();
         query.put("userId", this.user.getId());
         return allTweets.where(query);

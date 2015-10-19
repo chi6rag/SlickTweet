@@ -62,6 +62,11 @@ public class Cli {
                         userActivity.followUser(username);
                         break;
                     case 6:
+                        System.out.print("Enter tweet id: ");
+                        int tweetId = scanner.nextInt();
+                        userActivity.retweet(tweetId);
+                        break;
+                    case 7:
                         userActivity.logout();
                         currentUser = null;
                         break;

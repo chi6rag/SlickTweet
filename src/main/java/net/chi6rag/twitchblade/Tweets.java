@@ -24,12 +24,33 @@ public class Tweets {
         return tweets;
     }
 
+    public ArrayList<Tweet> forProfileOf(Integer userId){
+        prepareTweetsForProfileOfStatement();
+        ArrayList<Tweet> tweets = null;
+        ResultSet res = queryTweetsForProfileFromDb(userId);
+        if(res != null) tweets = getTweetsFromDbResult(res);
+        return tweets;
+    }
+
     public ArrayList<Tweet> forTimelineOf(Integer userId){
         ArrayList<Tweet> tweets = new ArrayList<Tweet>();
         prepareTweetsForTimelineStatement();
         ResultSet res = queryTweetsForTimelineFromDb(userId);
         if(res != null) tweets = getTweetsFromDbResult(res);
         return tweets;
+    }
+
+    private ResultSet queryTweetsForProfileFromDb(Integer userId){
+        if(userId < 0) return null;
+        ResultSet res = null;
+        try {
+            this.tweetsForTimelinePreparedStatement.setInt(1, userId);
+            this.tweetsForTimelinePreparedStatement.setInt(2, userId);
+            res = this.tweetsForTimelinePreparedStatement.executeQuery();
+        } catch (SQLException e) {
+            // e.printStackTrace();
+        }
+        return res;
     }
 
     private ResultSet queryTweetsForTimelineFromDb(Integer userId) {
@@ -43,6 +64,21 @@ public class Tweets {
             // e.printStackTrace();
         }
         return res;
+    }
+
+    private void prepareTweetsForProfileOfStatement(){
+        try {
+            this.tweetsForTimelinePreparedStatement = this.connection
+                .prepareStatement(
+                    "(SELECT T.id, T.body, T.user_id, T.created_at " +
+                    "FROM tweets AS T INNER JOIN retweets "          +
+                    "AS R ON T.id=R.tweet_id WHERE retweeter_id=?) " +
+                    "UNION (SELECT * FROM tweets WHERE user_id=?) "  +
+                    "ORDER BY created_at DESC"
+                );
+        } catch (SQLException e) {
+            // e.printStackTrace();
+        }
     }
 
     private void prepareTweetsWhereStatement(){

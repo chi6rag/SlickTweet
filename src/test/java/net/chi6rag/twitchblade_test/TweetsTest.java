@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class TweetsTest {
@@ -20,6 +21,7 @@ public class TweetsTest {
     TweetTestHelper tweetTestHelper;
     AssertionTestHelper assertionTestHelper;
     RelationshipTestHelper relationshipTestHelper;
+    RetweetTestHelper retweetTestHelper;
 
     @Before
     public void beforeEach(){
@@ -28,6 +30,7 @@ public class TweetsTest {
         tweetTestHelper = new TweetTestHelper(connection);
         assertionTestHelper = new AssertionTestHelper();
         relationshipTestHelper = new RelationshipTestHelper(connection);
+        retweetTestHelper = new RetweetTestHelper(connection);
         user = userTestHelper.getSavedUserObject("foo_example",
                 "123456789", connection);
         allTweets = new Tweets(this.connection);
@@ -35,9 +38,11 @@ public class TweetsTest {
 
     @After
     public void afterEach(){
+        retweetTestHelper.deleteAllRetweets();
         tweetTestHelper.deleteAllTweets();
         relationshipTestHelper.deleteAllRelationships();
         userTestHelper.deleteAllUsers();
+        this.connection.close();
     }
 
     @Test
@@ -75,6 +80,41 @@ public class TweetsTest {
         Hashtable queryHash = new Hashtable();
         queryHash.put("userId", user.getId());
         ArrayList<Tweet> tweets = allTweets.where(queryHash);
+        assertEquals(tweets.size(), 0);
+    }
+
+    @Test
+    public void testForProfileOfWithValidUserIdReturnsTweetsAndRetweetsOfUser(){
+        // ----- setup test data -----
+        tweetTestHelper.createSampleTweetsFor(user, "hello!", "hello world!");
+        User testUser = userTestHelper.getSavedUserObject("bar_example",
+                "123456789", this.connection);
+        Tweet testUserTweet = tweetTestHelper.getSavedTweetObject("hello from " +
+                "testUser!", testUser.getId(), this.connection);
+        Retweet retweet = new Retweet(testUserTweet.getId(), user, this.connection);
+        retweet.save();
+        ArrayList<Tweet> tweets = allTweets.forProfileOf(user.getId());
+        // --------- testing ---------
+        String[]  queriedTweetBodies  = tweetTestHelper.getTweetBodies(tweets);
+        String[] expectedTweetBodies = { "hello!", "hello world!" };
+        validatePresenceOfTweetBodies(expectedTweetBodies, queriedTweetBodies);
+    }
+
+    @Test
+    public void testForProfileOfWithNegativeUserIdReturnsNull(){
+        ArrayList<Tweet> tweets = allTweets.forProfileOf(-100);
+        assertNull(tweets);
+    }
+
+    @Test
+    public void testForProfileOfWithInvalidUserIdReturnsEmptyArraylist(){
+        ArrayList<Tweet> tweets = allTweets.forProfileOf(2147483647);
+        assertEquals(tweets.size(), 0);
+    }
+
+    @Test
+    public void testForProfileOfWithValidUserIdButNoTweetsOrRetweetsReturnsEmptyArraylist(){
+        ArrayList<Tweet> tweets = allTweets.forProfileOf(user.getId());
         assertEquals(tweets.size(), 0);
     }
 
