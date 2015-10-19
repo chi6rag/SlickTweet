@@ -1,0 +1,23 @@
+<databases>
+    <development>
+        <host>localhost</host>
+        <dbname>twitchblade_development</dbname>
+        <port>5432</port>
+        <username>chi6rag</username>
+        <password></password>
+    </development>
+    <testing>
+        <host>localhost</host>
+        <dbname>twitchblade_testing</dbname>
+        <port>5432</port>
+        <username>chi6rag</username>
+        <password></password>
+    </testing>
+    <production>
+        <host>localhost</host>
+        <dbname></dbname>
+        <port>5432</port>
+        <username>chi6rag</username>
+        <password></password>
+    </production>
+</databases>

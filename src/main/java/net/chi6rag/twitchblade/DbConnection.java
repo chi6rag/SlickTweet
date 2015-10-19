@@ -1,26 +1,38 @@
 package net.chi6rag.twitchblade;
 
+import com.sun.org.apache.xerces.internal.parsers.DOMParser;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
 import java.sql.*;
 
 public class DbConnection {
+    private String host;
+    private String port;
+    private String username;
+    private String password;
+    private String dbName;
 
     private Connection connection;
 
-    public DbConnection() {
+    public DbConnection(String environment) {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
             System.out.println("PostgreSQL JDBC Driver not Found!");
-            e.printStackTrace();
+            // e.printStackTrace();
         }
-        String environment = ( System.getenv("ENV") == null ?
-                "development" : System.getenv("ENV"));
+        setConfiguration(environment);
         try {
             connection = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/twitchblade_"
-                            + environment, "chi6rag", "");
+                "jdbc:postgresql://" + this.host + ":" + this.port +
+                "/" + this.dbName, this.username, this.password);
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Configuration Not Specified");
+            //e.printStackTrace();
         }
     }
 
@@ -32,6 +44,7 @@ public class DbConnection {
         try {
             this.connection.close();
         } catch (SQLException e) {
+            System.out.println("Unable to close Database Connection");
             // e.printStackTrace();
         }
     }
@@ -47,4 +60,42 @@ public class DbConnection {
     public void rollback() throws SQLException {
         this.connection.rollback();
     }
+
+    private void setConfiguration(String env){
+        DOMParser xmlDomParser = new DOMParser();
+        try {
+            xmlDomParser.parse("src/database_config.xml");
+        } catch (SAXException e) {
+             // e.printStackTrace();
+        } catch (IOException e) {
+             // e.printStackTrace();
+        }
+        Document doc = xmlDomParser.getDocument();
+        Node envNode = doc.getElementsByTagName(env).item(0);
+        NodeList envConfig = envNode.getChildNodes();
+
+        for (int i = 0; i < envConfig.getLength(); i++) {
+            Node node = envConfig.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                String nodeName = node.getNodeName();
+                if (nodeName.equals("host")) {
+                    this.host = node.getTextContent();
+                }
+                else if (nodeName.equals("dbname")){
+                    this.dbName = node.getTextContent();
+                }
+                else if (nodeName.equals("port")) {
+                    this.port = node.getTextContent();
+                }
+                else if (nodeName.equals("username")) {
+                    this.username = node.getTextContent();
+                }
+                else if (nodeName.equals("password")) {
+                    this.password = node.getTextContent();
+                }
+            }
+        }
+
+    }
+
 }
