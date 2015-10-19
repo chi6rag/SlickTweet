@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import test_helpers.RelationshipTestHelper;
 import test_helpers.UserTestHelper;
+
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -69,6 +71,12 @@ public class FollowerTest {
         follower.follow(userToFollow);
         boolean hasFollowedAgain = follower.follow(userToFollow);
         assertFalse("foo_example followed bar_example again", hasFollowedAgain);
+    }
+
+    @Test
+    public void testFollowForSavedUserWithSelfReturnsFalse(){
+        boolean hasFollowed = follower.follow(user);
+        assertFalse("User must not be able to follow oneself", hasFollowed);
     }
 
 }

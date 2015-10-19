@@ -35,7 +35,8 @@ TwitchBlade is a command line app which lets you share messages upto 140 charact
       follower_id integer NOT NULL REFERENCES users(id),
       followed_id integer NOT NULL REFERENCES users(id),
       created_at timestamptz DEFAULT statement_timestamp(),
-      CONSTRAINT relationship_unique UNIQUE(follower_id, followed_id)
+      CONSTRAINT relationship_unique UNIQUE(follower_id, followed_id),
+      CONSTRAINT follower_not_eq_followed CHECK(follower_id != followed_id)
     );
     ```
 5. Create a retweets table as follows:
@@ -99,7 +100,8 @@ TwitchBlade is a command line app which lets you share messages upto 140 charact
       follower_id integer NOT NULL REFERENCES users(id),
       followed_id integer NOT NULL REFERENCES users(id),
       created_at timestamptz DEFAULT statement_timestamp(),
-      CONSTRAINT relationship_unique UNIQUE(follower_id, followed_id)
+      CONSTRAINT relationship_unique UNIQUE(follower_id, followed_id),
+      CONSTRAINT follower_not_eq_followed CHECK(follower_id != followed_id)
     );
     ```
 5. Create a retweets table as follows:
