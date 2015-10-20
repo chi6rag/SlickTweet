@@ -1,7 +1,6 @@
 package test_helpers;
 
-import net.chi6rag.twitchblade.DbConnection;
-import net.chi6rag.twitchblade.User;
+import net.chi6rag.twitchblade.domain.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

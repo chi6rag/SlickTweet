@@ -1,5 +1,6 @@
-package net.chi6rag.twitchblade;
+package net.chi6rag.twitchblade.io;
 
+import net.chi6rag.twitchblade.domain.*;
 import java.util.Hashtable;
 import java.util.Scanner;
 
@@ -7,7 +8,7 @@ public class Cli {
     private Scanner scanner = new Scanner(System.in);
     private DbConnection connection;
 
-    Cli (DbConnection connection){
+    public Cli(DbConnection connection){
         this.connection = connection;
     }
 

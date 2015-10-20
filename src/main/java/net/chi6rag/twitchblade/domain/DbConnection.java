@@ -1,4 +1,4 @@
-package net.chi6rag.twitchblade;
+package net.chi6rag.twitchblade.domain;
 
 import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 import org.w3c.dom.Document;

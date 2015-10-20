@@ -1,6 +1,7 @@
 package net.chi6rag.twitchblade_test;
 
-import net.chi6rag.twitchblade.*;
+import net.chi6rag.twitchblade.domain.*;
+import net.chi6rag.twitchblade.io.*;
 import static org.junit.Assert.assertEquals;
 import org.junit.After;
 import org.junit.Before;

@@ -1,13 +1,11 @@
 package net.chi6rag.twitchblade_test;
 
-import net.chi6rag.twitchblade.*;
+import net.chi6rag.twitchblade.domain.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import test_helpers.RelationshipTestHelper;
 import test_helpers.UserTestHelper;
-
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 

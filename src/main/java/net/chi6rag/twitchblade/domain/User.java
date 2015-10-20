@@ -1,4 +1,4 @@
-package net.chi6rag.twitchblade;
+package net.chi6rag.twitchblade.domain;
 
 import java.sql.*;
 import java.util.ArrayList;

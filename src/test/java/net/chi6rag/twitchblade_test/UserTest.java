@@ -1,6 +1,6 @@
 package net.chi6rag.twitchblade_test;
 
-import net.chi6rag.twitchblade.*;
+import net.chi6rag.twitchblade.domain.*;
 import org.junit.Before;
 import test_helpers.*;
 import org.junit.After;

@@ -1,5 +1,6 @@
-package net.chi6rag.twitchblade;
+package net.chi6rag.twitchblade.io;
 
+import net.chi6rag.twitchblade.domain.*;
 import java.util.Hashtable;
 import java.util.Scanner;
 

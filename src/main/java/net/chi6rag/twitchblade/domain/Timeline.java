@@ -1,7 +1,6 @@
-package net.chi6rag.twitchblade;
+package net.chi6rag.twitchblade.domain;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 public class Timeline {
 

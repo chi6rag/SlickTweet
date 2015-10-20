@@ -1,4 +1,6 @@
-package net.chi6rag.twitchblade;
+package net.chi6rag.twitchblade.io;
+
+import net.chi6rag.twitchblade.domain.*;
 
 import java.util.ArrayList;
 import java.util.Date;
