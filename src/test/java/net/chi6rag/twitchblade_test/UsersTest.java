@@ -19,6 +19,7 @@ public class UsersTest {
     @Before
     public void beforeEach(){
         connection = new DbConnection("testing");
+        connection.setAutoCommit(false);
         userTestHelper = new UserTestHelper(connection);
         userTestHelper.setupTestUsers();
         allUsers = new Users(connection);
@@ -26,7 +27,7 @@ public class UsersTest {
 
     @After
     public void afterEach(){
-        userTestHelper.deleteAllUsers();
+        connection.rollback();
         connection.close();
     }
 

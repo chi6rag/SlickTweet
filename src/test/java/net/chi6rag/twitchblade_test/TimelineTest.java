@@ -27,6 +27,7 @@ public class TimelineTest {
     @Before
     public void BeforeEach(){
         connection = new DbConnection("testing");
+        connection.setAutoCommit(false);
         userTestHelper = new UserTestHelper(connection);
         tweetTestHelper = new TweetTestHelper(connection);
         relationshipTestHelper = new RelationshipTestHelper(connection);
@@ -38,9 +39,7 @@ public class TimelineTest {
 
     @After
     public void afterEach(){
-        tweetTestHelper.deleteAllTweets();
-        relationshipTestHelper.deleteAllRelationships();
-        userTestHelper.deleteAllUsers();
+        connection.rollback();
         connection.close();
     }
 

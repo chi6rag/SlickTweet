@@ -29,6 +29,7 @@ public class User {
     }
 
     public User save() {
+        if(!hasValidAttributes()) { return null; }
         prepareUserSaveStatement();
         ResultSet res = null;
         res = insertUserIntoDB(this.username, this.password);
@@ -87,6 +88,12 @@ public class User {
             // e.printStackTrace();
         }
         return count;
+    }
+
+    private boolean hasValidAttributes(){
+        if(this.username.length() < 6){ return false; }
+        if(this.password.length() < 6){ return false; }
+        return true;
     }
 
     private void prepareUsersTweetCountByIdStatement(){

@@ -27,12 +27,8 @@ public class UserActivityTest {
 
     @Before
     public void beforeEach(){
-//        try {
-//            connection.setAutoCommit(false);
-//        } catch (SQLException e) {
-//            // Do nothing
-//        }
         connection = new DbConnection("testing");
+        connection.setAutoCommit(false);
         tweetTestHelper = new TweetTestHelper(connection);
         userTestHelper = new UserTestHelper(connection);
         ioTestHelper = new IOTestHelper();
@@ -46,15 +42,11 @@ public class UserActivityTest {
 
     @After
     public void afterEach(){
-//        try {
-//            connection.rollback();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-        retweetTestHelper.deleteAllRetweets();
-        tweetTestHelper.deleteAllTweets();
-        relationshipTestHelper.deleteAllRelationships();
-        userTestHelper.deleteAllUsers();
+//        retweetTestHelper.deleteAllRetweets();
+//        tweetTestHelper.deleteAllTweets();
+//        relationshipTestHelper.deleteAllRelationships();
+//        userTestHelper.deleteAllUsers();
+        connection.rollback();
         connection.close();
     }
 

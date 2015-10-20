@@ -14,10 +14,10 @@
         <password></password>
     </testing>
     <production>
-        <host>localhost</host>
+        <host></host>
         <dbname></dbname>
-        <port>5432</port>
-        <username>chi6rag</username>
+        <port></port>
+        <username></username>
         <password></password>
     </production>
 </databases>

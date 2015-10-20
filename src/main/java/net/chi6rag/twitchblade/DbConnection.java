@@ -35,16 +35,32 @@ public class DbConnection {
         }
     }
 
+    public void commit(){
+        try {
+            this.connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public Statement createStatement() throws SQLException {
         return this.connection.createStatement();
     }
 
-    public void setAutoCommit(boolean val) throws SQLException {
-        this.connection.setAutoCommit(val);
+    public void setAutoCommit(boolean val) {
+        try {
+            this.connection.setAutoCommit(val);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void rollback() throws SQLException {
-        this.connection.rollback();
+    public void rollback(){
+        try {
+            this.connection.rollback();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setConfiguration(String env){

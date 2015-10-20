@@ -26,6 +26,7 @@ public class TweetsTest {
     @Before
     public void beforeEach(){
         connection = new DbConnection("testing");
+        connection.setAutoCommit(false);
         userTestHelper = new UserTestHelper(connection);
         tweetTestHelper = new TweetTestHelper(connection);
         assertionTestHelper = new AssertionTestHelper();
@@ -38,10 +39,7 @@ public class TweetsTest {
 
     @After
     public void afterEach(){
-        retweetTestHelper.deleteAllRetweets();
-        tweetTestHelper.deleteAllTweets();
-        relationshipTestHelper.deleteAllRelationships();
-        userTestHelper.deleteAllUsers();
+        connection.rollback();
         this.connection.close();
     }
 

@@ -23,6 +23,7 @@ public class FollowerTest {
     @Before
     public void beforeEach(){
         connection = new DbConnection("testing");
+        connection.setAutoCommit(false);
         userTestHelper = new UserTestHelper(connection);
         relationshipTestHelper = new RelationshipTestHelper(connection);
         user = userTestHelper.getSavedUserObject("foo_example",
@@ -32,8 +33,7 @@ public class FollowerTest {
 
     @After
     public void afterEach(){
-        relationshipTestHelper.deleteAllRelationships();
-        userTestHelper.deleteAllUsers();
+        connection.rollback();
         connection.close();
     }
 

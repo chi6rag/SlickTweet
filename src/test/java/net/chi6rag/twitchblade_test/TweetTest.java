@@ -20,18 +20,18 @@ public class TweetTest {
 
     @Before
     public void beforeEach(){
-        connection = new DbConnection("testing");
-        userTestHelper = new UserTestHelper(connection);
-        tweetTestHelper = new TweetTestHelper(connection);
+        this.connection = new DbConnection("testing");
+        this.connection.setAutoCommit(false);
+        userTestHelper = new UserTestHelper(this.connection);
+        tweetTestHelper = new TweetTestHelper(this.connection);
         user = userTestHelper.getSavedUserObject("foo_example",
-                "123456789", connection);
+                "123456789", this.connection);
     }
 
     @After
     public void afterEach(){
-        tweetTestHelper.deleteAllTweets();
-        userTestHelper.deleteAllUsers();
-        connection.close();
+        this.connection.rollback();
+        this.connection.close();
     }
 
     @Test
@@ -59,7 +59,7 @@ public class TweetTest {
         int countBefore = tweetTestHelper.getTweetsCount();
         Tweet tweet = new Tweet("hello", user.getId(), this.connection);
         tweet.save();
-        int countAfter  = tweetTestHelper.getTweetsCount();
+        int countAfter = tweetTestHelper.getTweetsCount();
         assertNotEquals(countBefore, countAfter);
     }
 
@@ -68,8 +68,12 @@ public class TweetTest {
         int countBefore = tweetTestHelper.getTweetsCount();
         String tweetBody = tweetTestHelper.getInvalidTweetBody();
         Tweet tweet = new Tweet(tweetBody, user.getId(), this.connection);
+
+        // this method does something which initiates another
+        // transaction and aborts current transaction
         tweet.save();
-        int countAfter  = tweetTestHelper.getTweetsCount();
+        // this.connection.commit();
+        int countAfter = tweetTestHelper.getTweetsCount();
         assertEquals(countBefore, countAfter);
     }
 
@@ -92,7 +96,7 @@ public class TweetTest {
     public void saveOnInvalidTweetReturnsNull(){
         String tweetBody = tweetTestHelper.getInvalidTweetBody();
         Tweet tweet = new Tweet(tweetBody, user.getId(), this.connection);
-        Assert.assertEquals(tweet.save(), null);
+        assertEquals(tweet.save(), null);
     }
 
     @Test

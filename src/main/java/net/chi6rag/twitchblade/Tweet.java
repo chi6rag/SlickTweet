@@ -41,9 +41,9 @@ public class Tweet {
     }
 
     public Tweet save(){
+        if(!hasValidAttributes()){ return null; }
         prepareTweetSaveStatement();
-        ResultSet res = null;
-        res = insertUserIntoDB(this.body, this.userId);
+        ResultSet res = insertUserIntoDB(this.body, this.userId);
         if(res != null) return getTweetFromDBResult(res);
         return null;
     }
@@ -70,6 +70,11 @@ public class Tweet {
         } catch (SQLException e) {
             // e.printStackTrace();
         }
+    }
+
+    private boolean hasValidAttributes(){
+        if(this.body.length() > 140){ return false; }
+        return true;
     }
 
     private ResultSet insertUserIntoDB(String body, Integer userId){

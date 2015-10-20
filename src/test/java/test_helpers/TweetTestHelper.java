@@ -10,9 +10,10 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertTrue;
 
 public class TweetTestHelper {
-    private final DbConnection connection;
-    private final AssertionTestHelper assertionTestHelper;
-    PreparedStatement preparedStatement;
+    private DbConnection connection;
+    private AssertionTestHelper assertionTestHelper;
+    private PreparedStatement preparedStatement;
+    private PreparedStatement countStatement;
 
     public TweetTestHelper(DbConnection connection) {
         this.assertionTestHelper = new AssertionTestHelper();
@@ -44,8 +45,11 @@ public class TweetTestHelper {
     public int getTweetsCount(){
         int count = 0;
         try {
-            Statement countStatement = this.connection.createStatement();
-            ResultSet res = countStatement.executeQuery("SELECT COUNT(*) AS total FROM tweets");
+            if(this.countStatement == null) {
+                this.countStatement = this.connection.prepareStatement("SELECT " +
+                    "COUNT(*) AS total FROM tweets");
+            }
+            ResultSet res = countStatement.executeQuery();
             if( res.next() ) count = res.getInt("total");
         } catch (SQLException e) {
             e.printStackTrace();

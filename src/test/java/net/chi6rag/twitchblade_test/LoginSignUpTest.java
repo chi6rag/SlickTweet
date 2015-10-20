@@ -19,6 +19,7 @@ public class LoginSignUpTest {
     @Before
     public void beforeEach(){
         connection = new DbConnection("testing");
+        connection.setAutoCommit(false);
         auth = new Authentication(connection);
         userTestHelper = new UserTestHelper(connection);
         assertionTestHelper = new AssertionTestHelper();
@@ -28,7 +29,7 @@ public class LoginSignUpTest {
 
     @After
     public void afterEach(){
-        userTestHelper.deleteAllUsers();
+        connection.rollback();
         connection.close();
     }
 
